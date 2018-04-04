@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  <meta name="format-detection" content="telephone=no" />
+  <link href="../../../../common/css/hwh5.css?v=<%= htmlWebpackPlugin.options.version %>" rel="stylesheet" />
+</head>
+<body>
+<div id="root"></div>
+<!-- <%= htmlWebpackPlugin.options.env !== 'production' ? '<script type="text/javascript" src="../../../../common/js/vconsole.js"></script>' : '' %> -->
+<script type="text/javascript" src="../../../../common/js/hwh5.js?v=<%= htmlWebpackPlugin.options.version %>"></script>
+</body>
+<script>
+  document.body.addEventListener('touchstart', function () { });
+</script>
+</html>

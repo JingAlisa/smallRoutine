@@ -1,0 +1,8 @@
+{
+  "package": "com.huawei.works.h5.highschool",
+  "packageAlias": "welink.highschool",
+  "versionCode": "0",
+  "versionName": "0.0.1",
+  "indexURL": "h5://welink.highschool/html/index.html",
+  "minAdaptedCode": "74"   
+}
