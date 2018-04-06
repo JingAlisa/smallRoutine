@@ -25,7 +25,7 @@ export default class AddTeam extends React.Component {
     super(props);
     this.state = {
       showWarnTips: false,
-      showSuccessTips:false,
+      showSuccessTips: false,
       category: 'study',
       title: '',
       preserveMaxDays: '3',
@@ -33,7 +33,8 @@ export default class AddTeam extends React.Component {
       description: '',
       qq: '',
       wechat: '',
-      phone: ''
+      phone: '',
+      status: ''
     };
     this.changeValue = this.changeValue.bind(this);
   }
@@ -87,7 +88,11 @@ export default class AddTeam extends React.Component {
           phone: e.target.value
         });
         break;
-        
+      case 'status':
+        this.setState({
+          status: e.target.value
+        });
+        break;
       default:
         break;
     }
@@ -96,6 +101,7 @@ export default class AddTeam extends React.Component {
   render() {
     return (
       <Page className="input" title="Input" subTitle="表单输入">
+        <div><img src="../assets/images/3dPaVX1fcS.png" alt="back" onClick={()=>this.props.history.goBack()} /></div>
         <CellsTitle>请选择战队类别</CellsTitle>
         <Form>
           <FormCell select>
@@ -180,6 +186,18 @@ export default class AddTeam extends React.Component {
           </FormCell>
         </Form>
 
+        <CellsTitle>申请人是否需要您的审批？</CellsTitle>
+        <Form>
+          <FormCell select>
+            <CellBody>
+              <Select defaultValue="no" value={this.state.status} onChange={this.changeValue} name="status" required>
+                <option value="no">NO</option>
+                <option value="yes">YES</option>
+              </Select>
+            </CellBody>
+          </FormCell>
+        </Form>
+
         <ButtonArea>
           <Button
           // button to display toptips
@@ -198,10 +216,8 @@ export default class AddTeam extends React.Component {
 
 
 
-
-
-
-
+ 
+                
               }
             }}
           >

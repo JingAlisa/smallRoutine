@@ -31,7 +31,8 @@ export default class Teams extends React.Component {
           title: 'study',
           description: 'hello world, I am happy I am here!'
         }
-      ]
+      ],
+      originData: []
     };
   }
 
@@ -156,6 +157,7 @@ export default class Teams extends React.Component {
     ];
     var navbar = document.getElementsByClassName('navbar')[0];
     var self = this;
+    this.state.originData = replayData;
     navbar.addEventListener('click', function (e) {
       console.log(e.target.attributes.value.value);
       switch (e.target.attributes.value.value) {
@@ -180,6 +182,24 @@ export default class Teams extends React.Component {
     });
   }
 
+  searchResult(e) {
+    var origin = this.state.originData;
+    var filterData = [];
+    // e.preventdefault();
+    console.log(origin);
+    console.log(e);
+    for (let i = 0; i < origin.length; i++) {
+      origin[i].map((item, index) => {
+        if (item.title.indexOf(e) !== -1) {
+          filterData.push(item);
+        }
+      });
+    }
+    
+    this.setState({
+      list: filterData
+    });
+  }
   render() {
     return (
       <div>
@@ -189,7 +209,7 @@ export default class Teams extends React.Component {
           <NavBarItem className="navBarItem" value="friends">交友类</NavBarItem>
         </NavBar>
         <List listData={this.state.list} />
-        <SearchBar />
+        <SearchBar onChange={this.searchResult.bind(this)} placeholder="请输入关键字" />
         <TabBar />
       </div>
     );
