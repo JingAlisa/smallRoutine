@@ -52,7 +52,7 @@ export default function List(props) {
         listData.map((item, index)=>(
           <Item 
             key={index}
-            acceptNum={item.memberCount}
+            acceptNum={item.acceptNum}
             memberMaxNumber={item.memberMaxNumber}
             title={item.title}
             description={item.description}

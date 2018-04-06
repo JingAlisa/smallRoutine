@@ -1,8 +1,11 @@
-# 基于React开发框架的smallRoutine
+# WeLink React开发框架
+-----------------------------
 
-------
+使用WeLink React开发框架可以快速构建和开发We码程序，基于 npm + webpack + react + redux + less + weui 的快速开发本地化的框架。
 
-使用React开发框架可以快速构建和开发程序，基于 npm + webpack + react + redux + less + weui 的快速开发本地化的框架。
++ 遵循WeLink目录规范，构建项目时会生成遵循WeLink目录规范的目录。
++ 集成了WeLink JSAPI，构建项目时会自动引入JSAPI。
++ 基于[weui](https://github.com/weui/react-weui)（mit license），适配WeLink风格。
 
 ## 开发环境
 
@@ -11,23 +14,18 @@ node版本需8.6.0以上
 ## 开始
 
 1. 运行项目。
-
 ```bash
 $ npm start
 ```
-
 > 执行命令后，会自动打开默认浏览器并访问：http://localhost:3000/apps/welink.h5reactdemo/1/html/index.html
-> ![React Hello WeLink](./images/reacthellowelink.png)
-
-1. eslint 代码规范检查，需严格按照js语法规范开发。
-
+![React Hello WeLink](./images/reacthellowelink.png)
+2. eslint 代码规范检查，需严格按照js语法规范开发。
 ```bash
 npm run lint
 ```
+3. 打包项目前，需配置下 pluginAndroid.json 和 pluginIOS.json ，需特别注意别名和入口的配置，详情请参考[配置 plugin.json](./configapp.md#plugin)。
 
-1. 打包项目前，需配置下 pluginAndroid.json 和 pluginIOS.json ，需特别注意别名和入口的配置，详情请参考[配置 plugin.json](./configapp.md#plugin)。
-2. 打包项目，包括测试和生产环境，可通过此命令生成对应环境zip包。
-
+4. 打包项目，包括测试和生产环境，可通过此命令生成对应环境zip包。
 ```bash
 $ npm run build -- uat
 $ npm run build -- prod
@@ -130,133 +128,129 @@ export default routes;
 
 ![welink-react-add-route2](./images/welink-react-add-route2.png)
 
-#### 使用 Redux
 
+#### 使用 Redux
   Redux 是 JavaScript 状态容器，提供可预测化的状态管理。
 
 > 应用中所有的 state 都以一个对象树的形式储存在一个单一的 store 中。惟一改变 state 的办法是触发 action，一个描述发生什么的对象。
 
-- Reducers：
+  * Reducers：
 
-  新增一个Reducer，可通过模板命令生成：
-  `npm run add reducer test`
+    新增一个Reducer，可通过模板命令生成：
+    `npm run add reducer test`
 
-  编辑 `src/reducers/test.js`。
-
-  ```js
-  // 初始化状态
-  const initState = {
-    list: []
-  };
-  export function test(state = initState, action) {
-    switch (action.type) {
-      case 'RECEIVE_DATA':
-        return {
-          ...state,
-          list: action.list
-        };
-      default:
-        return { ...state };
-    }
-  };
-  ```
-
-  编辑 `src/reducers/index.js`，配置到 rootReducer 中。
-
-  ```js
-  import { test } from './test';
-  import { global } from './global';
-  const rootReducer = {
-    test,
-    global
-  };
-  export default rootReducer;
-  ```
-
-- Action 创建函数和常量：
-
-  新增一个Action，可通过模板命令生成：
-  `npm run add action test`
-
-  编辑 `src/actions/test.js`
-
-  ```js
-    const receiveData = (response) => ({
-      type: 'RECEIVE_DATA',
-      data: response
-    });
-    export const getListData = () => async (dispatch, getState) => {
-      try {
-        // 通过fetch获取数据
-        // const url = '';
-        // const response = await window.HWH5.fetch(url).then((res) =>
-        //   res.json().then((reply) => reply).catch((error) => {
-        //     console.log(error);
-        //   }));
-        const response = [
-          { name: '张三' },
-          { name: '李四' }
-        ];
-        await dispatch(receiveData(response));
-        return response;
-      } catch (error) {
-        console.log('error: ', error);
-        return error;
+    编辑 `src/reducers/test.js`。
+    ```js
+    // 初始化状态
+    const initState = {
+      list: []
+    };
+    export function test(state = initState, action) {
+      switch (action.type) {
+        case 'RECEIVE_DATA':
+          return {
+            ...state,
+            list: action.list
+          };
+        default:
+          return { ...state };
       }
     };
-  ```
+    ```
+    编辑 `src/reducers/index.js`，配置到 rootReducer 中。
 
-- 容器组件：
+    ```js
+    import { test } from './test';
+    import { global } from './global';
+    const rootReducer = {
+      test,
+      global
+    };
+    export default rootReducer;
+    ```
 
-  编辑文件 `src/routes/Test/index.js`。
+  * Action 创建函数和常量：
 
-  ```js
-  import React from 'react';
-  import PropTypes from 'prop-types';
-  import { bindActionCreators } from 'redux';
-  import { connect } from 'react-redux';
-  import './index.less';
+    新增一个Action，可通过模板命令生成：
+    `npm run add action test`
 
-  import * as test from '../../actions/test';
+    编辑 `src/actions/test.js`
 
-  @connect(
-    state => ({ ...state.test }),
-    dispatch => bindActionCreators({ ...test }, dispatch)
-  )
-  export default class Test extends React.Component {
+    ```js
+      const receiveData = (response) => ({
+        type: 'RECEIVE_DATA',
+        data: response
+      });
+      export const getListData = () => async (dispatch, getState) => {
+        try {
+          // 通过fetch获取数据
+          // const url = '';
+          // const response = await window.HWH5.fetch(url).then((res) =>
+          //   res.json().then((reply) => reply).catch((error) => {
+          //     console.log(error);
+          //   }));
+          const response = [
+            { name: '张三' },
+            { name: '李四' }
+          ];
+          await dispatch(receiveData(response));
+          return response;
+        } catch (error) {
+          console.log('error: ', error);
+          return error;
+        }
+      };
+    ```
+  * 容器组件：
 
-    componentWillMount() {
-    }
+    编辑文件 `src/routes/Test/index.js`。
 
-    componentDidMount() {
-      // 调用action，改变状态
-      this.props.getListData();
-    }
-    // 处理返回事件
-    backHandle() {
-    }
+    ```js
+    import React from 'react';
+    import PropTypes from 'prop-types';
+    import { bindActionCreators } from 'redux';
+    import { connect } from 'react-redux';
+    import './index.less';
 
-    render() {
-      const { list } = this.props;
-      console.log(list, 'list');
-      return (
-        <div>
-          Test
-        </div>
-      );
-    }
-  };
+    import * as test from '../../actions/test';
 
-  Test.propTypes = {
-    getListData: PropTypes.func
-  };
-  ```
+    @connect(
+      state => ({ ...state.test }),
+      dispatch => bindActionCreators({ ...test }, dispatch)
+    )
+    export default class Test extends React.Component {
 
-  了解更多，请参考Redux 中文文档：http://www.redux.org.cn/
+      componentWillMount() {
+      }
+
+      componentDidMount() {
+        // 调用action，改变状态
+        this.props.getListData();
+      }
+      // 处理返回事件
+      backHandle() {
+      }
+
+      render() {
+        const { list } = this.props;
+        console.log(list, 'list');
+        return (
+          <div>
+            Test
+          </div>
+        );
+      }
+    };
+
+    Test.propTypes = {
+      getListData: PropTypes.func
+    };
+    ```
+    了解更多，请参考Redux 中文文档：http://www.redux.org.cn/
 
 #### 引用 weui 组件
 
-需引用 `react-weui` 模块。
+需引用 `@huawei/react-weui` 模块。
 
 ```jsx
 import React from 'react';
@@ -276,7 +270,6 @@ import {
 国际化信息在 `src/locales` 目录中配置。
 
 使用：
-
 ```jsx
 import i18n from 'i18n';
 // 输出src/locales中common.json配置的国际化字段appName信息。
@@ -296,5 +289,3 @@ app.use('/demo', proxy({ target: 'http://xx.xx.com', changeOrigin: true }));
 即本地通过请求 `http://localhost:3000/demo`，将代理去请求 `http://xx.xx.com/demo`，并返回数据。
 
 了解更多代理配置信息，可参考[http-proxy-middleware](https://github.com/chimurai/http-proxy-middleware)。
-
-> > > > > > > push all project to github except build and node_modules

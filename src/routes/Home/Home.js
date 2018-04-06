@@ -97,7 +97,6 @@ export default class Home extends React.Component {
     //   return dataList[index]; 
     // });
     const rel = true;
-    console.log(typeof rel);
     return (
       <div>
         <div className="homeContainer">
