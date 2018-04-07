@@ -16,7 +16,7 @@ export default class TeamList extends React.Component {
       <div>
         TeamList of each category
         <ul>
-          <li><Link to="/team/category/id">first</Link></li>  
+          <li><Link to="/team/category/id" exact="true" >first</Link></li>  
           <li><Link to="/team/category/id">second</Link></li> 
           <li><Link to="/team/category/id">third</Link></li> 
         </ul> 

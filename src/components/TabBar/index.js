@@ -1,6 +1,8 @@
 import React from 'react';
 import './index.less';
+
 import { Link } from 'react-router-dom';
+import { NavBar, NavBarItem } from '../../../node_modules/@huawei/react-weui';
 
 export default class TabBar extends React.Component {
 
@@ -12,37 +14,16 @@ export default class TabBar extends React.Component {
 
   render() {
     return (
-      <div className="weui-tab">
-        <div className="weui-tab-panel" />
-        <div className="weui-tabbar">
-          <Link className="weui-tabbar__item weui-bar__item_on" to="/">
-            <img className="weui-tabbar__icon" src="#" alt="icon" />
-            <p className="weui-tabbar__label">首页</p>
-          </Link>
-          <Link className="weui-tabbar__item" to="/team">
-            <img className="weui-tabbar__icon" src="#" alt="icon" />
-            <p className="weui-tabbar__label">分类页</p>
-          </Link>
-          <Link className="weui-tabbar__item" to="/add">
-            <img className="weui-tabbar__icon" src="#" alt="icon" />
-            <p className="weui-tabbar__label">添加</p>
-          </Link>
-          <Link className="weui-tabbar__item" to="/message/:id">
-            <span>
-              <img className="weui-tabbar__icon" src="#" alt="icon" />
-              <span className="weui-badge">6</span>
-            </span>
-            <p className="weui-tabbar__label">消息</p>
-          </Link>
-          <Link className="weui-tabbar__item" to="/mine">
-            <span>
-              <img className="weui-tabbar__icon" src="#" alt="icon" />
-              <span className="weui-badge">6</span>
-            </span>
-            <p className="weui-tabbar__label">我的</p>
-          </Link>
-        </div>
+      <div>
+        <NavBar className="navbar">
+          <NavBarItem className="navBarItem"><Link className="itemText" to="/">首页</Link></NavBarItem>
+          <NavBarItem className="navBarItem"><Link className="itemText" to="/team">分类页</Link></NavBarItem>
+          <NavBarItem className="navBarItem"><Link className="itemText" to="/add">添加</Link></NavBarItem>
+          <NavBarItem className="navBarItem"><Link className="itemText" to="/message/9856">消息</Link></NavBarItem>
+          <NavBarItem className="navBarItem"><Link className="itemText" to="/mine">我的</Link></NavBarItem>
+        </NavBar>
       </div>
+
     );
   }
 };
