@@ -36,7 +36,7 @@ export default class TeamDetail extends React.Component {
   componentDidMount() {
   }
 
-  apply(permit,e) {
+  apply(permit, e) {
     console.log(e);
     console.log(permit);
     // if(permit) {
@@ -52,7 +52,7 @@ export default class TeamDetail extends React.Component {
           <PanelHeader>战队信息介绍</PanelHeader>
           <PanelBody>
             <div>
-              <div><span>{this.state.title}</span><span><Button type="primary" size="small" onClick={({this.state.status}, event) => this.apply} value="apply">申请</Button></span></div>
+              <div><span>{this.state.title}</span><span><Button type="primary" size="small" value="apply">申请</Button></span></div>
               <div><span>成功加入人数/战队上限人数:</span><span>{this.state.acceptNum}/{this.state.memberMaxNumber}</span></div>
               <div>{this.state.description}</div>
             </div>

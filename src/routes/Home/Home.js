@@ -5,11 +5,12 @@ import PropTypes from 'prop-types';
 import * as home from '../../actions/home';
 import * as global from '../../actions/global';
 
-import { Swiper } from '../../../node_modules/@huawei/react-weui';
+// import { Swiper } from '../../../node_modules/@huawei/react-weui';
 import './Home.less';
 import openNewView from '../../utils/openNewView';
 import List from '../../components/List';
 import TabBar from '../../components/TabBar';
+import Swipper from '../../components/Swipper';
 
 @connect(
   state => ({ ...state.home }),
@@ -100,11 +101,31 @@ export default class Home extends React.Component {
     return (
       <div>
         <div className="homeContainer">
-          <Swiper className="swiper" height={150} speed={3000} indicator={rel}> 
+          {/* <Swiper 
+            className="swiper" 
+            height={150} 
+            speed={3000} 
+            indicator={rel}
+          > 
             <img src="../assets/images/3dPaVX1fcS.png" alt="logo" />
             <p>num2</p>
             <p>num3</p>
-          </Swiper>
+            <span key={1} >num1</span>
+            <span key={2} >num2</span>
+            <span key={3} >num3</span>                        
+          </Swiper> */}
+          <Swipper 
+            number={5} 
+            boxStyle="content" 
+            interval={4000} 
+          > 
+            <li className="boxStyleLi">first</li> 
+            <li className="boxStyleLi">second</li> 
+            <li className="boxStyleLi">third</li> 
+            <li className="boxStyleLi">forth</li>
+            <li className="boxStyleLi">first</li>
+          </Swipper>
+
           <List className="list" listData={list} />
         </div>
         <TabBar className="tabbar" />
@@ -116,4 +137,6 @@ export default class Home extends React.Component {
 Home.propTypes = {
   // dataList: PropTypes.array
 };
+
+
 

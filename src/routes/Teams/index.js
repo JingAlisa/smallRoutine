@@ -157,7 +157,10 @@ export default class Teams extends React.Component {
     ];
     var navbar = document.getElementsByClassName('navbar')[0];
     var self = this;
-    this.state.originData = replayData;
+    // this.state.originData = replayData;
+    this.setState({
+      originData: replayData
+    });
     navbar.addEventListener('click', function (e) {
       console.log(e.target.attributes.value.value);
       switch (e.target.attributes.value.value) {
@@ -187,7 +190,13 @@ export default class Teams extends React.Component {
     var filterData = [];
     // e.preventdefault();
     console.log(origin);
-    console.log(e);
+    console.log(typeof e);
+    if (e === '') {
+      this.setState({
+        list: origin
+      });
+      return ;
+    }
     for (let i = 0; i < origin.length; i++) {
       origin[i].map((item, index) => {
         if (item.title.indexOf(e) !== -1) {
@@ -204,6 +213,7 @@ export default class Teams extends React.Component {
     return (
       <div>
         <NavBar className="navbar">
+          <NavBarItem className="navBarItem" value="all">全部</NavBarItem>
           <NavBarItem className="navBarItem" value="study">学习类</NavBarItem>
           <NavBarItem className="navBarItem" value="life">生活类</NavBarItem>
           <NavBarItem className="navBarItem" value="friends">交友类</NavBarItem>
