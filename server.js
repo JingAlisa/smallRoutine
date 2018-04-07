@@ -24,7 +24,7 @@ new WebpackDevServer(webpack(config), {
     app.use(errorOverlayMiddleware());
     
     // 代理配置Demo http://localhost:3000/graphql -> http://xx.xx/graphql
-    // app.use('/graphql', proxy({ target: 'https://xx.xx.com', changeOrigin: true }));
+    app.use('/graphql', proxy({ target: 'https://xx.xx.com', changeOrigin: true }));
 
     app.use('/welink', proxy({ target: 'https://www.hooxz.cn', changeOrigin: true }));
   }
