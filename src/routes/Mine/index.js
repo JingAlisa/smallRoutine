@@ -19,7 +19,6 @@ export default class Mine extends React.Component {
   render() {
     return (
       <div>
-        <TabBar target='mine' />
         <div className='userInfo'>
           <img className="userAvatar" src={ UserAvatar } />
           <p className="userName">张三</p>
@@ -38,6 +37,7 @@ export default class Mine extends React.Component {
             <div className="weui-cell__ft"></div>
           </Link>
         </div>
+        <div className="tabbar"><TabBar /></div>
       </div>
     );
   }

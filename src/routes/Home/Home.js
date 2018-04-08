@@ -61,22 +61,7 @@ export default class Home extends React.Component {
   }
 
   componentDidMount() {
-    window.HWH5.navTitle({ title: '发票查询' });
-    const url = '/welink/v1/teams';
-    window.HWH5.fetchInternet(url, { method: 'get', headers: { 'Content-Type' : 'application/json' }, timeout: 6000 }).then((res) => {
-      res.json().then((reply) => {
-        console.log(reply.data);
-        // const data = JSON.parse(reply.data);
-        // console.log(data);
-        // this.props = { dataList };
-        // console.log(this.props);
-        // console.log(dataList);
-        // console.log(reply.data instanceof Object);
-        // this.setState({
-        //   dataList: reply.data
-        // });
-      });
-    });
+    window.HWH5.navTitle({ title: '校缘' });
   }
 
   more(key) {
@@ -86,83 +71,58 @@ export default class Home extends React.Component {
   }
 
   render() {
-    // const list = [
-    //   {
-    //     acceptNum: '2',
-    //     memberMaxNumber: '5',
-    //     title: 'title',
-    //     description: 'hello world, I am happy I am here!'
-    //   },
-    //   {
-    //     acceptNum: '3',
-    //     memberMaxNumber: '5',
-    //     title: 'title',
-    //     description: 'hello world, I am happy I am here!'
-    //   },
-    //   {
-    //     acceptNum: '4',
-    //     memberMaxNumber: '5',
-    //     title: 'title',
-    //     description: 'hello world, I am happy I am here!'
-    //   },
-    //   {
-    //     acceptNum: '5',
-    //     memberMaxNumber: '5',
-    //     title: 'title',
-    //     description: 'hello world, I am happy I am here!'
-    //   },
-    //   {
-    //     acceptNum: '6',
-    //     memberMaxNumber: '5',
-    //     title: 'title',
-    //     description: 'hello world, I am happy I am here!'
-    //   },
-    //   {
-    //     acceptNum: '7',
-    //     memberMaxNumber: '5',
-    //     title: 'title',
-    //     description: 'hello world, I am happy I am here!'
-    //   }
-    // ];
-     
-    // const lists = this.props.dataList;
-    // const dataList = this.state.dataList.map((item, index)=>{ 
-    //   return dataList[index]; 
-    // });
+    const list = [
+      {
+        acceptNum: '2',
+        memberMaxNumber: '5',
+        title: 'title',
+        description: 'hello world, I am happy I am here!'
+      },
+      {
+        acceptNum: '3',
+        memberMaxNumber: '5',
+        title: 'title',
+        description: 'hello world, I am happy I am here!'
+      },
+      {
+        acceptNum: '4',
+        memberMaxNumber: '5',
+        title: 'title',
+        description: 'hello world, I am happy I am here!'
+      },
+      {
+        acceptNum: '5',
+        memberMaxNumber: '5',
+        title: 'title',
+        description: 'hello world, I am happy I am here!'
+      }
+    ];
     console.log(this.state.dataList);
     return (
       <div>
         <div className="homeContainer">
-          {/* <Swiper 
-            className="swiper" 
-            height={150} 
-            speed={3000} 
-            indicator={rel}
-          > 
-            <img src="../assets/images/3dPaVX1fcS.png" alt="logo" />
-            <p>num2</p>
-            <p>num3</p>
-            <span key={1} >num1</span>
-            <span key={2} >num2</span>
-            <span key={3} >num3</span>                        
-          </Swiper> */}
           <Swipper 
             number={5} 
             boxStyle="content" 
             interval={4000} 
           > 
-            <li className="boxStyleLi">first</li> 
+            {
+              list.map((item, index) => (
+                <li className="boxStyleLi">{item.acceptNum}</li>
+              ))
+            }
+            {/* <li className="boxStyleLi">first</li> 
             <li className="boxStyleLi">second</li> 
             <li className="boxStyleLi">third</li> 
             <li className="boxStyleLi">forth</li>
-            <li className="boxStyleLi">first</li>
+            <li className="boxStyleLi">first</li> */}
           </Swipper>
           
           <List className="list" listData={this.state.dataList} page="home" />
 
           {/* <List className="list" listData={list} /> */}
         </div>
-        <TabBar className="tabbar" />
+        <div className="tabbar"><TabBar /></div>
       </div>
     );
   }

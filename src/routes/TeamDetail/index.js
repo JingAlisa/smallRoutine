@@ -23,7 +23,6 @@ import {
 import JoinedInfo from '../../components/joinedInfo'
 import JudgeDialog from '../../components/JudgeDialog'
 
-
 export default class TeamDetail extends React.Component {
 
   constructor(props, context) {
@@ -31,11 +30,6 @@ export default class TeamDetail extends React.Component {
     this.state = {
       team: {},
       userUid: userInfo.uid,
-      // title: props.location.data.title,
-      // acceptNum: props.location.data.acceptNum,
-      // memberMaxNumber: props.location.data.memberMaxNumber,
-      // description: props.location.data.description,
-      // status应该也是从后台获取的，这先用假数据替代
       status: 'no',
       warningNotComplete: false
     };
@@ -411,7 +405,6 @@ export default class TeamDetail extends React.Component {
                 </PanelBody>
               </Panel>
             )  
-              
             
           }
           

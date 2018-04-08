@@ -109,7 +109,7 @@ export default class MinePublic extends React.Component {
     return (
       <div>
         <div>
-          <img src="#" alt="back" />
+          <img src="#" alt="back" onClick={()=>this.props.history.goBack()} />
           <span>我的发布</span>
         </div>
         <List className="list" listData={ this.state.list } page="public" />

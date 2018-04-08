@@ -4,7 +4,7 @@ import './index.less';
 import { Link } from 'react-router-dom';
 export default function Item(props) {
   const { 
-    itemData, page, id, acceptNum, memberMaxNumber, title, description 
+    itemData, page 
   } = props;
   console.log(itemData.title);
   if (page === 'home') {
@@ -13,9 +13,9 @@ export default function Item(props) {
       <Link to={{ pathname: path, data: props }}>
         <div className="weui-panel weui-panel__access container">
           <div className="weui-panel__bd">
-            <span className="weui-media-box__desc applyNum">战队人数：{acceptNum}/{memberMaxNumber}</span>
-            <h4 className="weui-media-box__title">{title}</h4>
-            <p className="weui-media-box__desc">{description}</p>
+            <span className="weui-media-box__desc applyNum">战队人数：{itemData.memberCount}/{itemData.memberMaxNumber}</span>
+            <h4 className="weui-media-box__title">{itemData.title}</h4>
+            <p className="weui-media-box__desc">{itemData.uid}申请加入您的战队，点击获取详情</p>
           </div>
         </div>
       </Link>
@@ -26,9 +26,9 @@ export default function Item(props) {
       <Link to={{ pathname: path, data: props }}>
         <div className="weui-panel weui-panel__access container">
           <div className="weui-panel__bd">
-            <span className="weui-media-box__desc applyNum">战队人数：{acceptNum}/{memberMaxNumber}</span>
-            <h4 className="weui-media-box__title">{title}</h4>
-            <p className="weui-media-box__desc">{description}</p>
+            <span className="weui-media-box__desc applyNum">战队人数：{itemData.memberCount}/{itemData.memberMaxNumber}</span>
+            <h4 className="weui-media-box__title">{itemData.title}</h4>
+            <p className="weui-media-box__desc">{itemData.uid}申请加入您的战队，点击获取详情</p>
           </div>
         </div>
       </Link>
@@ -65,10 +65,5 @@ export default function Item(props) {
 };
 Item.propTypes = {
   itemData: PropTypes.object,
-  page: PropTypes.string,
-  id: PropTypes.string,
-  acceptNum: PropTypes.string,
-  memberMaxNumber: PropTypes.string,
-  title: PropTypes.string,
-  description: PropTypes.string
+  page: PropTypes.string
 };

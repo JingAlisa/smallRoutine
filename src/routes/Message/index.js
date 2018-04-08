@@ -55,9 +55,9 @@ export default class Message extends React.Component {
   render() {
     return (
       <div>
-        <TabBar />
         <MsgList msgs={this.state.msgs_creater} kind='creater' />
         <MsgList msgs={this.state.msgs_applicant} kind='applicant' />
+        <div className="tabbar"><TabBar /></div>
       </div>
     );
   }

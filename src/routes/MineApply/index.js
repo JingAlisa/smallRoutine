@@ -109,7 +109,7 @@ export default class MineApply extends React.Component {
     return (
       <div>
         <div>
-          <img src="#" alt="back" />
+          <img src="#" alt="back" onClick={()=>this.props.history.goBack()} />
           <span>我的申请</span>
         </div>
         <List className="list" listData={ this.state.list } page="apply" />
