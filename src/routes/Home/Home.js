@@ -126,7 +126,7 @@ export default class Home extends React.Component {
     // const dataList = this.state.dataList.map((item, index)=>{ 
     //   return dataList[index]; 
     // });
-    const rel = true;
+    console.log(this.state.dataList);
     return (
       <div>
         <div className="homeContainer">
@@ -155,7 +155,7 @@ export default class Home extends React.Component {
             <li className="boxStyleLi">first</li>
           </Swipper>
           
-          <List className="list" listData={ this.state.dataList } />
+          <List className="list" listData={this.state.dataList} page="home" />
 
           {/* <List className="list" listData={list} /> */}
         </div>

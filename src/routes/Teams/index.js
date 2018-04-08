@@ -209,7 +209,7 @@ export default class Teams extends React.Component {
           <NavBarItem className="navBarItem" value="life">生活类</NavBarItem>
           <NavBarItem className="navBarItem" value="friends">交友类</NavBarItem>
         </NavBar>
-        <List listData={this.state.list} />
+        <List listData={this.state.list} page="teams" />
         <SearchBar onChange={this.searchResult.bind(this)} placeholder="请输入关键字" />
         <TabBar />
       </div>
