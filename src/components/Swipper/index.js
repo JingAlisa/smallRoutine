@@ -26,14 +26,14 @@ export default class Swipper extends React.Component{
 		}
 
 		componentWillUnmount(){ 
-			clearInterval(this.state.timeOuter); 
+			clearInterval(this.timeOuter); 
 		}
 
 		autoPlay(){
 			// console.log(this.state.autoPlay);
 			// console.log(this.state.activeIndex);
 			if(this.state.autoPlay){ 
-				setInterval(this.playRight.bind(this),this.state.interval); 
+				this.timeOuter=setInterval(this.playRight.bind(this),this.state.interval); 
 			} 
 		}
 

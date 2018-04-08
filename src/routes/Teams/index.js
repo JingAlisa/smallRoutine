@@ -146,9 +146,9 @@ export default class Teams extends React.Component {
     var navbar = document.getElementsByClassName('navbar')[0];
     var self = this;
     // this.state.originData = replayData;
-    this.setState({
-      originData: replayData
-    });
+    // this.setState({
+    //   originData: replayData
+    // });
     navbar.addEventListener('click', function (e) {
       console.log(e.target.attributes.value.value);
       switch (e.target.attributes.value.value) {
@@ -178,6 +178,7 @@ export default class Teams extends React.Component {
 
   searchResult(e) {
     var origin = this.state.originData;
+    console.log(origin);
     var filterData = [];
     // e.preventdefault();
     console.log(origin);
