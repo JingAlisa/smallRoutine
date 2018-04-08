@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './index.less';
 
-import TabBar from '../../components/TabBar'
-
-import UserAvatar from '../../public/img/5M.jpg'
+import TabBar from '../../components/TabBar';
+import { Link } from 'react-router-dom';
+import UserAvatar from '../../public/img/5M.jpg';
 
 export default class Mine extends React.Component {
 
@@ -12,6 +12,8 @@ export default class Mine extends React.Component {
   }
 
   componentDidMount() {
+    // 后台获取数据
+
   }
 
   render() {
@@ -23,23 +25,20 @@ export default class Mine extends React.Component {
           <p className="userName">张三</p>
         </div>
         <div className='weui-cells'>
-          <a className='weui-cell weui-cell_access' href='javascript:;'>
+          <Link className='weui-cell weui-cell_access' to={{ pathname: '/mine/public' }}>
             <div className="weui-cell__bd">
               <p>我的发布</p>
             </div>
             <div className="weui-cell__ft"></div>
-          </a>
-          <a className='weui-cell weui-cell_access' href='javascript:;'>
+          </Link>
+          <Link className='weui-cell weui-cell_access' to={{ pathname: '/mine/apply' }}>
             <div className="weui-cell__bd">
               <p>我的申请</p>
             </div>
             <div className="weui-cell__ft"></div>
-          </a>
+          </Link>
         </div>
       </div>
     );
   }
-};
-
-Mine.propTypes = {
 };

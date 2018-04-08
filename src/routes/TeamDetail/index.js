@@ -20,20 +20,26 @@ export default class TeamDetail extends React.Component {
   constructor(props, context) {
     super(props, context);
     console.log(props.location);
-    this.state = {
-      title: props.location.data.title,
-      acceptNum: props.location.data.acceptNum,
-      memberMaxNumber: props.location.data.memberMaxNumber,
-      description: props.location.data.description,
-      // status应该也是从后台获取的，这先用假数据替代
-      status: 'no'
-    };
+    // this.state = {
+    //   title: props.location.data.title,
+    //   acceptNum: props.location.data.acceptNum,
+    //   memberMaxNumber: props.location.data.memberMaxNumber,
+    //   description: props.location.data.description,
+    //   // status应该也是从后台获取的，这先用假数据替代
+    //   status: 'no'
+    // };
   }
 
   componentWillMount() {
   }
 
   componentDidMount() {
+    // this.props.match.params.id获取id值和页面
+    // console.log(this.props.match.params.id);
+    // 获取id值
+    var id = this.props.match.params.id.split(' ')[0];
+    console.log(id);
+    // 根据id请求后台数据
   }
 
   apply(permit, e) {
@@ -45,46 +51,29 @@ export default class TeamDetail extends React.Component {
   }
 
   render() { 
+    var page = this.props.match.params.id.split(' ')[1];
+    console.log(page);
+    if (page === 'teams') {
+      return (
+        <div>
+          <div>teams detail</div>
+        </div>
+      );
+    } else if (page === 'apply') {
+      return (
+        <div>apply detail</div>
+      );
+    } else if (page === 'public') {
+      return (
+        <div>
+          <div>public detail</div>
+        </div>
+      );
+    }
     return (
-      <Page>
-        <div><img src="../assets/images/3dPaVX1fcS.png" alt="back" onClick={()=>this.props.history.goBack()} /></div>
-        <Panel>
-          <PanelHeader>战队信息介绍</PanelHeader>
-          <PanelBody>
-            <div>
-              <div><span>{this.state.title}</span><span><Button type="primary" size="small" value="apply">申请</Button></span></div>
-              <div><span>成功加入人数/战队上限人数:</span><span>{this.state.acceptNum}/{this.state.memberMaxNumber}</span></div>
-              <div>{this.state.description}</div>
-            </div>
-          </PanelBody>
-        </Panel>
-        <Panel>
-          <PanelHeader>个人信息介绍</PanelHeader>
-          <PanelBody>
-            <Form>
-              <FormCell>
-                <CellHeader>
-                  <Select defaultValue="wechat" required>
-                    <option value="qq">QQ</option>
-                    <option value="wechat">微信</option>
-                    <option value="phone">电话</option>
-                  </Select>
-                </CellHeader>
-                <CellBody>
-                  <Input type="text" placeholder="请输入联系方式" />
-                </CellBody>
-              </FormCell>
-              <FormCell>
-                <CellBody>
-                  <TextArea placeholder="请大胆的展示自己，增加申请成功几率，不超过500字" rows="3" maxLength="500" />
-                </CellBody>
-              </FormCell>
-            </Form>
-          </PanelBody>
-        </Panel>
-      </Page>
+      <div>haha</div>
     );
-  }
+  };
 };
 
 TeamDetail.propTypes = {

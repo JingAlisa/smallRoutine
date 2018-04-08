@@ -35,9 +35,11 @@ export default function List(props) {
   //   }
   // ]; 
   const { 
-    listData 
+    listData,
+    page 
   } = props;
   console.log(listData);
+  console.log(page);
   return (
     // <div className="list" onClick={() => more(index)}>
     //   <div className="information">
@@ -51,6 +53,8 @@ export default function List(props) {
       {
         listData.map((item, index)=>(
           <Item 
+            itemData={item}
+            page={page}
             key={index}
             acceptNum={item.acceptNum}
             memberMaxNumber={item.memberMaxNumber}
@@ -63,5 +67,6 @@ export default function List(props) {
   );
 };
 List.propTypes = {
-  listData: PropTypes.array
+  listData: PropTypes.array,
+  page: PropTypes.string
 };
