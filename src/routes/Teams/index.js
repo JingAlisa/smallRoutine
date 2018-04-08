@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import './index.less';
 import { Link } from 'react-router-dom';
 
+import { urls } from '../../../config/web.config';
+
 import TabBar from '../../components/TabBar';
 import List from '../../components/List';
 import { NavBar, NavBarItem, SearchBar } from '../../../node_modules/@huawei/react-weui';
@@ -14,20 +16,20 @@ export default class Teams extends React.Component {
     this.state = {
       list: [
         {
-          acceptNum: '2',
-          memberMaxNumber: '5',
+          acceptNum: 2,
+          memberMaxNumber: 5,
           title: 'study',
           description: 'hello world, I am happy I am here!'
         },
         {
-          acceptNum: '3',
-          memberMaxNumber: '5',
+          acceptNum: 3,
+          memberMaxNumber: 5,
           title: 'study',
           description: 'hello world, I am happy I am here!'
         },
         {
-          acceptNum: '4',
-          memberMaxNumber: '5',
+          acceptNum: 4,
+          memberMaxNumber: 5,
           title: 'study',
           description: 'hello world, I am happy I am here!'
         }
@@ -37,119 +39,105 @@ export default class Teams extends React.Component {
   }
 
   componentWillMount() {
+    const url = `${urls.graphql}/welink/v1/teams`
+    window.HWH5.fetchInternet(url, { method: 'get', headers: { 'Content-Type' : 'application/json' }, timeout: 6000 }).then((res) => {
+      res.json().then((reply) => {
+        if (!reply.code) {
+          let dataList = []
+          reply.data.teams.map((team, index) => {
+            dataList.push({
+              acceptNum: team.memberCount,
+              memberMaxNumber: team.memberMaxNumber,
+              title: team.title,
+              description: team.description
+            })
+          })
+          this.setState({
+            originData: dataList
+          })
+        }
+      });
+    }).catch((error) => {
+      console.error('输出错误')
+      console.error(error)
+    });
   }
 
   componentDidMount() {
     // 从服务器端获取数据，目前先用假数据代替
     const replayData = [
       [{
-        acceptNum: '2',
-        memberMaxNumber: '5',
+        acceptNum: 2,
+        memberMaxNumber: 5,
         title: 'study',
         description: 'hello world, I am happy I am here!'
       },
       {
-        acceptNum: '3',
-        memberMaxNumber: '5',
+        acceptNum: 3,
+        memberMaxNumber: 5,
         title: 'study',
         description: 'hello world, I am happy I am here!'
       },
       {
-        acceptNum: '4',
-        memberMaxNumber: '5',
+        acceptNum: 4,
+        memberMaxNumber: 5,
         title: 'study',
         description: 'hello world, I am happy I am here!'
       },
       {
-        acceptNum: '2',
-        memberMaxNumber: '9',
+        acceptNum: 2,
+        memberMaxNumber: 9,
         title: 'study',
         description: 'hello world, I am happy I am here!'
       },
       {
-        acceptNum: '2',
-        memberMaxNumber: '8',
+        acceptNum: 2,
+        memberMaxNumber: 8,
         title: 'study',
         description: 'hello world, I am happy I am here!'
       },
       {
-        acceptNum: '3',
-        memberMaxNumber: '5',
+        acceptNum: 3,
+        memberMaxNumber: 5,
         title: 'study',
         description: 'hello world, I am happy I am here!'
       }],
       [
         {
-          acceptNum: '2',
-          memberMaxNumber: '5',
+          acceptNum: 2,
+          memberMaxNumber: 5,
           title: 'life',
           description: 'hello world, I am happy I am here!'
         },
         {
-          acceptNum: '3',
-          memberMaxNumber: '5',
+          acceptNum: 3,
+          memberMaxNumber: 5,
           title: 'life',
           description: 'hello world, I am happy I am here!'
         },
         {
-          acceptNum: '4',
-          memberMaxNumber: '5',
-          title: 'life',
-          description: 'hello world, I am happy I am here!'
-        },
-        {
-          acceptNum: '4',
-          memberMaxNumber: '5',
-          title: 'life',
-          description: 'hello world, I am happy I am here!'
-        },
-        {
-          acceptNum: '2',
-          memberMaxNumber: '5',
-          title: 'life',
-          description: 'hello world, I am happy I am here!'
-        },
-        {
-          acceptNum: '1',
-          memberMaxNumber: '5',
+          acceptNum: 4,
+          memberMaxNumber: 5,
           title: 'life',
           description: 'hello world, I am happy I am here!'
         }
       ],
       [
         {
-          acceptNum: '0',
-          memberMaxNumber: '5',
+          acceptNum: 0,
+          memberMaxNumber: 5,
           title: 'friends',
           description: 'hello world, I am happy I am here!'
         },
         {
-          acceptNum: '3',
-          memberMaxNumber: '5',
+          acceptNum: 3,
+          memberMaxNumber: 5,
           title: 'friends',
           description: 'hello world, I am happy I am here!'
         },
         {
-          acceptNum: '4',
-          memberMaxNumber: '5',
-          title: 'friends',
-          description: 'hello world, I am happy I am here!'
-        },
-        {
-          acceptNum: '1',
-          memberMaxNumber: '5',
-          title: 'friends',
-          description: 'hello world, I am happy I am here!'
-        },
-        {
-          acceptNum: '2',
-          memberMaxNumber: '5',
-          title: 'friends',
-          description: 'hello world, I am happy I am here!'
-        },
-        {
-          acceptNum: '4',
-          memberMaxNumber: '5',
+          acceptNum: 4,
+          memberMaxNumber: 5,
           title: 'friends',
           description: 'hello world, I am happy I am here!'
         }
@@ -180,6 +168,9 @@ export default class Teams extends React.Component {
           });
           break;
         default:
+          self.setState({
+            list: replayData[0].concat(replayData[1]).concat(replayData[2])
+          });
           break;
       }
     });
@@ -218,7 +209,7 @@ export default class Teams extends React.Component {
           <NavBarItem className="navBarItem" value="life">生活类</NavBarItem>
           <NavBarItem className="navBarItem" value="friends">交友类</NavBarItem>
         </NavBar>
-        <List listData={this.state.list} page="teams" />
+        <List listData={this.state.list} />
         <SearchBar onChange={this.searchResult.bind(this)} placeholder="请输入关键字" />
         <TabBar />
       </div>

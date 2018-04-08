@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom';
 export default class Swipper extends React.Component{ 
   constructor(props, context) {
     super(props, context);
-    console.log(props.location);
+    // console.log(props.location);
 	this.state = {
 		interval: this.props.interval?this.props.interval:3000,
 		autoPlay: true,
@@ -30,8 +30,8 @@ export default class Swipper extends React.Component{
 		}
 
 		autoPlay(){
-			console.log(this.state.autoPlay);
-			console.log(this.state.activeIndex);
+			// console.log(this.state.autoPlay);
+			// console.log(this.state.activeIndex);
 			if(this.state.autoPlay){ 
 				setInterval(this.playRight.bind(this),this.state.interval); 
 			} 
@@ -41,7 +41,7 @@ export default class Swipper extends React.Component{
 
 		playRight(indexIn){ 
 			let index=indexIn?indexIn:this.state.activeIndex+1; 
-			console.log(index); 
+			// console.log(index); 
 			if(index>this.state.number-1){ 
 				index=0; 
 			} 

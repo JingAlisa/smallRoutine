@@ -5,6 +5,8 @@ import PropTypes from 'prop-types';
 import * as home from '../../actions/home';
 import * as global from '../../actions/global';
 
+import { urls } from '../../../config/web.config';
+
 // import { Swiper } from '../../../node_modules/@huawei/react-weui';
 import './Home.less';
 import openNewView from '../../utils/openNewView';
@@ -18,15 +20,42 @@ import Swipper from '../../components/Swipper';
 )
 export default class Home extends React.Component {
   // constructor(props) {
-  //   super(props);
-  //   this.state = {
-  //     dataList: []
-  //   };
-  // }
+  constructor() {
+    // super(props);
+    super();
+    this.state = {
+      dataList: []
+    };
+  }
 
-  // async componentWillMount() {
-
-  // }
+  async componentWillMount() {
+    const url = `${urls.graphql}/welink/v1/teams`
+    window.HWH5.fetchInternet(url, { method: 'get', headers: { 'Content-Type' : 'application/json' }, timeout: 6000 }).then((res) => {
+      res.json().then((reply) => {
+        if (!reply.code) {
+          // this.setState({
+          //   msgs_creater: reply.data.msgs
+          // })
+          let dataList = []
+          reply.data.teams.map((team, index) => {
+            dataList.push({
+              _id: team._id,
+              acceptNum: team.memberCount,
+              memberMaxNumber: team.memberMaxNumber,
+              title: team.title,
+              description: team.description
+            })
+          })
+          this.setState({
+            dataList
+          })
+        }
+      });
+    }).catch((error) => {
+      console.error('输出错误')
+      console.error(error)
+    });
+  }
 
   componentDidMount() {
     window.HWH5.navTitle({ title: '发票查询' });
@@ -54,49 +83,50 @@ export default class Home extends React.Component {
   }
 
   render() {
-    const list = [
-      {
-        acceptNum: '2',
-        memberMaxNumber: '5',
-        title: 'title',
-        description: 'hello world, I am happy I am here!'
-      },
-      {
-        acceptNum: '3',
-        memberMaxNumber: '5',
-        title: 'title',
-        description: 'hello world, I am happy I am here!'
-      },
-      {
-        acceptNum: '4',
-        memberMaxNumber: '5',
-        title: 'title',
-        description: 'hello world, I am happy I am here!'
-      },
-      {
-        acceptNum: '5',
-        memberMaxNumber: '5',
-        title: 'title',
-        description: 'hello world, I am happy I am here!'
-      },
-      {
-        acceptNum: '6',
-        memberMaxNumber: '5',
-        title: 'title',
-        description: 'hello world, I am happy I am here!'
-      },
-      {
-        acceptNum: '7',
-        memberMaxNumber: '5',
-        title: 'title',
-        description: 'hello world, I am happy I am here!'
-      }
-    ];
+    // const list = [
+    //   {
+    //     acceptNum: '2',
+    //     memberMaxNumber: '5',
+    //     title: 'title',
+    //     description: 'hello world, I am happy I am here!'
+    //   },
+    //   {
+    //     acceptNum: '3',
+    //     memberMaxNumber: '5',
+    //     title: 'title',
+    //     description: 'hello world, I am happy I am here!'
+    //   },
+    //   {
+    //     acceptNum: '4',
+    //     memberMaxNumber: '5',
+    //     title: 'title',
+    //     description: 'hello world, I am happy I am here!'
+    //   },
+    //   {
+    //     acceptNum: '5',
+    //     memberMaxNumber: '5',
+    //     title: 'title',
+    //     description: 'hello world, I am happy I am here!'
+    //   },
+    //   {
+    //     acceptNum: '6',
+    //     memberMaxNumber: '5',
+    //     title: 'title',
+    //     description: 'hello world, I am happy I am here!'
+    //   },
+    //   {
+    //     acceptNum: '7',
+    //     memberMaxNumber: '5',
+    //     title: 'title',
+    //     description: 'hello world, I am happy I am here!'
+    //   }
+    // ];
      
     // const lists = this.props.dataList;
     // const dataList = this.state.dataList.map((item, index)=>{ 
     //   return dataList[index]; 
     // });
+    const rel = true;
     return (
       <div>
         <div className="homeContainer">
@@ -124,8 +154,10 @@ export default class Home extends React.Component {
             <li className="boxStyleLi">forth</li>
             <li className="boxStyleLi">first</li>
           </Swipper>
+          
+          <List className="list" listData={ this.state.dataList } />
 
-          <List className="list" listData={list} page="home" />
+          {/* <List className="list" listData={list} /> */}
         </div>
         <TabBar className="tabbar" />
       </div>

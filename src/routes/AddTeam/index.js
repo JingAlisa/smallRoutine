@@ -1,5 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
+import { urls } from '../../../config/web.config';
+
 import './index.less';
 import createHistory from 'history/createHashHistory';
 const history = createHistory();
@@ -24,6 +27,7 @@ export default class AddTeam extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      userUid: 'hw000001',
       showWarnTips: false,
       showSuccessTips: false,
       category: 'study',
@@ -153,7 +157,7 @@ export default class AddTeam extends React.Component {
           </FormCell>
           <FormCell>
             <CellBody>
-              <TextArea value={this.state.description} onChange={this.changeValue} name="description" placeholder="请简单介绍战队信息，以便大家积极加入，不超过500字" rows="3" maxLength="500" />
+              <TextArea value={this.state.description} onChange={this.changeValue} name="description" placeholder="请简单介绍战队信息，以便大家积极加入，不超过500字" rows="3" maxLength={500} />
             </CellBody>
           </FormCell>
         </Form>
@@ -211,6 +215,56 @@ export default class AddTeam extends React.Component {
                 this.setState({ showSuccessTips: true });
                 window.setTimeout(e=> this.setState({ showSuccessTips: !this.state.showSuccessTips }), 2000);
                 // 保存到后台数据库,并跳转到首页
+                let teamInState = this.state
+                let contact = []
+                if(teamInState.qq !== '')     contact.push({qq: teamInState.qq})
+                if(teamInState.wechat !== '') contact.push({qq: teamInState.wechat})
+                if(teamInState.phone !== '')  contact.push({qq: teamInState.phone})
+                let newTeam = {
+                  title: teamInState.title,
+                  description: teamInState.description,
+                  category: teamInState.category,
+                  createrUid: teamInState.userUid,
+                  preserveMaxDays: teamInState.preserveMaxDays,
+                  memberMaxNumber: teamInState.memberMaxNumber,
+                  contact: contact
+                }
+
+                const url = `${urls.graphql}/welink/v1/new`
+
+                window.HWH5.fetchInternet(url, { 
+                  method: 'post', 
+                  headers: { 
+                    'Content-Type' : 'application/json' 
+                  }, 
+                  body: JSON.stringify({
+                    ...newTeam
+                  }),
+                  timeout: 6000 
+                }).then((res) => {
+                  res.json().then((reply) => {
+                    console.log(reply)
+                    if (!reply.code) {
+                      // console.log('成功提交')
+                      // console.log(reply)
+                      // // 刷新页面
+                      // let team = reply.data.team
+                      // if (team.createrUid === this.state.userUid) {
+                      //   team.role = 'creater'
+                      // }
+                      // team.applyingList.map((applicant, index) => {
+                      //   applicant.dialogShow = 'none'
+                      //   applicant.btnText = this.getBtnText(applicant, team.createrUid)
+                      //   applicant.btnClass = this.getBtnClass(applicant , team.createrUid)
+                      // })
+                      // this.setState({
+                      //   team: { ...team }
+                      // })
+                    }
+                  });
+                });
+
+
                 // this.context.router.push('/');
                 setTimeout(()=>history.push('/'), 2000);
 

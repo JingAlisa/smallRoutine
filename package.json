@@ -102,6 +102,7 @@
         "redux-devtools-extension": "2.13.0",
         "save": "2.3.1",
         "svgpath": "^2.2.1",
+        "vconsole": "^3.1.0",
         "whatwg-fetch": "2.0.3"
     }
 }
