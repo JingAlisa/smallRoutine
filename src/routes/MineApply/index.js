@@ -1,10 +1,47 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
+import { urls } from '../../../config/web.config';
+import { userInfo } from '../../../config/debug.userInfo';
+
 import './index.less';
 import List from '../../components/List';
 export default class MineApply extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      list: [],
+      userUid: userInfo.uid
+    }
+  }
 
   componentWillMount() {
+    const _id = this.state.userUid
+    const url = `${urls.graphql}/welink/v1/teams/${_id}/apply`
+
+    window.HWH5.fetchInternet(url, { method: 'get', headers: { 'Content-Type' : 'application/json' }, timeout: 6000 }).then((res) => {
+      res.json().then((reply) => {
+        if (!reply.code) {
+          let teams = reply.data.teams
+          let list = []
+          teams.map((team, index) => {
+            let item = {
+              title: team.title,
+              id: team._id,
+              application: false,
+              uid: team.createrUid,
+              memberCount: team.memberCount,
+              memberMaxNumber: team.memberMaxNumber
+            }
+            list.push(item)
+          })
+          this.setState({
+            list: list
+          })
+          console.log(this.state)
+        }
+      });
+    });
   }
 
   componentDidMount() {
@@ -75,7 +112,7 @@ export default class MineApply extends React.Component {
           <img src="#" alt="back" />
           <span>我的申请</span>
         </div>
-        <List className="list" listData={list} page="apply" />
+        <List className="list" listData={ this.state.list } page="apply" />
       </div>
     );
   }

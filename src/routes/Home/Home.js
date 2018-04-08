@@ -6,6 +6,7 @@ import * as home from '../../actions/home';
 import * as global from '../../actions/global';
 
 import { urls } from '../../../config/web.config';
+import { userInfo } from '../../../config/debug.userInfo';
 
 // import { Swiper } from '../../../node_modules/@huawei/react-weui';
 import './Home.less';
@@ -24,11 +25,13 @@ export default class Home extends React.Component {
     // super(props);
     super();
     this.state = {
-      dataList: []
+      dataList: [],
+      userUid: userInfo.uid
     };
   }
 
   async componentWillMount() {
+    console.log(userInfo)
     const url = `${urls.graphql}/welink/v1/teams`
     window.HWH5.fetchInternet(url, { method: 'get', headers: { 'Content-Type' : 'application/json' }, timeout: 6000 }).then((res) => {
       res.json().then((reply) => {
@@ -39,7 +42,7 @@ export default class Home extends React.Component {
           let dataList = []
           reply.data.teams.map((team, index) => {
             dataList.push({
-              _id: team._id,
+              id: team._id,
               acceptNum: team.memberCount,
               memberMaxNumber: team.memberMaxNumber,
               title: team.title,

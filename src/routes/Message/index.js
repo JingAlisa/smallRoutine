@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import './index.less';
 
 import { urls } from '../../../config/web.config';
+import { userInfo } from '../../../config/debug.userInfo';
 
 import TabBar from '../../components/TabBar';
 import MsgList from '../../components/MsgList'
@@ -11,7 +12,7 @@ export default class Message extends React.Component {
   constructor() {
     super();
     this.state = {
-      userUid: 'hw000008',
+      userUid: userInfo.uid,
       msgs_creater: [],
       msgs_applicant: []
     }

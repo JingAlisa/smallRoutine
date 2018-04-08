@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { urls } from '../../../config/web.config';
+import { userInfo } from '../../../config/debug.userInfo';
 
 import './index.less';
 import createHistory from 'history/createHashHistory';
@@ -27,7 +28,7 @@ export default class AddTeam extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      userUid: 'hw000001',
+      userUid: userInfo.uid,
       showWarnTips: false,
       showSuccessTips: false,
       category: 'study',

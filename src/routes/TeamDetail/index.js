@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { urls } from '../../../config/web.config';
+import { userInfo } from '../../../config/debug.userInfo';
 
 import './index.less';
 import { 
@@ -29,7 +30,7 @@ export default class TeamDetail extends React.Component {
     super(props, context);
     this.state = {
       team: {},
-      userUid: 'hw000003',
+      userUid: userInfo.uid,
       // title: props.location.data.title,
       // acceptNum: props.location.data.acceptNum,
       // memberMaxNumber: props.location.data.memberMaxNumber,

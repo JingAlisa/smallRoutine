@@ -34,7 +34,11 @@ export default class Teams extends React.Component {
           description: 'hello world, I am happy I am here!'
         }
       ],
-      originData: []
+      originData: [],
+      filter: {
+        category: 'all',
+        keyword: ''
+      }
     };
   }
 
@@ -46,10 +50,12 @@ export default class Teams extends React.Component {
           let dataList = []
           reply.data.teams.map((team, index) => {
             dataList.push({
+              id: team._id,
               acceptNum: team.memberCount,
               memberMaxNumber: team.memberMaxNumber,
               title: team.title,
-              description: team.description
+              description: team.description,
+              category: team.category
             })
           })
           this.setState({
@@ -64,153 +70,89 @@ export default class Teams extends React.Component {
   }
 
   componentDidMount() {
-    // 从服务器端获取数据，目前先用假数据代替
-    const replayData = [
-      [{
-        acceptNum: 2,
-        memberMaxNumber: 5,
-        title: 'study',
-        description: 'hello world, I am happy I am here!'
-      },
-      {
-        acceptNum: 3,
-        memberMaxNumber: 5,
-        title: 'study',
-        description: 'hello world, I am happy I am here!'
-      },
-      {
-        acceptNum: 4,
-        memberMaxNumber: 5,
-        title: 'study',
-        description: 'hello world, I am happy I am here!'
-      },
-      {
-        acceptNum: 2,
-        memberMaxNumber: 9,
-        title: 'study',
-        description: 'hello world, I am happy I am here!'
-      },
-      {
-        acceptNum: 2,
-        memberMaxNumber: 8,
-        title: 'study',
-        description: 'hello world, I am happy I am here!'
-      },
-      {
-        acceptNum: 3,
-        memberMaxNumber: 5,
-        title: 'study',
-        description: 'hello world, I am happy I am here!'
-      }],
-      [
-        {
-          acceptNum: 2,
-          memberMaxNumber: 5,
-          title: 'life',
-          description: 'hello world, I am happy I am here!'
-        },
-        {
-          acceptNum: 3,
-          memberMaxNumber: 5,
-          title: 'life',
-          description: 'hello world, I am happy I am here!'
-        },
-        {
-          acceptNum: 4,
-          memberMaxNumber: 5,
-          title: 'life',
-          description: 'hello world, I am happy I am here!'
-        }
-      ],
-      [
-        {
-          acceptNum: 0,
-          memberMaxNumber: 5,
-          title: 'friends',
-          description: 'hello world, I am happy I am here!'
-        },
-        {
-          acceptNum: 3,
-          memberMaxNumber: 5,
-          title: 'friends',
-          description: 'hello world, I am happy I am here!'
-        },
-        {
-          acceptNum: 4,
-          memberMaxNumber: 5,
-          title: 'friends',
-          description: 'hello world, I am happy I am here!'
-        }
-      ]
-    ];
-    var navbar = document.getElementsByClassName('navbar')[0];
-    var self = this;
-    // this.state.originData = replayData;
-    // this.setState({
-    //   originData: replayData
-    // });
+    let navbar = document.getElementsByClassName('navbar')[0];
+    let self = this
     navbar.addEventListener('click', function (e) {
-      console.log(e.target.attributes.value.value);
-      switch (e.target.attributes.value.value) {
-        case 'study':
-          self.setState({
-            list: replayData[0]
-          });
-          break;
-        case 'life':
-          self.setState({
-            list: replayData[1]
-          });
-          break;
-        case 'friends':
-          self.setState({
-            list: replayData[2]
-          });
-          break;
-        default:
-          self.setState({
-            list: replayData[0].concat(replayData[1]).concat(replayData[2])
-          });
-          break;
-      }
+      let filter = self.state.filter
+      filter.category = e.target.attributes.value.value
+      self.setState({
+        'filter': filter
+      });
+      console.log(self.state.filter)
     });
   }
 
   searchResult(e) {
     var origin = this.state.originData;
-    console.log(origin);
     var filterData = [];
     // e.preventdefault();
     console.log(origin);
     console.log(typeof e);
-    if (e === '') {
-      this.setState({
-        list: origin
-      });
-      return ;
-    }
-    for (let i = 0; i < origin.length; i++) {
-      origin[i].map((item, index) => {
-        if (item.title.indexOf(e) !== -1) {
-          filterData.push(item);
-        }
-      });
-    }
-    
+    let filter = this.state.filter
+    filter.keyword = e
     this.setState({
-      list: filterData
+      filter: filter
     });
+    // if (e === '') {
+    //   this.setState({
+    //     list: origin
+    //   });
+    //   return ;
+    // }
+    // for (let i = 0; i < origin.length; i++) {
+    //   origin[i].map((item, index) => {
+    //     if (item.title.indexOf(e) !== -1) {
+    //       filterData.push(item);
+    //     }
+    //   });
+    // }
+
+    // this.setState({
+    //   list: filterData
+    // });
   }
+
+  // 根据this.state.filter中的category和keyword得到筛选结果，返回true/false
+  getFilter(team) {
+    const category = this.state.filter.category
+    const keyword = this.state.filter.keyword
+
+    if(category !== 'all' && category !== team.category) {
+      return false
+    }
+
+    if(keyword !== '' && team.title.indexOf(keyword) === -1){
+      return false
+    }
+
+    return true
+  }
+
+  // 遍历originData，给出符合筛选条件的teams
+  getFiltedList() {
+    let filtedList = []
+    this.state.originData.map((team, index) => {
+      if (this.getFilter(team) === true) {
+        filtedList.push(team)
+      }
+    })
+    console.log('即将显示筛选出的数据')
+    console.log(filtedList)
+    return filtedList
+  }
+
+
   render() {
     return (
-      <div>
+      <div className='listArea'>
         <NavBar className="navbar">
           <NavBarItem className="navBarItem" value="all">全部</NavBarItem>
           <NavBarItem className="navBarItem" value="study">学习类</NavBarItem>
           <NavBarItem className="navBarItem" value="life">生活类</NavBarItem>
           <NavBarItem className="navBarItem" value="friends">交友类</NavBarItem>
         </NavBar>
-        <List listData={this.state.list} page="teams" />
+        <List listData={ this.getFiltedList() } page="teams" />
+        {/* <List listData={this.state.list} page="teams" /> */}
         <SearchBar onChange={this.searchResult.bind(this)} placeholder="请输入关键字" />
         <TabBar />
       </div>
