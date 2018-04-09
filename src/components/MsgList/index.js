@@ -19,7 +19,9 @@ export default class ItemDetail extends React.Component {
     return (
       <div className='page msgList'>
         <div className="page__bd">
-          <div className='weui-cells__title'>{ this.props.kind === 'creater' ? '新增申请者' : '申请结果' }</div>
+          <div className='weui-cells__title'>
+            { this.props.kind === 'known' ? '已读消息' : (this.props.kind === 'creater' ? '新增申请者' : '申请结果') }
+          </div>
           <div className='weui-cells'>
           {
             msgs.map((item, index) => (

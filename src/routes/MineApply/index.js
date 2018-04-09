@@ -30,6 +30,7 @@ export default class MineApply extends React.Component {
               id: team._id,
               application: false,
               uid: team.createrUid,
+              userName: userInfo.name,
               memberCount: team.memberCount,
               memberMaxNumber: team.memberMaxNumber,
               description: team.description

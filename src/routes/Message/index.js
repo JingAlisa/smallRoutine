@@ -13,6 +13,7 @@ export default class Message extends React.Component {
     super();
     this.state = {
       userUid: userInfo.uid,
+      userName: userInfo.name,
       msgs_creater: [],
       msgs_applicant: []
     }

@@ -42,14 +42,14 @@ export default class ItemDetail extends React.Component {
       btnClass = 'weui-swiped-btn '+ (msg.createrKnown === true ? 'weui-swiped-btn_default' : 'weui-swiped-btn_warn')
     } else {
       btnText = msg.accept ? '通过': '未通过'
-      btnClass = 'weui-swiped-btn weui-swiped-btn_default'
+      btnClass = 'weui-swiped-btn ' + (msg.applicantKnown === true ? 'weui-swiped-btn_default' : 'weui-swiped-btn_warn')
     }
 
     return (
       <div className='xd-weui-cell-unit'>
         <div className='weui-cell'>
           <div className='weui-cell__bd'>
-            <p>{ msg.applicantUid }</p>
+            <p>{ msg.applicantName || msg.applicantUid }</p>
           </div>
           <div className='weui-cell__ft'>{ '申请加入<' + msg.teamTitle + '>' }</div>
         </div>

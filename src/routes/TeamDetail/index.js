@@ -30,6 +30,7 @@ export default class TeamDetail extends React.Component {
     this.state = {
       team: {},
       userUid: userInfo.uid,
+      userName: userInfo.name,
       status: 'no',
       warningNotComplete: false
     };
@@ -152,6 +153,7 @@ export default class TeamDetail extends React.Component {
       }, 
       body: JSON.stringify({
         'uid': this.state.userUid,
+        'name': this.state.userName,
         'applyInfo': applyInfo,
         'contact': {
           way: contactWayValue,
@@ -238,8 +240,12 @@ export default class TeamDetail extends React.Component {
     })
   }
 
-  judgeAgree(applicantUid, applyInfo) {
+  judgeAgree(applicant) {
     const url = `${urls.graphql}/welink/v1/team/${this.state.team._id}/judgment`
+
+    const applicantUid = applicant.uid
+    const applicantName = applicant.name
+    const applyInfo = applicant.application.info
 
     window.HWH5.fetchInternet(url, { 
       method: 'post', 
@@ -248,6 +254,7 @@ export default class TeamDetail extends React.Component {
       }, 
       body: JSON.stringify({
         'uid': applicantUid,
+        'name': applicantName,
         'accept': 'true',
         'applyInfo': applyInfo
       }),
@@ -267,8 +274,12 @@ export default class TeamDetail extends React.Component {
     this.hideJudgeDialog(applicantUid)
   }
 
-  judgeReject(applicantUid, applyInfo) {
+  judgeReject(applicant) {
     const url = `${urls.graphql}/welink/v1/team/${this.state.team._id}/judgment`
+
+    const applicantUid = applicant.uid
+    const applicantName = applicant.name
+    const applyInfo = applicant.application.info
 
     window.HWH5.fetchInternet(url, { 
       method: 'post', 
@@ -277,6 +288,7 @@ export default class TeamDetail extends React.Component {
       }, 
       body: JSON.stringify({
         'uid': applicantUid,
+        'name': applicantName,
         'accept': 'false',
         'applyInfo': applyInfo
       }),
@@ -358,7 +370,7 @@ export default class TeamDetail extends React.Component {
                   <div key={ index }>
                     <div className='weui-cell'>
                       <div className='weui-cell__bd'>
-                        <p>{ applicant.uid }</p>
+                        <p>{ applicant.name || applicant.uid }</p>
                       </div>
                       {/* 加入成功或为当前用户时，显示联系方式 */}
                       {/* <div className='weui-cell__ft'>{ '申请加入' }</div> */}
@@ -389,8 +401,8 @@ export default class TeamDetail extends React.Component {
                     </div>
                     <JudgeDialog 
                       applicant={ applicant } 
-                      JudgeAgree = { () => this.judgeAgree(applicant.uid, applicant.application.info) }
-                      JudgeReject = { () => this.judgeReject(applicant.uid, applicant.application.info) }
+                      JudgeAgree = { () => this.judgeAgree(applicant) }
+                      JudgeReject = { () => this.judgeReject(applicant) }
                     />
                   </div>
                 ))
