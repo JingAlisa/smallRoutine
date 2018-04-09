@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { urls } from '../../../config/web.config';
 import { userInfo } from '../../../config/debug.userInfo';
-import Back from '../../public/img/icon/back.png';
+
 import './index.less';
 import { 
   Page,
@@ -44,26 +44,40 @@ export default class TeamDetail extends React.Component {
     window.HWH5.fetchInternet(url, { method: 'get', headers: { 'Content-Type' : 'application/json' }, timeout: 6000 }).then((res) => {
       res.json().then((reply) => {
         if (!reply.code) {
-          let team = reply.data.team
-          if (team.createrUid === this.state.userUid) {
-            team.role = {
-              class: 'creater'
-            }
-          }
-          team.applyingList.map((applicant, index) => {
-            if (applicant.uid === this.state.userUid) {
-              team.role = {
-                class: 'applicant',
-                result: !applicant.judgment ? '已申请' : (applicant.accept === 'true' ? '已加入' : '已被拒')
-              }
-            }
-            applicant.dialogShow = 'none'
-            applicant.btnText = this.getBtnText(applicant, team.createrUid)
-            applicant.btnClass = this.getBtnClass(applicant , team.createrUid)
-          })
-          this.setState({
-            team: { ...team }
-          })
+          this.refreshTeam(reply.data.team)
+          // let team = reply.data.team
+          // let applicants = [], applying = [], joined = [], rejected = [], currUser = []
+          // if (team.createrUid === this.state.userUid) {
+          //   team.role = {
+          //     class: 'creater'
+          //   }
+          // }
+          // team.applyingList.map((applicant, index) => {
+          //   if (applicant.uid === this.state.userUid) {
+          //     team.role = {
+          //       class: 'applicant',
+          //       result: !applicant.judgment ? '已申请' : (applicant.accept === 'true' ? '已加入' : '已被拒')
+          //     }
+          //   }
+          //   applicant.dialogShow = 'none'
+          //   applicant.btnText = this.getBtnText(applicant, team.createrUid)
+          //   applicant.btnClass = this.getBtnClass(applicant , team.createrUid);
+          //   // 根据不同的状态加入不同的Array
+          //   (!applicant.judgment) ? applying.push(applicant) : (applicant.accept === 'true' ? joined.push(applicant) : rejected.push(applicant))
+          //   // 若为当前用户，...
+          //   if (applicant.uid === this.state.userUid) currUser.push(applicant)
+          // })
+          // if(team.role.class === 'creater') {
+          //   applicants = applying.concat(joined).concat(rejected)
+          // } else if(team.role.class === 'applicant' && team.role.result === '已加入') {
+          //   applicants = joined
+          // } else {
+          //   applicants = currUser
+          // }
+          // team.applyingList = applicants
+          // this.setState({
+          //   team: { ...team }
+          // })
         }
       });
     });
@@ -71,6 +85,44 @@ export default class TeamDetail extends React.Component {
 
   componentDidMount() {
     console.log(this.state.teamId)
+  }
+
+  // 根据传入的从服务端获取的原始team数据，经过处理，更新state中的team数据
+  refreshTeam(team) {
+    let applicants = [], applying = [], joined = [], rejected = [], currUser = []
+    if (team.createrUid === this.state.userUid) {
+      team.role = {
+        class: 'creater'
+      }
+    }
+    console.log(team)
+    team.applyingList.map((applicant, index) => {
+      if (applicant.uid === this.state.userUid) {
+        // 在Team层面上为当前用户添加角色
+        team.role = {
+          class: 'applicant',
+          result: !applicant.judgment ? '已申请' : (applicant.judgment.accept === true ? '已加入' : '已被拒')
+        }
+      }
+      applicant.dialogShow = 'none'
+      applicant.btnText = this.getBtnText(applicant, team.createrUid)
+      applicant.btnClass = this.getBtnClass(applicant , team.createrUid);
+      // 根据不同的状态加入不同的Array
+      (!applicant.judgment) ? applying.push(applicant) : (applicant.judgment.accept === true ? joined.push(applicant) : rejected.push(applicant))
+      // 若为当前用户，...
+      if (applicant.uid === this.state.userUid) currUser.push(applicant)
+    })
+    if(team.role && team.role.class === 'creater') {
+      applicants = applying.concat(joined).concat(rejected)
+    } else if(team.role && team.role.class === 'applicant' && team.role.result === '已加入') {
+      applicants = joined
+    } else {
+      applicants = currUser
+    }
+    team.applyingList = applicants
+    this.setState({
+      team: { ...team }
+    })
   }
 
   apply() {
@@ -114,24 +166,7 @@ export default class TeamDetail extends React.Component {
           console.log('成功提交')
           console.log(reply)
           // 刷新页面
-          let team = reply.data.team
-          if (team.createrUid === this.state.userUid) {
-            team.role = 'creater'
-          }
-          team.applyingList.map((applicant, index) => {
-            if (applicant.uid === this.state.userUid) {
-              team.role = {
-                class: 'applicant',
-                result: !applicant.judgment ? '已申请' : (applicant.accept === 'true' ? '已加入' : '已被拒')
-              }
-            }
-            applicant.dialogShow = 'none'
-            applicant.btnText = this.getBtnText(applicant, team.createrUid)
-            applicant.btnClass = this.getBtnClass(applicant , team.createrUid)
-          })
-          this.setState({
-            team: { ...team }
-          })
+          this.refreshTeam(reply.data.team)
         }
       });
     });
@@ -224,24 +259,7 @@ export default class TeamDetail extends React.Component {
           console.log('成功提交')
           console.log(reply)
           // 刷新页面
-          let team = reply.data.team
-          if (team.createrUid === this.state.userUid) {
-            team.role = 'creater'
-          }
-          team.applyingList.map((applicant, index) => {
-            if (applicant.uid === this.state.userUid) {
-              team.role = {
-                class: 'applicant',
-                result: !applicant.judgment ? '已申请' : (applicant.accept === 'true' ? '已加入' : '已被拒')
-              }
-            }
-            applicant.dialogShow = 'none'
-            applicant.btnText = this.getBtnText(applicant, team.createrUid)
-            applicant.btnClass = this.getBtnClass(applicant , team.createrUid)
-          })
-          this.setState({
-            team: { ...team }
-          })
+          this.refreshTeam(reply.data.team)
         }
       });
     });
@@ -269,24 +287,7 @@ export default class TeamDetail extends React.Component {
         if (!reply.code) {
           console.log('成功提交')
           // 刷新页面
-          let team = reply.data.team
-          if (team.createrUid === this.state.userUid) {
-            team.role = 'creater'
-          }
-          team.applyingList.map((applicant, index) => {
-            if (applicant.uid === this.state.userUid) {
-              team.role = {
-                class: 'applicant',
-                result: !applicant.judgment ? '已申请' : (applicant.accept === 'true' ? '已加入' : '已被拒')
-              }
-            }
-            applicant.dialogShow = 'none'
-            applicant.btnText = this.getBtnText(applicant, team.createrUid)
-            applicant.btnClass = this.getBtnClass(applicant , team.createrUid)
-          })
-          this.setState({
-            team: { ...team }
-          })
+          this.refreshTeam(reply.data.team)
         }
       });
     });
@@ -300,7 +301,7 @@ export default class TeamDetail extends React.Component {
       let applyingList = team.applyingList
       return (
         <Page>
-          <div className="backAndTitle"><img src={Back} alt="back" onClick={()=>this.props.history.goBack()} /></div>
+          <div><img src="../assets/images/3dPaVX1fcS.png" alt="back" onClick={()=>this.props.history.goBack()} /></div>
           <div>
             <h3>调试信息</h3>
             <p>战队Creater: { this.state.team.createrUid }</p>
