@@ -35,10 +35,7 @@ export default class TabBar extends React.Component {
             <p className="weui-tabbar__label">消息</p>
           </Link>
           <Link className="weui-tabbar__item" to="/mine">
-            <span>
-              <img className="weui-tabbar__icon" src="#" alt="icon" />
-              <span className="weui-badge">6</span>
-            </span>
+            <img className="weui-tabbar__icon" src="#" alt="icon" />
             <p className="weui-tabbar__label">我的</p>
           </Link>
         </div>
