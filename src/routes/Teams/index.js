@@ -51,7 +51,7 @@ export default class Teams extends React.Component {
           reply.data.teams.map((team, index) => {
             dataList.push({
               id: team._id,
-              acceptNum: team.memberCount,
+              memberCount: team.memberCount,
               memberMaxNumber: team.memberMaxNumber,
               title: team.title,
               description: team.description,

@@ -26,24 +26,21 @@ export default class Home extends React.Component {
     super();
     this.state = {
       dataList: [],
+      hotList: [],
       userUid: userInfo.uid
     };
   }
 
   async componentWillMount() {
-    console.log(userInfo)
     const url = `${urls.graphql}/welink/v1/teams`
     window.HWH5.fetchInternet(url, { method: 'get', headers: { 'Content-Type' : 'application/json' }, timeout: 6000 }).then((res) => {
       res.json().then((reply) => {
         if (!reply.code) {
-          // this.setState({
-          //   msgs_creater: reply.data.msgs
-          // })
           let dataList = []
           reply.data.teams.map((team, index) => {
             dataList.push({
               id: team._id,
-              acceptNum: team.memberCount,
+              memberCount: team.memberCount,
               memberMaxNumber: team.memberMaxNumber,
               title: team.title,
               description: team.description
@@ -51,6 +48,29 @@ export default class Home extends React.Component {
           })
           this.setState({
             dataList
+          })
+        }
+      });
+    }).catch((error) => {
+      console.error('输出错误')
+      console.error(error)
+    });
+    const urlHot = `${urls.graphql}/welink/v1/teams?attr=hot`
+    window.HWH5.fetchInternet(urlHot, { method: 'get', headers: { 'Content-Type' : 'application/json' }, timeout: 6000 }).then((res) => {
+      res.json().then((reply) => {
+        if (!reply.code) {
+          let dataList = []
+          reply.data.teams.map((team, index) => {
+            dataList.push({
+              id: team._id,
+              memberCount: team.memberCount,
+              memberMaxNumber: team.memberMaxNumber,
+              title: team.title,
+              description: team.description
+            })
+          })
+          this.setState({
+            hotList: dataList
           })
         }
       });
