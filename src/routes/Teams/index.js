@@ -144,20 +144,22 @@ export default class Teams extends React.Component {
 
   render() {
     return (
-      <div class="TeamsContainer">
-        <div>
-          <SearchBar onChange={this.searchResult.bind(this)} placeholder="请输入关键字" />
-        </div>
-        <div className="navbar">
-          <NavBar>
-            <NavBarItem className="navBarItem" value="all">全部</NavBarItem>
-            <NavBarItem className="navBarItem" value="study">学习类</NavBarItem>
-            <NavBarItem className="navBarItem" value="life">生活类</NavBarItem>
-            <NavBarItem className="navBarItem" value="friends">交友类</NavBarItem>
-          </NavBar>
-        </div>
-        <div className='listArea'>
-          <List listData={ this.getFiltedList() } page="teams" />
+      <div>
+        <div className="contentContainer">
+          <div>
+            <SearchBar onChange={this.searchResult.bind(this)} placeholder="请输入关键字" />
+          </div>
+          <div className="navbar">
+            <NavBar>
+              <NavBarItem className="navBarItem" value="all">全部</NavBarItem>
+              <NavBarItem className="navBarItem" value="study">学习类</NavBarItem>
+              <NavBarItem className="navBarItem" value="life">生活类</NavBarItem>
+              <NavBarItem className="navBarItem" value="friends">交友类</NavBarItem>
+            </NavBar>
+          </div>
+          <div className='listArea'>
+            <List listData={ this.getFiltedList() } page="teams" />
+          </div>
         </div>
         <div className="tabbar"><TabBar /></div>
       </div>

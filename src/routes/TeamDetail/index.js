@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { urls } from '../../../config/web.config';
 import { userInfo } from '../../../config/debug.userInfo';
-
+import Back from '../../public/img/icon/back.png';
 import './index.less';
 import { 
   Page,
@@ -300,7 +300,7 @@ export default class TeamDetail extends React.Component {
       let applyingList = team.applyingList
       return (
         <Page>
-          <div><img src="../assets/images/3dPaVX1fcS.png" alt="back" onClick={()=>this.props.history.goBack()} /></div>
+          <div className="backAndTitle"><img src={Back} alt="back" onClick={()=>this.props.history.goBack()} /></div>
           <div>
             <h3>调试信息</h3>
             <p>战队Creater: { this.state.team.createrUid }</p>

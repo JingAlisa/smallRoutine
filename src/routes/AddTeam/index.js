@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { urls } from '../../../config/web.config';
 import { userInfo } from '../../../config/debug.userInfo';
-
+import Back from '../../public/img/icon/back.png';
 import './index.less';
 import createHistory from 'history/createHashHistory';
 const history = createHistory();
@@ -106,7 +106,7 @@ export default class AddTeam extends React.Component {
   render() {
     return (
       <Page className="input" title="Input" subTitle="表单输入">
-        <div><img src="../assets/images/3dPaVX1fcS.png" alt="back" onClick={()=>this.props.history.goBack()} /></div>
+        <div className="backAndTitle"><img src={Back} alt="back" onClick={()=>this.props.history.goBack()} /></div>
         <CellsTitle>请选择战队类别</CellsTitle>
         <Form>
           <FormCell select>
