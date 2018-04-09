@@ -313,7 +313,6 @@ export default class TeamDetail extends React.Component {
       let applyingList = team.applyingList
       return (
         <Page>
-          <div><img src="../assets/images/3dPaVX1fcS.png" alt="back" onClick={()=>this.props.history.goBack()} /></div>
           <div>
             <h3>调试信息</h3>
             <p>战队Creater: { this.state.team.createrUid }</p>

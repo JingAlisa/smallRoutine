@@ -152,8 +152,8 @@ export default class Home extends React.Component {
                 <Link className="boxStyleLi" to={item.pathName}>
                   <div className="boxContent">
                     <p>{item.title}</p>
-                    <p>{item.applyNum}</p>
                     <p>{item.description}</p>
+                    <p>{item.applyNum}</p>
                   </div>
                 </Link> 
               ))

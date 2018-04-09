@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 
 import { urls } from '../../../config/web.config';
 import { userInfo } from '../../../config/debug.userInfo';
-import Back from '../../public/img/icon/back.png';
 import './index.less';
 import List from '../../components/List';
 export default class MineApply extends React.Component {
@@ -47,6 +46,7 @@ export default class MineApply extends React.Component {
   }
 
   componentDidMount() {
+    window.HWH5.navTitle({ title: '我的申请' });
   }
 
   render() {
@@ -110,10 +110,6 @@ export default class MineApply extends React.Component {
     ];
     return (
       <div>
-        <div className="backAndTitle">
-          <img src={Back} alt="back" onClick={()=>this.props.history.goBack()} />
-          <span>我的申请</span>
-        </div>
         <List className="list" listData={ this.state.list } page="apply" />
       </div>
     );

@@ -21,7 +21,7 @@ export default class Mine extends React.Component {
       <div>
         <div className='userInfo'>
           <img className="userAvatar" src={ UserAvatar } />
-          <p className="userName">张三</p>
+          <span className="userName">张三</span>
         </div>
         <div className='weui-cells'>
           <Link className='weui-cell weui-cell_access' to={{ pathname: '/mine/public' }}>
