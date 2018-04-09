@@ -31,7 +31,8 @@ export default class MinePublic extends React.Component {
               application: false,
               uid: team.createrUid,
               memberCount: team.memberCount,
-              memberMaxNumber: team.memberMaxNumber
+              memberMaxNumber: team.memberMaxNumber,
+              description: team.description
             }
             list.push(item)
           })

@@ -32,6 +32,9 @@ export default class Home extends React.Component {
   }
 
   async componentWillMount() {
+    window.HWH5.userInfo().then((data)=>{
+      console.log(data);
+    });
     const url = `${urls.graphql}/welink/v1/teams`
     window.HWH5.fetchInternet(url, { method: 'get', headers: { 'Content-Type' : 'application/json' }, timeout: 6000 }).then((res) => {
       res.json().then((reply) => {
@@ -156,10 +159,6 @@ export default class Home extends React.Component {
                 </Link> 
               ))
             }
-            
-            {/* <li className="boxStyleLi"><img src="images/life.png" alt="life" /></li> 
-            <li className="boxStyleLi"><img src="images/friend.png" alt="friend" /></li>
-            <li className="boxStyleLi"><img src="images/home.png" alt="home" /></li> */}
           </Swipper>
           
           <List className="list" listData={this.state.dataList} page="home" />
@@ -175,6 +174,3 @@ export default class Home extends React.Component {
 Home.propTypes = {
   // dataList: PropTypes.array
 };
-
-
-

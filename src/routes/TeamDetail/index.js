@@ -325,7 +325,7 @@ export default class TeamDetail extends React.Component {
                   }
                 </div>
                 <div><span>成功加入人数/战队上限人数:</span><span>{this.state.team.memberCount}/{this.state.team.memberMaxNumber}</span></div>
-                <div>{this.state.description}</div>
+                <div>{this.state.team.description}</div>
               </div>
             </PanelBody>
           </Panel>

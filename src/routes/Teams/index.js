@@ -7,7 +7,7 @@ import { urls } from '../../../config/web.config';
 
 import TabBar from '../../components/TabBar';
 import List from '../../components/List';
-import { NavBar, NavBarItem, SearchBar } from '../../../node_modules/@huawei/react-weui';
+import { Tab, NavBarItem, SearchBar } from '../../../node_modules/@huawei/react-weui';
 
 export default class Teams extends React.Component {
 
@@ -150,15 +150,15 @@ export default class Teams extends React.Component {
             <SearchBar onChange={this.searchResult.bind(this)} placeholder="请输入关键字" />
           </div>
           <div className="navbar">
-            <NavBar>
-              <NavBarItem className="navBarItem" value="all">全部</NavBarItem>
-              <NavBarItem className="navBarItem" value="study">学习类</NavBarItem>
-              <NavBarItem className="navBarItem" value="life">生活类</NavBarItem>
-              <NavBarItem className="navBarItem" value="friends">交友类</NavBarItem>
-            </NavBar>
+            <Tab type="navbar">
+              <NavBarItem className="navBarItem" label="全部" value="all" />
+              <NavBarItem className="navBarItem" label="学习类" value="study" />
+              <NavBarItem className="navBarItem" label="生活类" value="life" />
+              <NavBarItem className="navBarItem" label="交友类" value="friends" />
+            </Tab>
           </div>
-          <div className='listArea'>
-            <List listData={ this.getFiltedList() } page="teams" />
+          <div className="listArea">
+            <List listData={this.getFiltedList()} page="teams" />
           </div>
         </div>
         <div className="tabbar"><TabBar /></div>

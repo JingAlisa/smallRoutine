@@ -14,10 +14,8 @@ import {
   CellsTitle,
   CellHeader,
   CellBody,
-  CellFooter,
   Form,
   FormCell,
-  Icon,
   Input,
   Label,
   TextArea,
@@ -111,7 +109,7 @@ export default class AddTeam extends React.Component {
         <Form>
           <FormCell select>
             <CellBody>
-              <Select defaultValue="study" value={this.state.category} onChange={this.changeValue} name="category" required>
+              <Select value={this.state.category} onChange={this.changeValue} name="category" required>
                 <option value="study">学习类</option>
                 <option value="life">生活类</option>
                 <option value="friends">交友类</option>
@@ -135,7 +133,7 @@ export default class AddTeam extends React.Component {
               <Label>发布时长</Label>
             </CellHeader>
             <CellBody>
-              <Select defaultValue="3" value={this.state.preserveMaxDays} onChange={this.changeValue} name="preserveMaxDays" required>
+              <Select value={this.state.preserveMaxDays} onChange={this.changeValue} name="preserveMaxDays" required>
                 <option value="3">3天</option>
                 <option value="5">5天</option>
                 <option value="7">7天</option>
@@ -147,7 +145,7 @@ export default class AddTeam extends React.Component {
               <Label>上线人数</Label>
             </CellHeader>
             <CellBody>
-              <Select defaultValue="3" value={this.state.memberMaxNumber} onChange={this.changeValue} name="memberMaxNumber" required>
+              <Select value={this.state.memberMaxNumber} onChange={this.changeValue} name="memberMaxNumber" required>
                 <option value="1">1人</option>
                 <option value="2">2人</option>
                 <option value="3">3人</option>
@@ -195,7 +193,7 @@ export default class AddTeam extends React.Component {
         <Form>
           <FormCell select>
             <CellBody>
-              <Select defaultValue="no" value={this.state.status} onChange={this.changeValue} name="status" required>
+              <Select value={this.state.status} onChange={this.changeValue} name="status" required>
                 <option value="no">NO</option>
                 <option value="yes">YES</option>
               </Select>
