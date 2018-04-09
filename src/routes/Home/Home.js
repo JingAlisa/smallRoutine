@@ -150,9 +150,11 @@ export default class Home extends React.Component {
             {
               this.state.hotList.map((item, index) => (
                 <Link className="boxStyleLi" to={item.pathName}>
-                  <p>{item.title}</p>
-                  <p>{item.applyNum}</p>
-                  <p>{item.description}</p>
+                  <div className="boxContent">
+                    <p>{item.title}</p>
+                    <p>{item.applyNum}</p>
+                    <p>{item.description}</p>
+                  </div>
                 </Link> 
               ))
             }
