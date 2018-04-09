@@ -329,6 +329,26 @@ export default class TeamDetail extends React.Component {
               </div>
             </PanelBody>
           </Panel>
+
+          {
+            (team.role && (team.role.class === 'creater' || team.role.result === '已加入')) ?
+            (
+              <div className='weui-cells'>
+                <div className='weui-cell'>
+                  <div className='weui-cell__bd'>
+                    <p>队长
+                      {
+                        (('qq' in team.contact[0]) ? 'QQ' : ('wechat' in team.contact[0] ? '微信' : '电话')) + '：' + (('qq' in team.contact[0]) ? team.contact[0].qq : ('wechat' in team.contact[0] ? team.contact[0]['wechat'] : team.contact[0]['phone']))
+                      }
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ) : ''
+          }
+
+          
+
           {
             (team.role) ? (
               // 作为 战队创建者或已申请者 看到的信息
@@ -340,8 +360,15 @@ export default class TeamDetail extends React.Component {
                       <div className='weui-cell__bd'>
                         <p>{ applicant.uid }</p>
                       </div>
-                      {/* 未加入时显示‘申请加入’，加入成功之后显示联系方式 */}
-                      <div className='weui-cell__ft'>{ '申请加入' }</div>
+                      {/* 加入成功或为当前用户时，显示联系方式 */}
+                      {/* <div className='weui-cell__ft'>{ '申请加入' }</div> */}
+                      <div className='weui-cell__ft'>
+                        { 
+                          ((applicant.judgment && applicant.judgment.accept === true) || (applicant.uid === this.state.userUid)) 
+                          ? (applicant.application.contact.way === 'qq' ? 'QQ' : (applicant.application.contact.way === 'wechat' ? '微信' : '电话') ) + ': ' + applicant.application.contact.text 
+                          : '申请加入' 
+                        }
+                      </div>
                     </div>
                     <div className='weui-cell weui-cell_swiped' key={ index }>
                       <div className='weui-cell__bd' style={{ 'transform': 'translateX(-68px)' }} >

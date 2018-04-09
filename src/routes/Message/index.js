@@ -49,6 +49,37 @@ export default class Message extends React.Component {
     });
   }
 
+  CompareDate(d1,d2)
+  {
+    return ((new Date(d1.updateTime.replace(/-/g,"\/"))) < (new Date(d2.updateTime.replace(/-/g,"\/"))));
+  }
+
+  getMsgs(listName) {
+    let list = []
+    if(listName === 'applicant') {
+      // 当前用户申请加入别人战队的信息
+      this.state.msgs_applicant.map((msg) => {
+        if(!msg.applicantKnown)  list.push(msg)
+      })
+    } else if(listName === 'creater') {
+      // 别人申请当前用户所创建的战队的信息
+      this.state.msgs_creater.map((msg) => {
+        if(!msg.createrKnown)  list.push(msg)
+      })
+    } else {
+      this.state.msgs_applicant.map((msg) => {
+        if(msg.applicantKnown)  list.push(msg)
+      })
+      this.state.msgs_creater.map((msg) => {
+        if(msg.createrKnown)  list.push(msg)
+      })
+      list.sort((a, b) => {
+        return this.CompareDate(a, b)
+      })
+    }
+    return list
+  }
+
   componentDidMount() {
   }
 
@@ -56,8 +87,12 @@ export default class Message extends React.Component {
     return (
       <div>
         <div className="contentContainer">
-          <MsgList msgs={this.state.msgs_creater} kind='creater' />
-          <MsgList msgs={this.state.msgs_applicant} kind='applicant' />
+          {/* <MsgList msgs={this.state.msgs_creater} kind='creater' />
+          <MsgList msgs={this.state.msgs_applicant} kind='applicant' /> */}
+
+          <MsgList msgs={ this.getMsgs('applicant') } kind='applicant' />
+          <MsgList msgs={ this.getMsgs('creater') } kind='creater' />
+          <MsgList msgs={ this.getMsgs('known') } kind='known' />
         </div>
         <div className="tabbar"><TabBar /></div>
       </div>

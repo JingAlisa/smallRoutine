@@ -43,7 +43,7 @@ export default class Teams extends React.Component {
   }
 
   componentWillMount() {
-    const url = `${urls.graphql}/welink/v1/teams`
+    const url = `${urls.graphql}/welink/v1/teams?status=true`
     window.HWH5.fetchInternet(url, { method: 'get', headers: { 'Content-Type' : 'application/json' }, timeout: 6000 }).then((res) => {
       res.json().then((reply) => {
         if (!reply.code) {
@@ -141,13 +141,16 @@ export default class Teams extends React.Component {
     return filtedList
   }
 
+  searchSubmit(){
+  	return
+  }
 
   render() {
     return (
       <div>
         <div className="contentContainer">
           <div>
-            <SearchBar onChange={this.searchResult.bind(this)} placeholder="请输入关键字" />
+            <SearchBar onSubmit={()=>this.searchSubmit()} onChange={this.searchResult.bind(this)} placeholder="请输入关键字" />
           </div>
           <div className="navbar">
             <Tab type="navbar">
