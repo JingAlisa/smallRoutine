@@ -385,7 +385,7 @@ export default class TeamDetail extends React.Component {
                       </div>
                     </div>
                     <div className='weui-cell weui-cell_swiped' key={ index }>
-                      <div className='weui-cell__bd' style={{ 'width': '85%' }} >
+                      <div className='weui-cell__bd' style={{ 'width': '80%' }} >
                         <div className='weui-cell'>
                           <div className='weui-cell__bd'>
                             { applicant.application.info  }
@@ -395,11 +395,14 @@ export default class TeamDetail extends React.Component {
                           </div> */}
                         </div>
                       </div>
-                      <div className="weui-cell__ft resultBtn">
-                        <a className={ applicant.btnClass } href="javascript:void(0)" onClick={ () => this.clickBtn(applicant) }>
-                          { applicant.btnText }
-                        </a>
+                      <div className="weui-cell__ft resultBtn" style={{ 'width': '20%' }}>
+                        <div className="weui-cell__ft" >
+                          <a className={ applicant.btnClass } href="javascript:void(0)" onClick={ () => this.clickBtn(applicant) }>
+                            { applicant.btnText }
+                          </a>
+                        </div>
                       </div>
+                      
                     </div>
                     <JudgeDialog 
                       applicant={ applicant } 
