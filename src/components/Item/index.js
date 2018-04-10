@@ -19,11 +19,11 @@ export default function Item(props) {
   }
   return (
     <Link className="eachItem" to={{ pathname: path }}>
-      <div className="weui-panel weui-panel__access container">
+      <div className="weui-panel weui-panel__access itemContainer">
         <div className="weui-panel__bd">
           <span className="weui-media-box__desc applyNum">人数：{itemData.memberCount}/{itemData.memberMaxNumber}</span>
           <h4 className="weui-media-box__title">{itemData.title}</h4>
-          <p className="weui-media-box__desc">{itemData.description}</p>
+          <p className="weui-media-box__desc itemDescription">{itemData.description}</p>
         </div>
       </div>
     </Link>
