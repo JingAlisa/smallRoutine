@@ -86,7 +86,7 @@ export default class TeamDetail extends React.Component {
   }
 
   componentDidMount() {
-    console.log(this.state.teamId)
+    window.HWH5.navTitle({ title: '战队详情介绍' });
   }
 
   // 根据传入的从服务端获取的原始team数据，经过处理，更新state中的team数据
@@ -329,24 +329,24 @@ export default class TeamDetail extends React.Component {
                   {
                     // 若为创建者，则不显示申请按钮；若为申请者，则显示可用的申请按钮或灰色的'已申请'
                     (!(team.role && team.role.class === 'creater')) && (
-                      <span className="btn">
-                        <Button type="primary" size="small" onClick={ () => this.apply() } disabled={ !team.role ? '' : 'disabled' }>
-                          { !team.role ? '申请' : team.role.result  }
-                        </Button>
+                      <span>
+                        <button className="applyBtn" onClick={ () => this.apply() } disabled={ !team.role ? '' : 'disabled' }>
+                          { !team.role ? '申 请' : team.role.result  }
+                        </button>
                       </span>
                     )
                   }
                 </div>
-                <div className="listContent"><span>成功加入人数/战队上限人数:</span><span>{this.state.team.memberCount}/{this.state.team.memberMaxNumber}</span></div>
                 <div class="listContent">{this.state.team.description}</div>
+                <div className="listContent"><span>已加入/上限人数 : </span><span>{this.state.team.memberCount}/{this.state.team.memberMaxNumber}</span></div>
               </div>
 
           {
             (team.role && (team.role.class === 'creater' || team.role.result === '已加入')) ?
             (
-              <div className='weui-cells'>
-                <div className='weui-cell'>
-                  <div className='weui-cell__bd'>
+              <div className="monitorInformation">
+                <div>
+                  <div>
                     <p>队长
                       {
                         (('qq' in team.contact[0]) ? 'QQ' : ('wechat' in team.contact[0] ? '微信' : '电话')) + '：' + (('qq' in team.contact[0]) ? team.contact[0].qq : ('wechat' in team.contact[0] ? team.contact[0]['wechat'] : team.contact[0]['phone']))

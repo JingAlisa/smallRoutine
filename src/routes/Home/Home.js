@@ -152,7 +152,7 @@ export default class Home extends React.Component {
                 <Link className="boxStyleLi" to={item.pathName}>
                   <div className="boxContent">
                     <p>{item.title}</p>
-                    <p>{item.description}</p>
+                    <p>{item.description.length > 20 ? item.description.substring(0, 35)+'......' : item.description}</p>
                     <p>{item.applyNum}</p>
                   </div>
                 </Link> 

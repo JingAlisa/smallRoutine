@@ -82,18 +82,23 @@ export default class Message extends React.Component {
   }
 
   componentDidMount() {
+    window.HWH5.navTitle({ title: '校缘' });
   }
 
   render() {
+    console.log(this.getMsgs('creater'));
+    console.log(this.getMsgs('applicant'));
     return (
       <div>
         <div className="contentContainer">
           {/* <MsgList msgs={this.state.msgs_creater} kind='creater' />
           <MsgList msgs={this.state.msgs_applicant} kind='applicant' /> */}
-
-          <MsgList msgs={ this.getMsgs('applicant') } kind='applicant' />
+          {this.getMsgs('applicant').length === 0 ? '' : <MsgList msgs={ this.getMsgs('applicant') } kind='applicant' />}
+          {this.getMsgs('creater').length === 0 ? '' : <MsgList msgs={ this.getMsgs('creater') } kind='creater' />}
+          {this.getMsgs('known').length === 0 ? '' : <MsgList msgs={ this.getMsgs('known') } kind='known' />}
+          {/* <MsgList msgs={ this.getMsgs('applicant') } kind='applicant' />
           <MsgList msgs={ this.getMsgs('creater') } kind='creater' />
-          <MsgList msgs={ this.getMsgs('known') } kind='known' />
+          <MsgList msgs={ this.getMsgs('known') } kind='known' /> */}
         </div>
         <div className="tabbar"><TabBar /></div>
       </div>

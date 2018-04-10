@@ -70,6 +70,7 @@ export default class Teams extends React.Component {
   }
 
   componentDidMount() {
+    window.HWH5.navTitle({ title: '校缘' });
     let navbar = document.getElementsByClassName('navbar')[0];
     let self = this
     navbar.addEventListener('click', function (e) {

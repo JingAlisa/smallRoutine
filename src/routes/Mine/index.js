@@ -4,6 +4,7 @@ import './index.less';
 
 import TabBar from '../../components/TabBar';
 import { Link } from 'react-router-dom';
+import { userInfo } from '../../../config/debug.userInfo';
 import UserAvatar from '../../public/img/5M.jpg';
 
 export default class Mine extends React.Component {
@@ -12,8 +13,7 @@ export default class Mine extends React.Component {
   }
 
   componentDidMount() {
-    // 后台获取数据
-
+    window.HWH5.navTitle({ title: '校缘' });
   }
 
   render() {
@@ -21,7 +21,7 @@ export default class Mine extends React.Component {
       <div>
         <div className='userInfo'>
           <img className="userAvatar" src={ UserAvatar } />
-          <span className="userName">张三</span>
+          <span className="userName">{userInfo.name}</span>
         </div>
         <div className='weui-cells'>
           <Link className='weui-cell weui-cell_access' to={{ pathname: '/mine/public' }}>
