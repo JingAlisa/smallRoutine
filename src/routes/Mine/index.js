@@ -81,7 +81,7 @@ export default class Mine extends React.Component {
               }
             })
           }
-          <span className="userName">张三</span>
+          <span className="userName">{userInfo.name}</span>
         </div>
         <div className='weui-cells'>
           <Link className='weui-cell weui-cell_access' to={{ pathname: '/mine/public' }}>

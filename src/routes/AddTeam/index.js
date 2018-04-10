@@ -138,7 +138,7 @@ export default class AddTeam extends React.Component {
             </div>
           </div>
           <div className="weui-cell">
-            <div className="weui-cell__hd"><label class="weui-label">发布时长</label></div>
+            <div className="weui-cell__hd"><label class="weui-label">战队人数</label></div>
             <div className="weui-cell__bd">
               <Select value={this.state.memberMaxNumber} onChange={this.changeValue} name="memberMaxNumber" required>
                 <option value="1">1人</option>
@@ -237,8 +237,8 @@ export default class AddTeam extends React.Component {
                 let teamInState = this.state
                 let contact = []
                 if(teamInState.qq !== '')     contact.push({qq: teamInState.qq})
-                if(teamInState.wechat !== '') contact.push({qq: teamInState.wechat})
-                if(teamInState.phone !== '')  contact.push({qq: teamInState.phone})
+                if(teamInState.wechat !== '') contact.push({wechat: teamInState.wechat})
+                if(teamInState.phone !== '')  contact.push({phone: teamInState.phone})
                 let newTeam = {
                   title: teamInState.title,
                   description: teamInState.description,

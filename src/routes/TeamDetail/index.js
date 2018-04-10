@@ -199,9 +199,9 @@ export default class TeamDetail extends React.Component {
 
   getBtnClass(applicant, createrUid) {
     if(createrUid === this.state.userUid && !applicant.judgment) {
-      return 'weui-swiped-btn weui-swiped-btn_warn'
+      return 'resultBtn weui-swiped-btn weui-swiped-btn_warn'
     } else {
-      return 'weui-swiped-btn weui-swiped-btn_default'
+      return 'resultBtn weui-swiped-btn weui-swiped-btn_default '
     }
   }
 
@@ -385,17 +385,17 @@ export default class TeamDetail extends React.Component {
                       </div>
                     </div>
                     <div className='weui-cell weui-cell_swiped' key={ index }>
-                      <div className='weui-cell__bd' style={{ 'transform': 'translateX(-68px)' }} >
+                      <div className='weui-cell__bd' style={{ 'width': '85%' }} >
                         <div className='weui-cell'>
                           <div className='weui-cell__bd'>
-                            <p> </p>
-                          </div>
-                          <div className="weui-cell__ft">
                             { applicant.application.info  }
                           </div>
+                          {/* <div className="weui-cell__ft">
+                            
+                          </div> */}
                         </div>
                       </div>
-                      <div className="weui-cell__ft">
+                      <div className="weui-cell__ft resultBtn">
                         <a className={ applicant.btnClass } href="javascript:void(0)" onClick={ () => this.clickBtn(applicant) }>
                           { applicant.btnText }
                         </a>
@@ -424,7 +424,7 @@ export default class TeamDetail extends React.Component {
                       </select>
                     </div>
                     <div className="weui-cell__bd">
-                      <input type="text" className="weui-input" value={this.state.title} onChange={this.changeValue} name="title" placeholder="请输入战队名称" required />
+                      <input type="text" className="weui-input" value={this.state.title} onChange={this.changeValue} name="title" id="contactText" placeholder="请输入联系方式" required />
                     </div>
                   </div>
                   <div className="weui-cell">
