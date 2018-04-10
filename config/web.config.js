@@ -11,14 +11,14 @@ if (process.env.NODE_ENV === 'production') {
 } else if (process.env.NODE_ENV === 'uat') {
   configs = {
     prefix: {
-      url1: 'http://xx.xx.com/getData'
+      url1: 'https://www.hooxz.cn'
     }
   };
 } else {
   /* 开发环境 */
   configs = {
     prefix: {
-      url1: `http://xx.xx.com:3000/getData`
+      url1: `http://localhost:3000`
     }
   };
 }

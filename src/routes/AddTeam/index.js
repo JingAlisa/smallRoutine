@@ -1,5 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
+import { urls } from '../../../config/web.config';
+import { userInfo } from '../../../config/debug.userInfo';
+import Back from '../../public/img/icon/back.png';
 import './index.less';
 import createHistory from 'history/createHashHistory';
 const history = createHistory();
@@ -10,10 +14,8 @@ import {
   CellsTitle,
   CellHeader,
   CellBody,
-  CellFooter,
   Form,
   FormCell,
-  Icon,
   Input,
   Label,
   TextArea,
@@ -24,6 +26,8 @@ export default class AddTeam extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      userUid: userInfo.uid,
+      userName: userInfo.name,
       showWarnTips: false,
       showSuccessTips: false,
       category: 'study',
@@ -39,10 +43,25 @@ export default class AddTeam extends React.Component {
     this.changeValue = this.changeValue.bind(this);
   }
 
-  componentWillMount() {
+  async componentWillMount() {
+    const userInfo = await new Promise((resolve, reject)=>{
+      window.HWH5.userInfo().then((data) => {
+        resolve(data);
+      }).catch((error) => {
+        console.log('获取用户信息失败')
+        reject(error)
+      });
+    });
+    if(userInfo && userInfo.uid) {
+      this.setState({
+        userUid: userInfo.uid,
+        userName: userInfo.userNameZH
+      })
+    }  
   }
 
   componentDidMount() {
+    window.HWH5.navTitle({ title: '创建新战队' });
   }
   // 给每个表单添加change事件
   changeValue(e) {
@@ -101,12 +120,11 @@ export default class AddTeam extends React.Component {
   render() {
     return (
       <Page className="input" title="Input" subTitle="表单输入">
-        <div><img src="../assets/images/3dPaVX1fcS.png" alt="back" onClick={()=>this.props.history.goBack()} /></div>
         <CellsTitle>请选择战队类别</CellsTitle>
         <Form>
           <FormCell select>
             <CellBody>
-              <Select defaultValue="study" value={this.state.category} onChange={this.changeValue} name="category" required>
+              <Select value={this.state.category} className="categorySelect" onChange={this.changeValue} name="category" required>
                 <option value="study">学习类</option>
                 <option value="life">生活类</option>
                 <option value="friends">交友类</option>
@@ -115,7 +133,44 @@ export default class AddTeam extends React.Component {
           </FormCell>
         </Form>
 
-        <CellsTitle>战队信息</CellsTitle>
+        <div className="weui-cells__title">战队信息</div>
+        <div className="weui-cells weui-cells_form">
+          <div className="weui-cell">
+            <div className="weui-cell__hd"><label className="weui-label">名称</label></div>
+            <div className="weui-cell__bd">
+              <input type="text" className="weui-input" value={this.state.title} onChange={this.changeValue} name="title" placeholder="请输入战队名称" required />
+            </div>
+          </div>
+          <div className="weui-cell">
+            <div className="weui-cell__hd"><label className="weui-label">发布时长</label></div>
+            <div className="weui-cell__bd">
+              <Select value={this.state.preserveMaxDays} onChange={this.changeValue} name="preserveMaxDays" required>
+                <option value="3">3天</option>
+                <option value="5">5天</option>
+                <option value="7">7天</option>
+              </Select>
+            </div>
+          </div>
+          <div className="weui-cell">
+            <div className="weui-cell__hd"><label className="weui-label">战队人数</label></div>
+            <div className="weui-cell__bd">
+              <Select value={this.state.memberMaxNumber} onChange={this.changeValue} name="memberMaxNumber" required>
+                <option value="1">1人</option>
+                <option value="2">2人</option>
+                <option value="3">3人</option>
+                <option value="4">4人</option>
+                <option value="5">5人</option>
+              </Select>
+            </div>
+          </div>
+          <div className="weui-cell">
+            <div className="weui-cell__bd">
+            <TextArea value={this.state.description} onChange={this.changeValue} name="description" placeholder="请简单介绍战队信息，以便大家积极加入，不超过500字" rows="3" maxLength={500} />
+            </div>
+          </div>
+        </div>
+
+        {/* <CellsTitle>战队信息</CellsTitle>
         <Form>
           <FormCell>
             <CellHeader>
@@ -130,7 +185,7 @@ export default class AddTeam extends React.Component {
               <Label>发布时长</Label>
             </CellHeader>
             <CellBody>
-              <Select defaultValue="3" value={this.state.preserveMaxDays} onChange={this.changeValue} name="preserveMaxDays" required>
+              <Select value={this.state.preserveMaxDays} onChange={this.changeValue} name="preserveMaxDays" required>
                 <option value="3">3天</option>
                 <option value="5">5天</option>
                 <option value="7">7天</option>
@@ -139,10 +194,10 @@ export default class AddTeam extends React.Component {
           </FormCell>
           <FormCell select>
             <CellHeader>
-              <Label>上线人数</Label>
+              <Label>上限人数</Label>
             </CellHeader>
             <CellBody>
-              <Select defaultValue="3" value={this.state.memberMaxNumber} onChange={this.changeValue} name="memberMaxNumber" required>
+              <Select value={this.state.memberMaxNumber} onChange={this.changeValue} name="memberMaxNumber" required>
                 <option value="1">1人</option>
                 <option value="2">2人</option>
                 <option value="3">3人</option>
@@ -153,50 +208,32 @@ export default class AddTeam extends React.Component {
           </FormCell>
           <FormCell>
             <CellBody>
-              <TextArea value={this.state.description} onChange={this.changeValue} name="description" placeholder="请简单介绍战队信息，以便大家积极加入，不超过500字" rows="3" maxLength="500" />
+              <TextArea value={this.state.description} onChange={this.changeValue} name="description" placeholder="请简单介绍战队信息，以便大家积极加入，不超过500字" rows="3" maxLength={500} />
             </CellBody>
           </FormCell>
-        </Form>
+        </Form> */}
 
-        <CellsTitle>联系方式(至少填写一项)</CellsTitle>
-        <Form>
-          <FormCell>
-            <CellHeader>
-              <Label>QQ</Label>
-            </CellHeader>
-            <CellBody>
-              <Input type="tel" value={this.state.qq} onChange={this.changeValue} name="qq" placeholder="请输入qq号码" />
-            </CellBody>
-          </FormCell>
-          <FormCell>
-            <CellHeader>
-              <Label>微信</Label>
-            </CellHeader>
-            <CellBody>
-              <Input type="tel" value={this.state.wechat} onChange={this.changeValue} name="wechat" placeholder="请输入微信号码" />
-            </CellBody>
-          </FormCell>
-          <FormCell>
-            <CellHeader>
-              <Label>电话</Label>
-            </CellHeader>
-            <CellBody>
-              <Input type="tel" value={this.state.phone} onChange={this.changeValue} name="phone" placeholder="请输入电话号码" />
-            </CellBody>
-          </FormCell>
-        </Form>
-
-        <CellsTitle>申请人是否需要您的审批？</CellsTitle>
-        <Form>
-          <FormCell select>
-            <CellBody>
-              <Select defaultValue="no" value={this.state.status} onChange={this.changeValue} name="status" required>
-                <option value="no">NO</option>
-                <option value="yes">YES</option>
-              </Select>
-            </CellBody>
-          </FormCell>
-        </Form>
+        <div className="weui-cells__title">联系方式(至少填写一项)</div>
+        <div className="weui-cells weui-cells_form">
+          <div className="weui-cell">
+            <div className="weui-cell__hd"><label className="weui-label">QQ</label></div>
+            <div className="weui-cell__bd">
+              <input type="number" className="weui-input" value={this.state.qq} onChange={this.changeValue} name="qq" placeholder="请输入qq号码" />
+            </div>
+          </div>
+          <div className="weui-cell">
+            <div className="weui-cell__hd"><label className="weui-label">微信</label></div>
+            <div className="weui-cell__bd">
+              <input type="text" pattern='[a-zA-Z][0-9]*' className="weui-input" value={this.state.wechat} onChange={this.changeValue} name="wechat" placeholder="请输入微信号" />
+            </div>
+          </div>
+          <div className="weui-cell">
+            <div className="weui-cell__hd"><label className="weui-label">电话</label></div>
+            <div className="weui-cell__bd">
+              <input type="tel" className="weui-input" value={this.state.phone} onChange={this.changeValue} name="phone" placeholder="请输入手机号" />
+            </div>
+          </div>
+        </div>
 
         <ButtonArea>
           <Button
@@ -204,13 +241,64 @@ export default class AddTeam extends React.Component {
             onClick={e=> {
               // 获取增加的信息
               console.log(this.state);
-              if (this.state.title === '' || (this.state.qq && this.state.wechat && this.state.phone)) {
+              if (this.state.title === '' || !(this.state.qq || this.state.wechat || this.state.phone)) {
                 this.setState({ showWarnTips: true });
                 window.setTimeout(e=> this.setState({ showWarnTips: !this.state.showWarnTips }), 2000);
               } else {
                 this.setState({ showSuccessTips: true });
                 window.setTimeout(e=> this.setState({ showSuccessTips: !this.state.showSuccessTips }), 2000);
                 // 保存到后台数据库,并跳转到首页
+                let teamInState = this.state
+                let contact = []
+                if(teamInState.qq !== '')     contact.push({qq: teamInState.qq})
+                if(teamInState.wechat !== '') contact.push({wechat: teamInState.wechat})
+                if(teamInState.phone !== '')  contact.push({phone: teamInState.phone})
+                let newTeam = {
+                  title: teamInState.title,
+                  description: teamInState.description,
+                  category: teamInState.category,
+                  createrUid: teamInState.userUid,
+                  createrName: teamInState.userName,
+                  preserveMaxDays: teamInState.preserveMaxDays,
+                  memberMaxNumber: teamInState.memberMaxNumber,
+                  contact: contact
+                }
+
+                const url = `${urls.graphql}/welink/v1/new`
+
+                window.HWH5.fetchInternet(url, { 
+                  method: 'post', 
+                  headers: { 
+                    'Content-Type' : 'application/json' 
+                  }, 
+                  body: JSON.stringify({
+                    ...newTeam
+                  }),
+                  timeout: 6000 
+                }).then((res) => {
+                  res.json().then((reply) => {
+                    console.log(reply)
+                    if (!reply.code) {
+                      // console.log('成功提交')
+                      // console.log(reply)
+                      // // 刷新页面
+                      // let team = reply.data.team
+                      // if (team.createrUid === this.state.userUid) {
+                      //   team.role = 'creater'
+                      // }
+                      // team.applyingList.map((applicant, index) => {
+                      //   applicant.dialogShow = 'none'
+                      //   applicant.btnText = this.getBtnText(applicant, team.createrUid)
+                      //   applicant.btnClass = this.getBtnClass(applicant , team.createrUid)
+                      // })
+                      // this.setState({
+                      //   team: { ...team }
+                      // })
+                    }
+                  });
+                });
+
+
                 // this.context.router.push('/');
                 setTimeout(()=>history.push('/'), 2000);
 
@@ -221,7 +309,7 @@ export default class AddTeam extends React.Component {
               }
             }}
           >
-              OK
+              创  建
           </Button>
         </ButtonArea>
         {/* 提示完善信息的地方 */}
