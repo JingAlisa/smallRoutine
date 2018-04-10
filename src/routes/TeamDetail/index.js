@@ -369,7 +369,7 @@ export default class TeamDetail extends React.Component {
               <div className='weui-cells'>
               {
                 applyingList.map((applicant, index) => (
-                  <div key={ index }>
+                  <div key={ index } className="eachMessage">
                     <div className='weui-cell'>
                       <div className='weui-cell__bd'>
                         <p>{ applicant.name || applicant.uid }</p>

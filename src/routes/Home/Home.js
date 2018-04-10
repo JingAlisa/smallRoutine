@@ -79,16 +79,16 @@ export default class Home extends React.Component {
             if (item.team === null) {
               dataList[i] = {
                 pathName: '/team',
-                title: '在校缘与你相聚',
-                applyNum: '',
-                description: '校缘致力于为大家提供一个交流的机会，让每个有想法的人不再孤军奋战'
+                title: '在校缘与你相遇',
+                slogan: '校缘致力于为大家提供一个交流的机会，',
+                description: '让每个有想法的人不再孤军奋战'
               };
             } else {
               dataList[i] = {
                 id: item.team._id,
                 pathName: '/team/'+item.team._id,
                 title: item.team.title,
-                applyNum: '来不及解释了，快上车吧！',
+                slogan: '来不及解释了，快上车吧！',
                 description: item.team.description
               };
             }
@@ -152,8 +152,8 @@ export default class Home extends React.Component {
                 <Link className="boxStyleLi" to={item.pathName}>
                   <div className="boxContent">
                     <p>{item.title}</p>
-                    <p>{item.description.length > 20 ? item.description.substring(0, 35)+'......' : item.description}</p>
-                    <p>{item.applyNum}</p>
+                    <p>{item.description.length > 20 ? item.description.substring(0, 25)+'......' : item.description}</p>
+                    <p>{item.slogan}</p>
                   </div>
                 </Link> 
               ))
