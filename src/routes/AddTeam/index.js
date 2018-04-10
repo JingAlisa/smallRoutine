@@ -227,7 +227,7 @@ export default class AddTeam extends React.Component {
             onClick={e=> {
               // 获取增加的信息
               console.log(this.state);
-              if (this.state.title === '' || (this.state.qq && this.state.wechat && this.state.phone)) {
+              if (this.state.title === '' || !(this.state.qq || this.state.wechat || this.state.phone)) {
                 this.setState({ showWarnTips: true });
                 window.setTimeout(e=> this.setState({ showWarnTips: !this.state.showWarnTips }), 2000);
               } else {
