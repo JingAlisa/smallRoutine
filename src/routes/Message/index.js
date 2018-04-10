@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import './index.less';
+import TabBar from '../../components/TabBar';
+import MsgList from '../../components/MsgList'
 
 import { urls } from '../../../config/web.config';
 import { userInfo } from '../../../config/debug.userInfo';
+import EmptyWatermark from '../../public/img/empty.png';
 
-import TabBar from '../../components/TabBar';
-import MsgList from '../../components/MsgList'
 
 export default class Message extends React.Component {
   constructor() {
@@ -91,15 +92,26 @@ export default class Message extends React.Component {
     return (
       <div>
         <div className="contentContainer">
-          {/* <MsgList msgs={this.state.msgs_creater} kind='creater' />
-          <MsgList msgs={this.state.msgs_applicant} kind='applicant' /> */}
-          {this.getMsgs('applicant').length === 0 ? '' : <MsgList msgs={ this.getMsgs('applicant') } kind='applicant' />}
-          {this.getMsgs('creater').length === 0 ? '' : <MsgList msgs={ this.getMsgs('creater') } kind='creater' />}
-          {this.getMsgs('known').length === 0 ? '' : <MsgList msgs={ this.getMsgs('known') } kind='known' />}
-          {/* <MsgList msgs={ this.getMsgs('applicant') } kind='applicant' />
-          <MsgList msgs={ this.getMsgs('creater') } kind='creater' />
-          <MsgList msgs={ this.getMsgs('known') } kind='known' /> */}
+          {
+            (this.state.msgs_creater.length === 0 && this.state.msgs_applicant.length === 0) ? (
+              <div className='EmptyWatermarkBox'>
+                <img className='EmptyWatermark' src={ EmptyWatermark } />
+              </div>
+
+            ) : (
+              <div>
+                {this.getMsgs('applicant').length === 0 ? '' : <MsgList msgs={ this.getMsgs('applicant') } kind='applicant' />}
+                {this.getMsgs('creater').length === 0 ? '' : <MsgList msgs={ this.getMsgs('creater') } kind='creater' />}
+                {this.getMsgs('known').length === 0 ? '' : <MsgList msgs={ this.getMsgs('known') } kind='known' />}
+                {/* <MsgList msgs={ this.getMsgs('applicant') } kind='applicant' />
+                <MsgList msgs={ this.getMsgs('creater') } kind='creater' />
+                <MsgList msgs={ this.getMsgs('known') } kind='known' /> */}
+              </div>
+            )
+          }
+
         </div>
+
         <div className="tabbar"><TabBar /></div>
       </div>
     );

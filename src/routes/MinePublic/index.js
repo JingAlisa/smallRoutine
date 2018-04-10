@@ -3,6 +3,9 @@ import PropTypes from 'prop-types';
 
 import { urls } from '../../../config/web.config';
 import { userInfo } from '../../../config/debug.userInfo';
+
+import EmptyWatermark from '../../public/img/empty.png';
+
 import './index.less';
 import List from '../../components/List';
 export default class MinePublic extends React.Component {
@@ -50,11 +53,19 @@ export default class MinePublic extends React.Component {
   }
 
   render() {
-    return (
-      <div>
-        <List className="list" listData={ this.state.list } page="public" />
-      </div>
-    );
+    if(this.state.list.length !== 0) {
+      return (
+        <div>
+          <List className="list" listData={ this.state.list } page="public" />
+        </div>
+      );
+    } else {
+      return (
+        <div className='EmptyWatermarkBox'>
+          <img className='EmptyWatermark' src={ EmptyWatermark } />
+        </div>
+      );
+    }
   }
 };
 

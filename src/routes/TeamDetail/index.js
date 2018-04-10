@@ -338,15 +338,15 @@ export default class TeamDetail extends React.Component {
                   }
                 </div>
                 <div class="listContent">{this.state.team.description}</div>
-                <div className="listContent"><span>已加入/上限人数 : </span><span>{this.state.team.memberCount}/{this.state.team.memberMaxNumber}</span></div>
+                <div className="listContent"><span>已加入/上限人数 ： {this.state.team.memberCount}/{this.state.team.memberMaxNumber}</span></div>
               </div>
 
           {
             (team.role && (team.role.class === 'creater' || team.role.result === '已加入')) ?
             (
-              <div className="monitorInformation">
-                <div>
-                  <div>
+              <div className='weui-cells'>
+                <div className='weui-cell'>
+                  <div className='weui-cell__bd'>
                     <p>队长
                       {
                         (('qq' in team.contact[0]) ? 'QQ' : ('wechat' in team.contact[0] ? '微信' : '电话')) + '：' + (('qq' in team.contact[0]) ? team.contact[0].qq : ('wechat' in team.contact[0] ? team.contact[0]['wechat'] : team.contact[0]['phone']))
@@ -411,65 +411,66 @@ export default class TeamDetail extends React.Component {
               }
               </div>
             ) : (
-              // 未申请者填写申请信息
-              <Panel>
-                <PanelHeader>个人信息介绍</PanelHeader>
-                <PanelBody>
-                  <MediaBox>
-                    <div className="weui-cell weui-cell_select weui-cell_select-before">
-                      <div className="weui-cell__hd">
-                        <select className="weui-select" defaultValue="wechat" id="contactSelecter">
-                          <option value="qq">QQ</option>
-                          <option value="wechat">微信</option>
-                          <option value="phone">电话</option>
-                        </select>
-                      </div>
-                      <div className="weui-cell__bd">
-                        <input className="weui-input" type="text" pattern="[0-9][a-zA-Z]" id="contactText" placeholder="请输入联系方式"/>
-                      </div>
-                    </div>
-                    <div className="weui-cells weui-cells_form">
-                      <div className="weui-cell">
-                        <div className="weui-cell__bd">
-                          <TextArea className="weui-textarea textAreaInput" placeholder="请大胆的展示自己，增加申请成功几率，不超过500字" rows="3" id="applyInfoTextArea" />
-                        </div>
-                      </div>
-                    </div>
 
-                  </MediaBox>
-                  {/* <Form>
-                    <FormCell>
-                      <CellHeader>
-                        <Select defaultValue="wechat" required id="contactSelecter">
-                          <option value="qq">QQ</option>
-                          <option value="wechat">微信</option>
-                          <option value="phone">电话</option>
-                        </Select>
-                      </CellHeader>
-                      <CellBody>
-                        <Input type="text" placeholder="请输入联系方式" id="contactText" />
-                      </CellBody>
-                    </FormCell>
-                    <FormCell>
-                      <CellBody>
-                        <TextArea placeholder="请大胆的展示自己，增加申请成功几率，不超过500字" rows="3" id="applyInfoTextArea" />
-                      </CellBody>
-                    </FormCell> */}
-                    <Form>
-                    
-                    {
-                      this.state.warningNotComplete === true ? (
-                        <FormCell>
-                          <CellBody style={{ color: 'red' }}>
-                            提示：请填写所有项目！
-                          </CellBody>
-                        </FormCell>
-                      ) : (<a></a>)
-                    }
-                    
-                  </Form>
-                </PanelBody>
-              </Panel>
+              <div>
+                <div className="weui-cells__title">个人信息介绍</div>
+                <div className="weui-cells">
+                  <div className="weui-cell weui-cell_select weui-cell_select-before">
+                    <div className="weui-cell__hd">
+                      <select className="weui-select" id="contactSelecter">
+                        <option value="qq">QQ</option>
+                        <option value="wechat">微信</option>
+                        <option value="phone">电话</option>
+                      </select>
+                    </div>
+                    <div className="weui-cell__bd">
+                      <input type="text" className="weui-input" value={this.state.title} onChange={this.changeValue} name="title" placeholder="请输入战队名称" required />
+                    </div>
+                  </div>
+                  <div className="weui-cell">
+                    <div className="weui-cell__bd">
+                      <TextArea className="weui-textarea textAreaInput" placeholder="请大胆的展示自己，增加申请成功几率，不超过500字" rows="3" id="applyInfoTextArea" maxLength={500} />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              // 未申请者填写申请信息
+              // <Panel>
+              //   <PanelHeader>个人信息介绍</PanelHeader>
+              //   <PanelBody>
+              //     <MediaBox>
+              //       <div className="weui-cells">
+              //         <div className="weui-cell weui-cell_select weui-cell_select-before">
+              //           <div className="weui-cell__hd">
+              //             <select className="weui-select" id="contactSelecter">
+              //               <option value="qq">QQ</option>
+              //               <option value="wechat">微信</option>
+              //               <option value="phone">电话</option>
+              //             </select>
+              //           </div>
+              //           <div className="weui-cell__bd">
+              //             <input type="text" className="weui-input" value={this.state.title} onChange={this.changeValue} name="title" placeholder="请输入战队名称" required />
+              //           </div>
+              //         </div>
+              //         <div className="weui-cell">
+              //           <div className="weui-cell__bd">
+              //             <TextArea className="weui-textarea textAreaInput" placeholder="请大胆的展示自己，增加申请成功几率，不超过500字" rows="3" id="applyInfoTextArea" />
+              //           </div>
+              //         </div>
+              //       </div>
+              //     </MediaBox> 
+              //       {
+              //         this.state.warningNotComplete === true ? (
+              //           <FormCell>
+              //             <CellBody style={{ color: 'red' }}>
+              //               提示：请填写所有项目！
+              //             </CellBody>
+              //           </FormCell>
+              //         ) : (<a></a>)
+              //       }
+              //   </PanelBody>
+              // </Panel>
             )  
             
           }
