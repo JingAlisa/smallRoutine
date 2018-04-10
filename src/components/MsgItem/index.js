@@ -54,17 +54,14 @@ export default class ItemDetail extends React.Component {
           <div className='weui-cell__ft'>{ '申请加入<' + msg.teamTitle + '>' }</div>
         </div>
         <div className='weui-cell weui-cell_swiped'>
-          <div className='weui-cell__bd' style={{ 'transform': 'translateX(-68px)' }} >
+          <div className='weui-cell__bd' style={{ 'width': '80%' }} >
             <div className='weui-cell'>
-              <div className='weui-cell__bd'>
-                <p> </p>
-              </div>
-              <div className="weui-cell__ft">
+              <div className='msgInfo weui-cell__bd'>
                 { msg.info }
               </div>
             </div>
           </div>
-          <div className="weui-cell__ft">
+          <div className="weui-cell__ft resultBtn" style={{ 'width': '20%' }}>
             <a className={ btnClass } href="javascript:void(0)" onClick={ () => this.handleClick(msg.teamId) }>
               { btnText }
             </a>

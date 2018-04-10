@@ -8,7 +8,6 @@ import { urls } from '../../../config/web.config';
 import { userInfo } from '../../../config/debug.userInfo';
 import EmptyWatermark from '../../public/img/empty.png';
 
-
 export default class Message extends React.Component {
   constructor() {
     super();

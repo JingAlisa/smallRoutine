@@ -88,7 +88,7 @@ export default class Home extends React.Component {
                 id: item.team._id,
                 pathName: '/team/'+item.team._id,
                 title: item.team.title,
-                applyNum: '已经有'+item.team.memberCount+'个小伙伴加入我们了，你也来加入我们吧！',
+                applyNum: '来不及解释了，快上车吧！',
                 description: item.team.description
               };
             }

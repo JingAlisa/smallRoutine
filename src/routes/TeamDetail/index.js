@@ -199,9 +199,9 @@ export default class TeamDetail extends React.Component {
 
   getBtnClass(applicant, createrUid) {
     if(createrUid === this.state.userUid && !applicant.judgment) {
-      return 'resultBtn weui-swiped-btn weui-swiped-btn_warn'
+      return 'weui-swiped-btn weui-swiped-btn_warn'
     } else {
-      return 'resultBtn weui-swiped-btn weui-swiped-btn_default '
+      return 'weui-swiped-btn weui-swiped-btn_default '
     }
   }
 
@@ -337,7 +337,7 @@ export default class TeamDetail extends React.Component {
                     )
                   }
                 </div>
-                <div class="listContent">{this.state.team.description}</div>
+                <div className="listContent">{this.state.team.description}</div>
                 <div className="listContent"><span>已加入/上限人数 ： {this.state.team.memberCount}/{this.state.team.memberMaxNumber}</span></div>
               </div>
 
@@ -385,21 +385,21 @@ export default class TeamDetail extends React.Component {
                       </div>
                     </div>
                     <div className='weui-cell weui-cell_swiped' key={ index }>
-                      <div className='weui-cell__bd' style={{ 'width': '85%' }} >
+                      <div className='weui-cell__bd' style={{ 'width': '80%' }} >
                         <div className='weui-cell'>
-                          <div className='weui-cell__bd'>
+                          <div className='msgInfo weui-cell__bd'>
                             { applicant.application.info  }
                           </div>
-                          {/* <div className="weui-cell__ft">
-                            
-                          </div> */}
                         </div>
                       </div>
-                      <div className="weui-cell__ft resultBtn">
-                        <a className={ applicant.btnClass } href="javascript:void(0)" onClick={ () => this.clickBtn(applicant) }>
-                          { applicant.btnText }
-                        </a>
+                      <div className="weui-cell__ft resultBtn" style={{ 'width': '20%' }}>
+                        <div className="weui-cell__ft" >
+                          <a className={ applicant.btnClass } href="javascript:void(0)" onClick={ () => this.clickBtn(applicant) }>
+                            { applicant.btnText }
+                          </a>
+                        </div>
                       </div>
+                      
                     </div>
                     <JudgeDialog 
                       applicant={ applicant } 
