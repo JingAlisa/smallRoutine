@@ -43,7 +43,21 @@ export default class AddTeam extends React.Component {
     this.changeValue = this.changeValue.bind(this);
   }
 
-  componentWillMount() {
+  async componentWillMount() {
+    const userInfo = await new Promise((resolve, reject)=>{
+      window.HWH5.userInfo().then((data) => {
+        resolve(data);
+      }).catch((error) => {
+        console.log('获取用户信息失败')
+        reject(error)
+      });
+    });
+    if(userInfo && userInfo.uid) {
+      this.setState({
+        userUid: userInfo.uid,
+        userName: userInfo.userNameZH
+      })
+    }  
   }
 
   componentDidMount() {
@@ -122,13 +136,13 @@ export default class AddTeam extends React.Component {
         <div className="weui-cells__title">战队信息</div>
         <div className="weui-cells weui-cells_form">
           <div className="weui-cell">
-            <div className="weui-cell__hd"><label class="weui-label">名称</label></div>
+            <div className="weui-cell__hd"><label className="weui-label">名称</label></div>
             <div className="weui-cell__bd">
               <input type="text" className="weui-input" value={this.state.title} onChange={this.changeValue} name="title" placeholder="请输入战队名称" required />
             </div>
           </div>
           <div className="weui-cell">
-            <div className="weui-cell__hd"><label class="weui-label">发布时长</label></div>
+            <div className="weui-cell__hd"><label className="weui-label">发布时长</label></div>
             <div className="weui-cell__bd">
               <Select value={this.state.preserveMaxDays} onChange={this.changeValue} name="preserveMaxDays" required>
                 <option value="3">3天</option>
@@ -138,14 +152,14 @@ export default class AddTeam extends React.Component {
             </div>
           </div>
           <div className="weui-cell">
-            <div className="weui-cell__hd"><label class="weui-label">战队人数</label></div>
+            <div className="weui-cell__hd"><label className="weui-label">战队人数</label></div>
             <div className="weui-cell__bd">
               <Select value={this.state.memberMaxNumber} onChange={this.changeValue} name="memberMaxNumber" required>
                 <option value="1">1人</option>
                 <option value="2">2人</option>
                 <option value="3">3人</option>
                 <option value="4">4人</option>
-                <option value="0">不限人数</option>
+                <option value="5">5人</option>
               </Select>
             </div>
           </div>
@@ -202,19 +216,19 @@ export default class AddTeam extends React.Component {
         <div className="weui-cells__title">联系方式(至少填写一项)</div>
         <div className="weui-cells weui-cells_form">
           <div className="weui-cell">
-            <div className="weui-cell__hd"><label class="weui-label">QQ</label></div>
+            <div className="weui-cell__hd"><label className="weui-label">QQ</label></div>
             <div className="weui-cell__bd">
               <input type="number" className="weui-input" value={this.state.qq} onChange={this.changeValue} name="qq" placeholder="请输入qq号码" />
             </div>
           </div>
           <div className="weui-cell">
-            <div className="weui-cell__hd"><label class="weui-label">微信</label></div>
+            <div className="weui-cell__hd"><label className="weui-label">微信</label></div>
             <div className="weui-cell__bd">
               <input type="text" pattern='[a-zA-Z][0-9]*' className="weui-input" value={this.state.wechat} onChange={this.changeValue} name="wechat" placeholder="请输入微信号" />
             </div>
           </div>
           <div className="weui-cell">
-            <div className="weui-cell__hd"><label class="weui-label">电话</label></div>
+            <div className="weui-cell__hd"><label className="weui-label">电话</label></div>
             <div className="weui-cell__bd">
               <input type="tel" className="weui-input" value={this.state.phone} onChange={this.changeValue} name="phone" placeholder="请输入手机号" />
             </div>

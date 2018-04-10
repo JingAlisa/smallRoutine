@@ -39,7 +39,23 @@ export default class TeamDetail extends React.Component {
     // this.apply = this.apply.bindActionCreators(this)
   }
 
-  componentWillMount() {
+  async componentWillMount() {
+
+    const userInfo = await new Promise((resolve, reject)=>{
+      window.HWH5.userInfo().then((data) => {
+        resolve(data);
+      }).catch((error) => {
+        console.log('获取用户信息失败')
+        reject(error)
+      });
+    });
+    if(userInfo && userInfo.uid) {
+      this.setState({
+        userUid: userInfo.uid,
+        userName: userInfo.userNameZH
+      })
+    }  
+
     const teamId = this.props.match.params.id
     const url = `${urls.graphql}/welink/v1/team/${ teamId }`
 
@@ -432,26 +448,54 @@ export default class TeamDetail extends React.Component {
                       <TextArea className="weui-textarea textAreaInput" placeholder="请大胆的展示自己，增加申请成功几率，不超过500字" rows="3" id="applyInfoTextArea" maxLength={500} />
                     </div>
                   </div>
-                </div>
-                {
-                this.state.warningNotComplete === true ? (
-                <FormCell>
-                  <CellBody style={{ 'color': 'red' }}>
-                    提示：请填写联系方式并简单介绍自己！
-                    <div style={{ 'display': 'none' }}>
-                    {
-                      setTimeout(() => {
-                        this.setState({
-                          warningNotComplete:false
-                        })
-                      }, 2000)
+                  {
+                      this.state.warningNotComplete === true ? (
+                        <FormCell>
+                          <CellBody style={{ color: 'red' }}>
+                            提示：请填写所有项目！
+                          </CellBody>
+                        </FormCell>
+                      ) : (<a></a>)
                     }
-                    </div>
-                  </CellBody>
-                </FormCell>
-                ) : (<a></ a>)
-                }
+                </div>
               </div>
+
+              // 未申请者填写申请信息
+              // <Panel>
+              //   <PanelHeader>个人信息介绍</PanelHeader>
+              //   <PanelBody>
+              //     <MediaBox>
+              //       <div className="weui-cells">
+              //         <div className="weui-cell weui-cell_select weui-cell_select-before">
+              //           <div className="weui-cell__hd">
+              //             <select className="weui-select" id="contactSelecter">
+              //               <option value="qq">QQ</option>
+              //               <option value="wechat">微信</option>
+              //               <option value="phone">电话</option>
+              //             </select>
+              //           </div>
+              //           <div className="weui-cell__bd">
+              //             <input type="text" className="weui-input" value={this.state.title} onChange={this.changeValue} name="title" placeholder="请输入战队名称" required />
+              //           </div>
+              //         </div>
+              //         <div className="weui-cell">
+              //           <div className="weui-cell__bd">
+              //             <TextArea className="weui-textarea textAreaInput" placeholder="请大胆的展示自己，增加申请成功几率，不超过500字" rows="3" id="applyInfoTextArea" />
+              //           </div>
+              //         </div>
+              //       </div>
+              //     </MediaBox> 
+                    // {
+                    //   this.state.warningNotComplete === true ? (
+                    //     <FormCell>
+                    //       <CellBody style={{ color: 'red' }}>
+                    //         提示：请填写所有项目！
+                    //       </CellBody>
+                    //     </FormCell>
+                    //   ) : (<a></a>)
+                    // }
+              //   </PanelBody>
+              // </Panel>
             )  
             
           }

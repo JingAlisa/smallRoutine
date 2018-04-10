@@ -17,7 +17,23 @@ export default class MineApply extends React.Component {
     }
   }
 
-  componentWillMount() {
+  async componentWillMount() {
+
+    const userInfo = await new Promise((resolve, reject)=>{
+      window.HWH5.userInfo().then((data) => {
+        resolve(data);
+      }).catch((error) => {
+        console.log('获取用户信息失败')
+        reject(error)
+      });
+    });
+    if(userInfo && userInfo.uid) {
+      this.setState({
+        userUid: userInfo.uid,
+        userName: userInfo.userNameZH
+      })
+    }
+
     const _id = this.state.userUid
     const url = `${urls.graphql}/welink/v1/teams/${_id}/apply`
 
@@ -46,6 +62,7 @@ export default class MineApply extends React.Component {
         }
       });
     });
+      
   }
 
   componentDidMount() {

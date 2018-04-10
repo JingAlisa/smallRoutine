@@ -19,7 +19,22 @@ export default class Message extends React.Component {
     }
   }
 
-  componentWillMount() {
+  async componentWillMount() {
+
+    const userInfo = await new Promise((resolve, reject)=>{
+      window.HWH5.userInfo().then((data) => {
+        resolve(data);
+      }).catch((error) => {
+        console.log('获取用户信息失败')
+        reject(error)
+      });
+    });
+    if(userInfo && userInfo.uid) {
+      this.setState({
+        userUid: userInfo.uid,
+        userName: userInfo.userNameZH
+      })
+    }  
 
     const userUid = this.state.userUid
 

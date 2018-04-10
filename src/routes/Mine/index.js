@@ -56,8 +56,22 @@ export default class Mine extends React.Component {
     }
   }
 
-  componentWillMount() {
-    
+  async componentWillMount() {
+    const userInfo = await new Promise((resolve, reject)=>{
+      window.HWH5.userInfo().then((data) => {
+        resolve(data);
+        console.log(data);
+      }).catch((error) => {
+        console.log('获取用户信息失败')
+        reject(error)
+      });
+    });
+    if (userInfo && userInfo.uid) {
+      this.setState({
+        userUid: userInfo.uid,
+        userName: userInfo.userNameZH
+      })
+    }  
   }
 
   componentDidMount() {
@@ -81,7 +95,7 @@ export default class Mine extends React.Component {
               }
             })
           }
-          <span className="userName">{userInfo.name}</span>
+          <span className="userName">{this.state.userName}</span>
         </div>
         <div className='weui-cells'>
           <Link className='weui-cell weui-cell_access' to={{ pathname: '/mine/public' }}>

@@ -63,7 +63,7 @@ const userInfoSet = [{
 
 module.exports = {
   userInfo: { 
-    uid: 'xd_hw000006',
-    name: '林巧茹'
+    uid: 'xd_hw000007',
+    name: '冷丽瑶'
   }
 };

@@ -32,6 +32,22 @@ export default class Home extends React.Component {
   }
 
   async componentWillMount() {
+
+    const userInfo = await new Promise((resolve, reject)=>{
+      window.HWH5.userInfo().then((data) => {
+        resolve(data);
+      }).catch((error) => {
+        console.log('获取用户信息失败')
+        reject(error)
+      });
+    });
+    if(userInfo && userInfo.uid) {
+      this.setState({
+        userUid: userInfo.uid,
+        userName: userInfo.userNameZH
+      })
+    }  
+    
     const url = `${urls.graphql}/welink/v1/teams?status=true`
     window.HWH5.fetchInternet(url, { method: 'get', headers: { 'Content-Type' : 'application/json' }, timeout: 6000 }).then((res) => {
       res.json().then((reply) => {
@@ -104,16 +120,6 @@ export default class Home extends React.Component {
       console.error('输出错误')
       console.error(error)
     });
-    const userInfo = await new Promise((resolve, reject)=>{
-      window.HWH5.userInfo().then((data) => {
-        console.log('用户信息为：')
-        console.log(data)
-        resolve(data);
-      }).catch((error) => {
-        console.log('获取用户信息失败')
-        reject(error)
-      });
-      });
   }
 
   componentDidMount() {
