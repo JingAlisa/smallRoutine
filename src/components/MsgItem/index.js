@@ -47,7 +47,7 @@ export default class ItemDetail extends React.Component {
 
     return (
       <div className='xd-weui-cell-unit'>
-        <div className='weui-cell'>
+        <div className='weui-cell firstLine'>
           <div className='weui-cell__bd'>
             <p>{ msg.applicantName || msg.applicantUid }</p>
           </div>

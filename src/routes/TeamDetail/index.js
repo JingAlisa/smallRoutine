@@ -11,6 +11,7 @@ import {
   Panel,
   PanelHeader,
   PanelBody,
+  MediaBox,
   Form,
   FormCell,
   CellHeader,
@@ -313,21 +314,22 @@ export default class TeamDetail extends React.Component {
       let applyingList = team.applyingList
       return (
         <Page>
-          <div>
+          {/* <div>
             <h3>调试信息</h3>
             <p>战队Creater: { this.state.team.createrUid }</p>
             <p>当前用户: { this.state.userUid }</p>
-          </div>
+          </div> */}
           <Panel>
             <PanelHeader>战队信息介绍</PanelHeader>
             <PanelBody>
+              <MediaBox type="text">
               <div>
-                <div>
-                  <span>{this.state.team.title}</span>
+                <div className="titleAndBtn">
+                  <span className="teamTitle">{this.state.team.title}</span>
                   {
                     // 若为创建者，则不显示申请按钮；若为申请者，则显示可用的申请按钮或灰色的'已申请'
                     (!(team.role && team.role.class === 'creater')) && (
-                      <span>
+                      <span className="btn">
                         <Button type="primary" size="small" onClick={ () => this.apply() } disabled={ !team.role ? '' : 'disabled' }>
                           { !team.role ? '申请' : team.role.result  }
                         </Button>
@@ -335,11 +337,9 @@ export default class TeamDetail extends React.Component {
                     )
                   }
                 </div>
-                <div><span>成功加入人数/战队上限人数:</span><span>{this.state.team.memberCount}/{this.state.team.memberMaxNumber}</span></div>
-                <div>{this.state.team.description}</div>
+                <div className="listContent"><span>成功加入人数/战队上限人数:</span><span>{this.state.team.memberCount}/{this.state.team.memberMaxNumber}</span></div>
+                <div class="listContent">{this.state.team.description}</div>
               </div>
-            </PanelBody>
-          </Panel>
 
           {
             (team.role && (team.role.class === 'creater' || team.role.result === '已加入')) ?
@@ -357,6 +357,9 @@ export default class TeamDetail extends React.Component {
               </div>
             ) : ''
           }
+          </MediaBox>
+          </PanelBody>
+          </Panel>
 
           
 
@@ -412,7 +415,29 @@ export default class TeamDetail extends React.Component {
               <Panel>
                 <PanelHeader>个人信息介绍</PanelHeader>
                 <PanelBody>
-                  <Form>
+                  <MediaBox>
+                    <div className="weui-cell weui-cell_select weui-cell_select-before">
+                      <div className="weui-cell__hd">
+                        <select className="weui-select" defaultValue="wechat" id="contactSelecter">
+                          <option value="qq">QQ</option>
+                          <option value="wechat">微信</option>
+                          <option value="phone">电话</option>
+                        </select>
+                      </div>
+                      <div className="weui-cell__bd">
+                        <input className="weui-input" type="text" pattern="[0-9][a-zA-Z]" id="contactText" placeholder="请输入联系方式"/>
+                      </div>
+                    </div>
+                    <div className="weui-cells weui-cells_form">
+                      <div className="weui-cell">
+                        <div className="weui-cell__bd">
+                          <TextArea className="weui-textarea textAreaInput" placeholder="请大胆的展示自己，增加申请成功几率，不超过500字" rows="3" id="applyInfoTextArea" />
+                        </div>
+                      </div>
+                    </div>
+
+                  </MediaBox>
+                  {/* <Form>
                     <FormCell>
                       <CellHeader>
                         <Select defaultValue="wechat" required id="contactSelecter">
@@ -429,7 +454,9 @@ export default class TeamDetail extends React.Component {
                       <CellBody>
                         <TextArea placeholder="请大胆的展示自己，增加申请成功几率，不超过500字" rows="3" id="applyInfoTextArea" />
                       </CellBody>
-                    </FormCell>
+                    </FormCell> */}
+                    <Form>
+                    
                     {
                       this.state.warningNotComplete === true ? (
                         <FormCell>

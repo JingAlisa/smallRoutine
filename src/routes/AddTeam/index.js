@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import { urls } from '../../../config/web.config';
 import { userInfo } from '../../../config/debug.userInfo';
+import Back from '../../public/img/icon/back.png';
 import './index.less';
 import createHistory from 'history/createHashHistory';
 const history = createHistory();
@@ -26,6 +27,7 @@ export default class AddTeam extends React.Component {
     super(props);
     this.state = {
       userUid: userInfo.uid,
+      userName: userInfo.name,
       showWarnTips: false,
       showSuccessTips: false,
       category: 'study',
@@ -45,7 +47,7 @@ export default class AddTeam extends React.Component {
   }
 
   componentDidMount() {
-    window.HWH5.navTitle({ title: '组建战队' });
+    window.HWH5.navTitle({ title: '创建新战队' });
   }
   // 给每个表单添加change事件
   changeValue(e) {
@@ -108,7 +110,7 @@ export default class AddTeam extends React.Component {
         <Form>
           <FormCell select>
             <CellBody>
-              <Select value={this.state.category} onChange={this.changeValue} name="category" required>
+              <Select value={this.state.category} className="categorySelect" onChange={this.changeValue} name="category" required>
                 <option value="study">学习类</option>
                 <option value="life">生活类</option>
                 <option value="friends">交友类</option>
@@ -117,7 +119,44 @@ export default class AddTeam extends React.Component {
           </FormCell>
         </Form>
 
-        <CellsTitle>战队信息</CellsTitle>
+        <div className="weui-cells__title">战队信息</div>
+        <div className="weui-cells weui-cells_form">
+          <div className="weui-cell">
+            <div className="weui-cell__hd"><label class="weui-label">名称</label></div>
+            <div className="weui-cell__bd">
+              <input type="text" className="weui-input" value={this.state.title} onChange={this.changeValue} name="title" placeholder="请输入战队名称" required />
+            </div>
+          </div>
+          <div className="weui-cell">
+            <div className="weui-cell__hd"><label class="weui-label">发布时长</label></div>
+            <div className="weui-cell__bd">
+              <Select value={this.state.preserveMaxDays} onChange={this.changeValue} name="preserveMaxDays" required>
+                <option value="3">3天</option>
+                <option value="5">5天</option>
+                <option value="7">7天</option>
+              </Select>
+            </div>
+          </div>
+          <div className="weui-cell">
+            <div className="weui-cell__hd"><label class="weui-label">发布时长</label></div>
+            <div className="weui-cell__bd">
+              <Select value={this.state.memberMaxNumber} onChange={this.changeValue} name="memberMaxNumber" required>
+                <option value="1">1人</option>
+                <option value="2">2人</option>
+                <option value="3">3人</option>
+                <option value="4">4人</option>
+                <option value="0">不限人数</option>
+              </Select>
+            </div>
+          </div>
+          <div className="weui-cell">
+            <div className="weui-cell__bd">
+            <TextArea value={this.state.description} onChange={this.changeValue} name="description" placeholder="请简单介绍战队信息，以便大家积极加入，不超过500字" rows="3" maxLength={500} />
+            </div>
+          </div>
+        </div>
+
+        {/* <CellsTitle>战队信息</CellsTitle>
         <Form>
           <FormCell>
             <CellHeader>
@@ -141,7 +180,7 @@ export default class AddTeam extends React.Component {
           </FormCell>
           <FormCell select>
             <CellHeader>
-              <Label>上线人数</Label>
+              <Label>上限人数</Label>
             </CellHeader>
             <CellBody>
               <Select value={this.state.memberMaxNumber} onChange={this.changeValue} name="memberMaxNumber" required>
@@ -158,47 +197,29 @@ export default class AddTeam extends React.Component {
               <TextArea value={this.state.description} onChange={this.changeValue} name="description" placeholder="请简单介绍战队信息，以便大家积极加入，不超过500字" rows="3" maxLength={500} />
             </CellBody>
           </FormCell>
-        </Form>
+        </Form> */}
 
-        <CellsTitle>联系方式(至少填写一项)</CellsTitle>
-        <Form>
-          <FormCell>
-            <CellHeader>
-              <Label>QQ</Label>
-            </CellHeader>
-            <CellBody>
-              <Input type="tel" value={this.state.qq} onChange={this.changeValue} name="qq" placeholder="请输入qq号码" />
-            </CellBody>
-          </FormCell>
-          <FormCell>
-            <CellHeader>
-              <Label>微信</Label>
-            </CellHeader>
-            <CellBody>
-              <Input type="tel" value={this.state.wechat} onChange={this.changeValue} name="wechat" placeholder="请输入微信号码" />
-            </CellBody>
-          </FormCell>
-          <FormCell>
-            <CellHeader>
-              <Label>电话</Label>
-            </CellHeader>
-            <CellBody>
-              <Input type="tel" value={this.state.phone} onChange={this.changeValue} name="phone" placeholder="请输入电话号码" />
-            </CellBody>
-          </FormCell>
-        </Form>
-
-        <CellsTitle>申请人是否需要您的审批？</CellsTitle>
-        <Form>
-          <FormCell select>
-            <CellBody>
-              <Select value={this.state.status} onChange={this.changeValue} name="status" required>
-                <option value="no">NO</option>
-                <option value="yes">YES</option>
-              </Select>
-            </CellBody>
-          </FormCell>
-        </Form>
+        <div className="weui-cells__title">联系方式(至少填写一项)</div>
+        <div className="weui-cells weui-cells_form">
+          <div className="weui-cell">
+            <div className="weui-cell__hd"><label class="weui-label">QQ</label></div>
+            <div className="weui-cell__bd">
+              <input type="number" className="weui-input" value={this.state.qq} onChange={this.changeValue} name="qq" placeholder="请输入qq号码" />
+            </div>
+          </div>
+          <div className="weui-cell">
+            <div className="weui-cell__hd"><label class="weui-label">微信</label></div>
+            <div className="weui-cell__bd">
+              <input type="text" pattern='[a-zA-Z][0-9]*' className="weui-input" value={this.state.wechat} onChange={this.changeValue} name="wechat" placeholder="请输入微信号" />
+            </div>
+          </div>
+          <div className="weui-cell">
+            <div className="weui-cell__hd"><label class="weui-label">电话</label></div>
+            <div className="weui-cell__bd">
+              <input type="tel" className="weui-input" value={this.state.phone} onChange={this.changeValue} name="phone" placeholder="请输入手机号" />
+            </div>
+          </div>
+        </div>
 
         <ButtonArea>
           <Button
@@ -223,6 +244,7 @@ export default class AddTeam extends React.Component {
                   description: teamInState.description,
                   category: teamInState.category,
                   createrUid: teamInState.userUid,
+                  createrName: teamInState.userName,
                   preserveMaxDays: teamInState.preserveMaxDays,
                   memberMaxNumber: teamInState.memberMaxNumber,
                   contact: contact
@@ -273,7 +295,7 @@ export default class AddTeam extends React.Component {
               }
             }}
           >
-              OK
+              创  建
           </Button>
         </ButtonArea>
         {/* 提示完善信息的地方 */}
