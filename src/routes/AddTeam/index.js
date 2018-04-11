@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { urls } from '../../../config/web.config';
-import { userInfo } from '../../../config/debug.userInfo';
+import { getUserInfo } from '../../utils/getUserInfo';
 import Back from '../../public/img/icon/back.png';
 import './index.less';
 import createHistory from 'history/createHashHistory';
@@ -44,14 +44,7 @@ export default class AddTeam extends React.Component {
   }
 
   async componentWillMount() {
-    const userInfo = await new Promise((resolve, reject)=>{
-      window.HWH5.userInfo().then((data) => {
-        resolve(data);
-      }).catch((error) => {
-        console.log('获取用户信息失败')
-        reject(error)
-      });
-    });
+    const userInfo = await getUserInfo()
     if(userInfo && userInfo.uid) {
       this.setState({
         userUid: userInfo.uid,
@@ -240,7 +233,6 @@ export default class AddTeam extends React.Component {
           // button to display toptips
             onClick={e=> {
               // 获取增加的信息
-              console.log(this.state);
               if (this.state.title === '' || !(this.state.qq || this.state.wechat || this.state.phone)) {
                 this.setState({ showWarnTips: true });
                 window.setTimeout(e=> this.setState({ showWarnTips: !this.state.showWarnTips }), 2000);
@@ -277,35 +269,12 @@ export default class AddTeam extends React.Component {
                   timeout: 6000 
                 }).then((res) => {
                   res.json().then((reply) => {
-                    console.log(reply)
                     if (!reply.code) {
                       // console.log('成功提交')
-                      // console.log(reply)
-                      // // 刷新页面
-                      // let team = reply.data.team
-                      // if (team.createrUid === this.state.userUid) {
-                      //   team.role = 'creater'
-                      // }
-                      // team.applyingList.map((applicant, index) => {
-                      //   applicant.dialogShow = 'none'
-                      //   applicant.btnText = this.getBtnText(applicant, team.createrUid)
-                      //   applicant.btnClass = this.getBtnClass(applicant , team.createrUid)
-                      // })
-                      // this.setState({
-                      //   team: { ...team }
-                      // })
                     }
                   });
                 });
-
-
-                // this.context.router.push('/');
                 setTimeout(()=>history.push('/'), 2000);
-
-
-
- 
-                
               }
             }}
           >

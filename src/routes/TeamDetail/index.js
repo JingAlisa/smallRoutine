@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { urls } from '../../../config/web.config';
-import { userInfo } from '../../../config/debug.userInfo';
+import { getUserInfo } from '../../utils/getUserInfo';
 
 import './index.less';
 import { 
@@ -21,17 +21,14 @@ import {
   TextArea
 } from '../../../node_modules/@huawei/react-weui';
 
-import JoinedInfo from '../../components/joinedInfo'
-import JudgeDialog from '../../components/JudgeDialog'
-
 export default class TeamDetail extends React.Component {
 
   constructor(props, context) {
     super(props, context);
     this.state = {
       team: {},
-      userUid: userInfo.uid,
-      userName: userInfo.name,
+      userUid: '',
+      userName: '',
       status: 'no',
       warningNotComplete: false
     };
@@ -41,14 +38,7 @@ export default class TeamDetail extends React.Component {
 
   async componentWillMount() {
 
-    const userInfo = await new Promise((resolve, reject)=>{
-      window.HWH5.userInfo().then((data) => {
-        resolve(data);
-      }).catch((error) => {
-        console.log('获取用户信息失败')
-        reject(error)
-      });
-    });
+    const userInfo = await getUserInfo()
     if(userInfo && userInfo.uid) {
       this.setState({
         userUid: userInfo.uid,
@@ -113,7 +103,6 @@ export default class TeamDetail extends React.Component {
         class: 'creater'
       }
     }
-    console.log(team)
     team.applyingList.map((applicant, index) => {
       if (applicant.uid === this.state.userUid) {
         // 在Team层面上为当前用户添加角色
@@ -180,10 +169,8 @@ export default class TeamDetail extends React.Component {
       timeout: 6000 
     }).then((res) => {
       res.json().then((reply) => {
-        console.log(reply)
         if (!reply.code) {
-          console.log('成功提交')
-          console.log(reply)
+          // console.log('成功提交')
           // 刷新页面
           this.refreshTeam(reply.data.team)
         }
@@ -193,7 +180,6 @@ export default class TeamDetail extends React.Component {
 
   // 战队详情页，每个申请条目的按钮文字
   getBtnText(applicant, createrUid) {
-    console.log(applicant)
     if(createrUid === this.state.userUid) {
       if(!applicant.judgment) {
         return '审核'
@@ -278,16 +264,13 @@ export default class TeamDetail extends React.Component {
       timeout: 6000 
     }).then((res) => {
       res.json().then((reply) => {
-        console.log(reply)
         if (!reply.code) {
-          console.log('成功提交')
-          console.log(reply)
+          // console.log('成功提交')
           // 刷新页面
           this.refreshTeam(reply.data.team)
         }
       });
     });
-    console.log('同意了 ' + applicantUid + ' 的申请')
     this.hideJudgeDialog(applicantUid)
   }
 
@@ -312,15 +295,13 @@ export default class TeamDetail extends React.Component {
       timeout: 6000 
     }).then((res) => {
       res.json().then((reply) => {
-        console.log(reply)
         if (!reply.code) {
-          console.log('成功提交')
+          // console.log('成功提交')
           // 刷新页面
           this.refreshTeam(reply.data.team)
         }
       });
     });
-    console.log('拒绝了 ' + applicantUid + ' 的申请')
     this.hideJudgeDialog(applicantUid)
   }
 

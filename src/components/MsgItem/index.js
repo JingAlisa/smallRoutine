@@ -24,7 +24,7 @@ export default class ItemDetail extends React.Component {
     window.HWH5.fetchInternet(url_1, { method: 'get', headers: { 'Content-Type' : 'application/json' }, timeout: 6000 }).then((res) => {
       res.json().then((reply) => {
         if (!reply.code) {
-          console.log('标记已读成功')
+          // console.log('标记已读成功')
         }
       });
     }).catch((error) => {

@@ -5,7 +5,7 @@ import TabBar from '../../components/TabBar';
 import MsgList from '../../components/MsgList'
 
 import { urls } from '../../../config/web.config';
-import { userInfo } from '../../../config/debug.userInfo';
+import { getUserInfo } from '../../utils/getUserInfo';
 import EmptyWatermark from '../../public/img/empty.png';
 
 export default class Message extends React.Component {
@@ -21,14 +21,7 @@ export default class Message extends React.Component {
 
   async componentWillMount() {
 
-    const userInfo = await new Promise((resolve, reject)=>{
-      window.HWH5.userInfo().then((data) => {
-        resolve(data);
-      }).catch((error) => {
-        console.log('获取用户信息失败')
-        reject(error)
-      });
-    });
+    const userInfo = await getUserInfo()
     if(userInfo && userInfo.uid) {
       this.setState({
         userUid: userInfo.uid,
@@ -56,7 +49,6 @@ export default class Message extends React.Component {
     window.HWH5.fetchInternet(url_2, { method: 'get', headers: { 'Content-Type' : 'application/json' }, timeout: 6000 }).then((res) => {
       res.json().then((reply) => {
         if (!reply.code) {
-          console.log(reply.data.msgs)
           this.setState({
             msgs_applicant: reply.data.msgs
           })
@@ -101,8 +93,6 @@ export default class Message extends React.Component {
   }
 
   render() {
-    console.log(this.getMsgs('creater'));
-    console.log(this.getMsgs('applicant'));
     return (
       <div>
         <div className="contentContainer">
@@ -111,7 +101,6 @@ export default class Message extends React.Component {
               <div className='EmptyWatermarkBox'>
                 <img className='EmptyWatermark' src={ EmptyWatermark } />
               </div>
-
             ) : (
               <div>
                 {this.getMsgs('applicant').length === 0 ? '' : <MsgList msgs={ this.getMsgs('applicant') } kind='applicant' />}

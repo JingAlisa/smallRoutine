@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { urls } from '../../../config/web.config';
-import { userInfo } from '../../../config/debug.userInfo';
+import { getUserInfo } from '../../utils/getUserInfo';
 
 import EmptyWatermark from '../../public/img/empty.png';
 
@@ -13,20 +13,13 @@ export default class MinePublic extends React.Component {
     super();
     this.state = {
       list: [],
-      userUid: userInfo.uid
+      userUid: ''
     }
   }
 
   async componentWillMount() {
 
-    const userInfo = await new Promise((resolve, reject)=>{
-      window.HWH5.userInfo().then((data) => {
-        resolve(data);
-      }).catch((error) => {
-        console.log('获取用户信息失败')
-        reject(error)
-      });
-    });
+    const userInfo = await getUserInfo()
     if(userInfo && userInfo.uid) {
       this.setState({
         userUid: userInfo.uid,
@@ -58,7 +51,6 @@ export default class MinePublic extends React.Component {
           this.setState({
             list: list
           })
-          console.log(this.state)
         }
       });
     });

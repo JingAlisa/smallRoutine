@@ -4,7 +4,8 @@ import './index.less';
 
 import TabBar from '../../components/TabBar';
 import { Link } from 'react-router-dom';
-import { userInfo } from '../../../config/debug.userInfo';
+
+import { getUserInfo } from '../../utils/getUserInfo';
 
 import UserAvatar_1 from '../../public/img/avatar/1.png'
 import UserAvatar_2 from '../../public/img/avatar/2.png'
@@ -57,15 +58,7 @@ export default class Mine extends React.Component {
   }
 
   async componentWillMount() {
-    const userInfo = await new Promise((resolve, reject)=>{
-      window.HWH5.userInfo().then((data) => {
-        resolve(data);
-        console.log(data);
-      }).catch((error) => {
-        console.log('获取用户信息失败')
-        reject(error)
-      });
-    });
+    const userInfo = await getUserInfo()
     if (userInfo && userInfo.uid) {
       this.setState({
         userUid: userInfo.uid,

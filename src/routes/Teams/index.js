@@ -79,38 +79,17 @@ export default class Teams extends React.Component {
       self.setState({
         'filter': filter
       });
-      console.log(self.state.filter)
     });
   }
 
   searchResult(e) {
     var origin = this.state.originData;
     var filterData = [];
-    // e.preventdefault();
-    console.log(origin);
-    console.log(typeof e);
     let filter = this.state.filter
     filter.keyword = e
     this.setState({
       filter: filter
     });
-    // if (e === '') {
-    //   this.setState({
-    //     list: origin
-    //   });
-    //   return ;
-    // }
-    // for (let i = 0; i < origin.length; i++) {
-    //   origin[i].map((item, index) => {
-    //     if (item.title.indexOf(e) !== -1) {
-    //       filterData.push(item);
-    //     }
-    //   });
-    // }
-
-    // this.setState({
-    //   list: filterData
-    // });
   }
 
   // 根据this.state.filter中的category和keyword得到筛选结果，返回true/false
@@ -137,8 +116,6 @@ export default class Teams extends React.Component {
         filtedList.push(team)
       }
     })
-    console.log('即将显示筛选出的数据')
-    console.log(filtedList)
     return filtedList
   }
 
