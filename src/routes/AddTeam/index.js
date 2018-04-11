@@ -26,8 +26,8 @@ export default class AddTeam extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      userUid: userInfo.uid,
-      userName: userInfo.name,
+      userUid: '',
+      userName: '',
       showWarnTips: false,
       showSuccessTips: false,
       category: 'study',
