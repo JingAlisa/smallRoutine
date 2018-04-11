@@ -21,6 +21,8 @@ import {
   TextArea
 } from '../../../node_modules/@huawei/react-weui';
 
+import JudgeDialog from '../../components/JudgeDialog'
+
 export default class TeamDetail extends React.Component {
 
   constructor(props, context) {

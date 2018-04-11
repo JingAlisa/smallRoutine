@@ -1,7 +1,7 @@
 const getForDebug = true      // 配置true，则从此处获取；配置false，则从HWH5接口获取
 const userInfoDebug = {       // 本地调试身份
-    uid: 'xd_hw000007',
-    userNameZH: '冷丽瑶'
+  uid: 'xd_hw000006',
+  userNameZH: '林巧茹'
   }
 
 const userInfoSet = [{ 
