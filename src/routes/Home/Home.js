@@ -6,7 +6,7 @@ import * as home from '../../actions/home';
 import * as global from '../../actions/global';
 
 import { urls } from '../../../config/web.config';
-import { userInfo } from '../../../config/debug.userInfo';
+import { getUserInfo } from '../../utils/getUserInfo';
 
 import './Home.less';
 import openNewView from '../../utils/openNewView';
@@ -27,20 +27,13 @@ export default class Home extends React.Component {
     this.state = {
       dataList: [],
       hotList: [],
-      userUid: userInfo.uid
+      userUid: ''
     };
   }
 
   async componentWillMount() {
 
-    const userInfo = await new Promise((resolve, reject)=>{
-      window.HWH5.userInfo().then((data) => {
-        resolve(data);
-      }).catch((error) => {
-        console.log('获取用户信息失败')
-        reject(error)
-      });
-    });
+    const userInfo = await getUserInfo()
     if(userInfo && userInfo.uid) {
       this.setState({
         userUid: userInfo.uid,
@@ -76,7 +69,6 @@ export default class Home extends React.Component {
       res.json().then((reply) => {
         if (!reply.code) {
           const dataList = []
-          console.log(reply.data.teams);
           reply.data.teams.map((item, index) => {
             let i = 0;
             switch (item.category) {
@@ -109,11 +101,9 @@ export default class Home extends React.Component {
               };
             }
           })
-          console.log(dataList);
           this.setState({
             hotList: dataList
           })
-          console.log(this.state.hotList);
         }
       });
     }).catch((error) => {
@@ -133,27 +123,6 @@ export default class Home extends React.Component {
   }
 
   render() {
-    console.log(this.state.hotList);
-    // const hotData = this.state.hotList;
-    // const swiperPath = [];
-    // for (let i = 0; i < this.state.hotList.length;i++) {
-    //   if (this.state.hotList[i].id !== null) {
-    //     hotData[i] = {
-    //       title: hotData[i].title,
-    //       applyNum: hotData[i].applyNum,
-    //       description: hotData[i].description
-    //     };
-    //     swiperPath[i] = '/team/'+hotData[i].id;
-    //   } else {
-    //     hotData[i] = {
-    //       title: '在校缘与你相聚',
-    //       applyNum: '',
-    //       description: '校缘致力于为大家提供一个交流的机会，让每个有想法的人不再孤军奋战'
-    //     };
-    //     swiperPath[i] = '/team';
-    //   }
-    // }
-    // console.log(swiperPath);
     return (
       <div>
         <div className="contentContainer">
@@ -174,10 +143,6 @@ export default class Home extends React.Component {
                 </Link> 
               ))
             }
-            
-            {/* <li className="boxStyleLi"><img src="images/life.png" alt="life" /></li> 
-            <li className="boxStyleLi"><img src="images/friend.png" alt="friend" /></li>
-            <li className="boxStyleLi"><img src="images/home.png" alt="home" /></li> */}
           </Swipper>
           
           <List className="list" listData={this.state.dataList} page="home" />

@@ -7,7 +7,6 @@ export default function Item(props) {
   const { 
     itemData, page 
   } = props;
-  console.log(itemData.title);
   if (page === 'home') {
     path = '/team/'+itemData.id;
   } else if (page === 'teams') {
