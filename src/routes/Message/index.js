@@ -4,6 +4,7 @@ import './index.less';
 import TabBar from '../../components/TabBar';
 import MsgList from '../../components/MsgList'
 
+import openNewView from '../../utils/openNewView';
 import { urls } from '../../../config/web.config';
 import { getUserInfo } from '../../utils/getUserInfo';
 import EmptyWatermark from '../../public/img/empty.png';
@@ -14,6 +15,7 @@ export default class Message extends React.Component {
     this.state = {
       userUid: '',
       userName: '',
+      firstLoad:true,
       msgs_creater: [],
       msgs_applicant: []
     }
@@ -48,6 +50,9 @@ export default class Message extends React.Component {
     const url_2 = `${urls.graphql}/welink/v1/message/${userUid}/apply`
     window.HWH5.fetchInternet(url_2, { method: 'get', headers: { 'Content-Type' : 'application/json' }, timeout: 6000 }).then((res) => {
       res.json().then((reply) => {
+        this.setState({
+          firstLoad:false
+        })
         if (!reply.code) {
           this.setState({
             msgs_applicant: reply.data.msgs
@@ -97,9 +102,24 @@ export default class Message extends React.Component {
       <div>
         <div className="contentContainer">
           {
-            (this.state.msgs_creater.length === 0 && this.state.msgs_applicant.length === 0) ? (
+            (this.state.msgs_creater.length === 0 && this.state.msgs_applicant.length === 0 && this.state.firstLoad === false) ? (
               <div className='EmptyWatermarkBox'>
+                
                 <img className='EmptyWatermark' src={ EmptyWatermark } />
+                <div id="dialogs">
+                  <div className="js_dialog" id="iosDialog1">
+                    <div className="weui-mask"></div>
+                    <div className="weui-dialog">
+                      <div className="weui-dialog__hd"><strong className="h5ui-dialog__title">空空如也</strong></div>
+                      <div className="weui-dialog__bd">你还没有最新消息，要不要去首页逛逛？</div>
+                      <div className="weui-dialog__ft">
+                        <a href="javascript:;" onClick={()=>{document.getElementById("dialogs").style.display='none'}} className="weui-dialog__btn weui-dialog__btn_primary">No</a>
+                        <a href="javascript:;" onClick={()=>{openNewView('/')}} className="weui-dialog__btn weui-dialog__btn_primary">好嘞</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
               </div>
             ) : (
               <div>
@@ -112,7 +132,6 @@ export default class Message extends React.Component {
               </div>
             )
           }
-
         </div>
 
         <div className="tabbar"><TabBar /></div>

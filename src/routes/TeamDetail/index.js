@@ -35,7 +35,7 @@ export default class TeamDetail extends React.Component {
       warningNotComplete: false
     };
 
-    // this.apply = this.apply.bindActionCreators(this)
+    this.changeValue = this.changeValue.bind(this);
   }
 
   async componentWillMount() {
@@ -133,6 +133,20 @@ export default class TeamDetail extends React.Component {
       team: { ...team }
     })
   }
+
+  changeValue(e) {
+    var item = e.target.name;
+    switch (item) {
+      case 'contactWaySelecter':
+        this.setState({
+          contactWay: e.target.value
+        });
+        break;
+      default:
+        break;
+    }
+  }
+
 
   apply() {
     const contactWayObj = document.getElementById("contactSelecter")
@@ -312,7 +326,7 @@ export default class TeamDetail extends React.Component {
     if (team && team._id) {
       let applyingList = team.applyingList
       return (
-        <Page>
+        <div>
           {/* <div>
             <h3>调试信息</h3>
             <p>战队Creater: { this.state.team.createrUid }</p>
@@ -416,14 +430,14 @@ export default class TeamDetail extends React.Component {
                 <div className="weui-cells">
                   <div className="weui-cell weui-cell_select weui-cell_select-before">
                     <div className="weui-cell__hd">
-                      <select className="weui-select" id="contactSelecter">
+                      <select className="weui-select" id="contactSelecter" onChange={ this.changeValue } name='contactWaySelecter'>
                         <option value="qq">QQ</option>
                         <option value="wechat">微信</option>
                         <option value="phone">电话</option>
                       </select>
                     </div>
                     <div className="weui-cell__bd">
-                      <input type="text" className="weui-input" value={this.state.title} onChange={this.changeValue} name="title" id="contactText" placeholder="请输入联系方式" required />
+                      <input type={ (this.state.contactWay === 'wechat') ? 'text' : 'number' } className="weui-input typeContact" value={this.state.title} onChange={this.changeValue} name="title" id="contactText" placeholder="请输入联系方式" required />
                     </div>
                   </div>
                   <div className="weui-cell">
@@ -433,11 +447,23 @@ export default class TeamDetail extends React.Component {
                   </div>
                   {
                       this.state.warningNotComplete === true ? (
-                        <FormCell>
-                          <CellBody style={{ color: 'red' }}>
-                            提示：请填写所有项目！
-                          </CellBody>
-                        </FormCell>
+                        // <FormCell>
+                        //   <CellBody style={{ color: 'red' }}>
+                        //     提示：请填写所有项目！
+                        //   </CellBody>
+                        // </FormCell>
+                        <div id="dialogs">
+                          <div className="js_dialog" id="iosDialog1">
+                            <div className="weui-mask"></div>
+                            <div className="weui-dialog">
+                              <div className="weui-dialog__hd"><strong className="h5ui-dialog__title">完善信息</strong></div>
+                              <div className="weui-dialog__bd">请选择并填写联系方式，同时完善个人介绍</div>
+                              <div className="weui-dialog__ft">
+                                <a href="javascript:;" onClick={()=>{this.setState({warningNotComplete:false})}} className="weui-dialog__btn weui-dialog__btn_primary">好嘞</a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
                       ) : (<a></a>)
                     }
                 </div>
@@ -483,7 +509,7 @@ export default class TeamDetail extends React.Component {
             
           }
           
-        </Page>
+        </div>
       );
     } else {
       return (

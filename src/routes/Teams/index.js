@@ -86,22 +86,38 @@ export default class Teams extends React.Component {
     var origin = this.state.originData;
     var filterData = [];
     let filter = this.state.filter
-    filter.keyword = e
+    filter.keyword = e.toLowerCase()
     this.setState({
       filter: filter
     });
+    // if (e === '') {
+    //   this.setState({
+    //     list: origin
+    //   });
+    //   return ;
+    // }
+    // for (let i = 0; i < origin.length; i++) {
+    //   origin[i].map((item, index) => {
+    //     if (item.title.indexOf(e) !== -1) {
+    //       filterData.push(item);
+    //     }
+    //   });
+    // }
+
+    // this.setState({
+    //   list: filterData
+    // });
   }
 
   // 根据this.state.filter中的category和keyword得到筛选结果，返回true/false
   getFilter(team) {
     const category = this.state.filter.category
     const keyword = this.state.filter.keyword
-
     if(category !== 'all' && category !== team.category) {
       return false
     }
 
-    if(keyword !== '' && team.title.indexOf(keyword) === -1){
+    if(keyword !== '' && team.title.toLowerCase().indexOf(keyword) === -1){
       return false
     }
 
@@ -139,7 +155,10 @@ export default class Teams extends React.Component {
             </Tab>
           </div>
           <div className="listArea">
-            <List listData={this.getFiltedList()} page="teams" />
+            {
+              this.getFiltedList().length === 0 ? <div>抱歉，没有搜索相关的结果</div> : <List listData={this.getFiltedList()} page="teams" />
+            }
+            
           </div>
         </div>
         <div className="tabbar"><TabBar /></div>

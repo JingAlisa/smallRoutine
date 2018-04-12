@@ -112,7 +112,7 @@ export default class AddTeam extends React.Component {
 
   render() {
     return (
-      <Page className="input" title="Input" subTitle="表单输入">
+      <div className="input" title="Input" subTitle="表单输入">
         <CellsTitle>请选择战队类别</CellsTitle>
         <Form>
           <FormCell select>
@@ -223,7 +223,7 @@ export default class AddTeam extends React.Component {
           <div className="weui-cell">
             <div className="weui-cell__hd"><label className="weui-label">电话</label></div>
             <div className="weui-cell__bd">
-              <input type="tel" className="weui-input" value={this.state.phone} onChange={this.changeValue} name="phone" placeholder="请输入手机号" />
+              <input type="number" pattern='[0-9]*' className="weui-input" value={this.state.phone} onChange={this.changeValue} name="phone" placeholder="请输入手机号" />
             </div>
           </div>
         </div>
@@ -295,7 +295,7 @@ export default class AddTeam extends React.Component {
         >
           保存成功
         </Toptips>
-      </Page>
+      </div>
     );
   }
 };
