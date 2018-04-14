@@ -97,9 +97,19 @@ export default class TeamDetail extends React.Component {
     window.HWH5.navTitle({ title: '战队详情介绍' });
   }
 
+  addDate(date,days){ 
+    var d=new Date(date); 
+    d.setDate(d.getDate()+days); 
+    var m=d.getMonth()+1; 
+    return d.getFullYear()+'/'+m+'/'+d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes(); 
+  } 
+
   // 根据传入的从服务端获取的原始team数据，经过处理，更新state中的team数据
   refreshTeam(team) {
     let applicants = [], applying = [], joined = [], rejected = [], currUser = []
+    // let createTime = team.createTime
+    // team.deadlineDate = team.createTime + team.preserveMaxDays
+    team.deadlineDate = this.addDate(team.createTime, team.preserveMaxDays)
     if (team.createrUid === this.state.userUid) {
       team.role = {
         class: 'creater'
@@ -351,7 +361,10 @@ export default class TeamDetail extends React.Component {
                   }
                 </div>
                 <div className="listContent">{this.state.team.description}</div>
-                <div className="listContent"><span>已加入/上限人数 ： {this.state.team.memberCount}/{this.state.team.memberMaxNumber}</span></div>
+                <div className="listContent numCount">
+                  <span>人数: {this.state.team.memberCount}/{this.state.team.memberMaxNumber}人</span>
+                  <span>截至: { this.state.team.deadlineDate }</span>
+                </div>
               </div>
 
           {
@@ -398,7 +411,7 @@ export default class TeamDetail extends React.Component {
                       </div>
                     </div>
                     <div className='weui-cell weui-cell_swiped' key={ index }>
-                      <div className='weui-cell__bd' style={{ 'width': '80%' }} >
+                      <div className='msgInfo weui-cell__bd' style={{ 'width': '80%' }} >
                         <div className='weui-cell'>
                           <div className='msgInfo weui-cell__bd'>
                             { applicant.application.info  }
