@@ -11,8 +11,6 @@ export default function List(props) {
     listData,
     page 
   } = props;
-  console.log(listData);
-  console.log(page);
 
   if (listData.length !== 0) {
     return (

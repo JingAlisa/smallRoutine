@@ -13,16 +13,12 @@ const routes = [
   { path: '/editor', component: asyncComponent(() => import(/* webpackChunkName: 'welinkUI' */ './Editor')) },
   { path: '/test', component: asyncComponent(() => import(/* webpackChunkName: 'welinkUI' */ './test')) },
   { path: '/team', component: asyncComponent(() => import(/* webpackChunkName: 'welinkUI' */ './Teams')), exact: true },
-  // { path: '/team/:category', component: asyncComponent(() => import(/* webpackChunkName: 'welinkUI' */ './TeamList')), exact: true },
   { path: '/team/:id', component: asyncComponent(() => import(/* webpackChunkName: 'welinkUI' */ './TeamDetail')), exact: true },
   { path: '/add', component: asyncComponent(() => import(/* webpackChunkName: 'welinkUI' */ './AddTeam')) },
   { path: '/message/:uid', component: asyncComponent(() => import(/* webpackChunkName: 'welinkUI' */ './Message')), exact: true  },
-  { path: '/message/:uid/:id', component: asyncComponent(() => import(/* webpackChunkName: 'welinkUI' */ './MessageDetail')), exact: true  },
   { path: '/mine', component: asyncComponent(() => import(/* webpackChunkName: 'welinkUI' */ './Mine')), exact: true },
   { path: '/mine/public', component: asyncComponent(() => import(/* webpackChunkName: 'welinkUI' */ './MinePublic')), exact: true  },
-  // { path: '/mine/public/:id', component: asyncComponent(() => import(/* webpackChunkName: 'welinkUI' */ './MineDetail')) },
   { path: '/mine/apply', component: asyncComponent(() => import(/* webpackChunkName: 'welinkUI' */ './MineApply')), exact: true  }
-  // { path: '/mine/apply/:id', component: asyncComponent(() => import(/* webpackChunkName: 'welinkUI' */ './MineDetail')) }
 ];
 
 routes[0].component = matchUrlComponent(routes);

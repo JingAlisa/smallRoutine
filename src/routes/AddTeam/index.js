@@ -2,8 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { urls } from '../../../config/web.config';
-import { userInfo } from '../../../config/debug.userInfo';
-import Back from '../../public/img/icon/back.png';
+import { getUserInfo } from '../../utils/getUserInfo';
 import './index.less';
 import createHistory from 'history/createHashHistory';
 const history = createHistory();
@@ -26,8 +25,8 @@ export default class AddTeam extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      userUid: userInfo.uid,
-      userName: userInfo.name,
+      userUid: '',
+      userName: '',
       showWarnTips: false,
       showSuccessTips: false,
       category: 'study',
@@ -44,14 +43,7 @@ export default class AddTeam extends React.Component {
   }
 
   async componentWillMount() {
-    const userInfo = await new Promise((resolve, reject)=>{
-      window.HWH5.userInfo().then((data) => {
-        resolve(data);
-      }).catch((error) => {
-        console.log('获取用户信息失败')
-        reject(error)
-      });
-    });
+    const userInfo = await getUserInfo()
     if(userInfo && userInfo.uid) {
       this.setState({
         userUid: userInfo.uid,
@@ -119,7 +111,7 @@ export default class AddTeam extends React.Component {
 
   render() {
     return (
-      <Page className="input" title="Input" subTitle="表单输入">
+      <div className="input" title="Input" subTitle="表单输入">
         <CellsTitle>请选择战队类别</CellsTitle>
         <Form>
           <FormCell select>
@@ -230,7 +222,7 @@ export default class AddTeam extends React.Component {
           <div className="weui-cell">
             <div className="weui-cell__hd"><label className="weui-label">电话</label></div>
             <div className="weui-cell__bd">
-              <input type="tel" className="weui-input" value={this.state.phone} onChange={this.changeValue} name="phone" placeholder="请输入手机号" />
+              <input type="number" pattern='[0-9]*' className="weui-input" value={this.state.phone} onChange={this.changeValue} name="phone" placeholder="请输入手机号" />
             </div>
           </div>
         </div>
@@ -240,7 +232,6 @@ export default class AddTeam extends React.Component {
           // button to display toptips
             onClick={e=> {
               // 获取增加的信息
-              console.log(this.state);
               if (this.state.title === '' || !(this.state.qq || this.state.wechat || this.state.phone)) {
                 this.setState({ showWarnTips: true });
                 window.setTimeout(e=> this.setState({ showWarnTips: !this.state.showWarnTips }), 2000);
@@ -277,35 +268,12 @@ export default class AddTeam extends React.Component {
                   timeout: 6000 
                 }).then((res) => {
                   res.json().then((reply) => {
-                    console.log(reply)
                     if (!reply.code) {
                       // console.log('成功提交')
-                      // console.log(reply)
-                      // // 刷新页面
-                      // let team = reply.data.team
-                      // if (team.createrUid === this.state.userUid) {
-                      //   team.role = 'creater'
-                      // }
-                      // team.applyingList.map((applicant, index) => {
-                      //   applicant.dialogShow = 'none'
-                      //   applicant.btnText = this.getBtnText(applicant, team.createrUid)
-                      //   applicant.btnClass = this.getBtnClass(applicant , team.createrUid)
-                      // })
-                      // this.setState({
-                      //   team: { ...team }
-                      // })
                     }
                   });
                 });
-
-
-                // this.context.router.push('/');
                 setTimeout(()=>history.push('/'), 2000);
-
-
-
- 
-                
               }
             }}
           >
@@ -326,7 +294,7 @@ export default class AddTeam extends React.Component {
         >
           保存成功
         </Toptips>
-      </Page>
+      </div>
     );
   }
 };

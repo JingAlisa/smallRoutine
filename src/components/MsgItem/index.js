@@ -24,7 +24,7 @@ export default class ItemDetail extends React.Component {
     window.HWH5.fetchInternet(url_1, { method: 'get', headers: { 'Content-Type' : 'application/json' }, timeout: 6000 }).then((res) => {
       res.json().then((reply) => {
         if (!reply.code) {
-          console.log('标记已读成功')
+          // console.log('标记已读成功')
         }
       });
     }).catch((error) => {
@@ -48,15 +48,15 @@ export default class ItemDetail extends React.Component {
     return (
       <div className='xd-weui-cell-unit'>
         <div className='weui-cell firstLine'>
-          <div className='weui-cell__bd'>
+          <div className='weui-cell__bd applicantName'>
             <p>{ msg.applicantName || msg.applicantUid }</p>
           </div>
-          <div className='weui-cell__ft'>{ '申请加入<' + msg.teamTitle + '>' }</div>
+          <div className='weui-cell__ft applyTeam'>{ '申请加入<' + msg.teamTitle + '>' }</div>
         </div>
         <div className='weui-cell weui-cell_swiped'>
           <div className='weui-cell__bd' style={{ 'width': '80%' }} >
             <div className='weui-cell'>
-              <div className='msgInfo weui-cell__bd'>
+              <div className='introduce weui-cell__bd msgInfo'>
                 { msg.info }
               </div>
             </div>

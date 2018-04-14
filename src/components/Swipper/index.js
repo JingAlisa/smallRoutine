@@ -18,7 +18,7 @@ export default class Swipper extends React.Component{
 		}
 
 		componentDidMount(){ 
-			console.log(this.state.autoPlay);
+			// console.log(this.state.autoPlay);
 			this.autoPlay(); 
 		}
 

@@ -6,7 +6,7 @@ import * as home from '../../actions/home';
 import * as global from '../../actions/global';
 
 import { urls } from '../../../config/web.config';
-import { userInfo } from '../../../config/debug.userInfo';
+import { getUserInfo } from '../../utils/getUserInfo';
 
 import './Home.less';
 import openNewView from '../../utils/openNewView';
@@ -14,6 +14,9 @@ import List from '../../components/List';
 import TabBar from '../../components/TabBar';
 import Swipper from '../../components/Swipper';
 import { Link } from 'react-router-dom';
+
+// 懒加载
+import {getTeamsOfPage} from '../../utils/team';
 
 @connect(
   state => ({ ...state.home }),
@@ -27,30 +30,39 @@ export default class Home extends React.Component {
     this.state = {
       dataList: [],
       hotList: [],
-      userUid: userInfo.uid
+      userUid: '',
+      page: 2
     };
   }
 
   async componentWillMount() {
 
-    const userInfo = await new Promise((resolve, reject)=>{
-      window.HWH5.userInfo().then((data) => {
-        resolve(data);
-      }).catch((error) => {
-        console.log('获取用户信息失败')
-        reject(error)
-      });
-    });
+    const userInfo = await getUserInfo()
     if(userInfo && userInfo.uid) {
       this.setState({
         userUid: userInfo.uid,
         userName: userInfo.userNameZH
       })
     }  
-    
+    // let teams= await getTeamsOfPage(1,8);
+    // console.log(teams);
+    // let dataList = []
+    // teams.map((team, index) => {
+    //   dataList.push({
+    //     id: team._id,
+    //     memberCount: team.memberCount,
+    //     memberMaxNumber: team.memberMaxNumber,
+    //     title: team.title,
+    //     description: team.description
+    //   })
+    // });
+    // this.setState({
+    //   dataList
+    // });
     const url = `${urls.graphql}/welink/v1/teams?status=true`
     window.HWH5.fetchInternet(url, { method: 'get', headers: { 'Content-Type' : 'application/json' }, timeout: 6000 }).then((res) => {
       res.json().then((reply) => {
+        console.log(reply);
         if (!reply.code) {
           let dataList = []
           reply.data.teams.map((team, index) => {
@@ -76,7 +88,6 @@ export default class Home extends React.Component {
       res.json().then((reply) => {
         if (!reply.code) {
           const dataList = []
-          console.log(reply.data.teams);
           reply.data.teams.map((item, index) => {
             let i = 0;
             switch (item.category) {
@@ -104,16 +115,24 @@ export default class Home extends React.Component {
                 id: item.team._id,
                 pathName: '/team/'+item.team._id,
                 title: item.team.title,
-                slogan: '来不及解释了，快上车吧！',
+                slogan: (function () {
+                  if(i==0){
+                    return '众人拾柴火焰高，来来来再加把火'
+                  }
+                  if(i==1){
+                    return '别犹豫了，再不疯狂就老了'
+                  }
+                  if(i==2){
+                    return '来不及解释了，快上车！'
+                  }
+                })(),
                 description: item.team.description
               };
             }
           })
-          console.log(dataList);
           this.setState({
             hotList: dataList
           })
-          console.log(this.state.hotList);
         }
       });
     }).catch((error) => {
@@ -123,8 +142,43 @@ export default class Home extends React.Component {
   }
 
   componentDidMount() {
-    window.HWH5.navTitle({ title: '校缘' });
+    window.HWH5.navTitle({ title: '校缘' });  
+    // window.addEventListener('scroll', this.lazyLoad.bind(this), true);
   }
+
+  // lazyLoad(){
+  //   var htmlHeight=document.body.scrollHeight || document.documentElement.scrollHeight;
+  //   var clientHeight=document.body.clientHeight || document.documentElement.clientHeight;
+  //   var scrollTop=document.body.scrollTop || document.documentElement.scrollTop || window.pageYOffset;
+  //   console.log(htmlHeight,clientHeight,scrollTop);
+  //   if((scrollTop+clientHeight)===htmlHeight && scrollTop !==0) {
+  //     console.log('22');
+  //     let dataList = [];
+  //     let page=this.state.page;
+  //     let teams = getTeamsOfPage(page,8);
+  //     console.log(teams);
+  //     var self=this;
+  //     teams.then(function(value){
+  //       value.map((team, index) => {
+  //         dataList.push({
+  //           id: team._id,
+  //           memberCount: team.memberCount,
+  //           memberMaxNumber: team.memberMaxNumber,
+  //           title: team.title,
+  //           description: team.description
+  //         })
+  //       });
+  //       self.setState({
+  //         dataList:self.state.dataList.concat(dataList),
+  //         page:self.state.page+1
+  //       });
+  //       console.log(self.state.dataList);
+  //     }),function(error){
+  //       console.log(error);
+  //     }
+      
+  //   }
+  // }
 
   more(key) {
     this.props.setInvoivceIndex(key);
@@ -132,28 +186,10 @@ export default class Home extends React.Component {
     openNewView('/editor');
   }
 
+  // scrollTop=()=>{
+  //   window.scrollTo(100,100);
+  // }
   render() {
-    console.log(this.state.hotList);
-    // const hotData = this.state.hotList;
-    // const swiperPath = [];
-    // for (let i = 0; i < this.state.hotList.length;i++) {
-    //   if (this.state.hotList[i].id !== null) {
-    //     hotData[i] = {
-    //       title: hotData[i].title,
-    //       applyNum: hotData[i].applyNum,
-    //       description: hotData[i].description
-    //     };
-    //     swiperPath[i] = '/team/'+hotData[i].id;
-    //   } else {
-    //     hotData[i] = {
-    //       title: '在校缘与你相聚',
-    //       applyNum: '',
-    //       description: '校缘致力于为大家提供一个交流的机会，让每个有想法的人不再孤军奋战'
-    //     };
-    //     swiperPath[i] = '/team';
-    //   }
-    // }
-    // console.log(swiperPath);
     return (
       <div>
         <div className="contentContainer">
@@ -174,16 +210,13 @@ export default class Home extends React.Component {
                 </Link> 
               ))
             }
-            
-            {/* <li className="boxStyleLi"><img src="images/life.png" alt="life" /></li> 
-            <li className="boxStyleLi"><img src="images/friend.png" alt="friend" /></li>
-            <li className="boxStyleLi"><img src="images/home.png" alt="home" /></li> */}
           </Swipper>
           
           <List className="list" listData={this.state.dataList} page="home" />
 
           {/* <List className="list" listData={list} /> */}
         </div>
+        {/* <div className="scrollTop" onClick={this.scrollTop}>顶部</div> */}
         <div className="tabbar"><TabBar /></div>
       </div>
     );

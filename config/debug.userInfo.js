@@ -1,69 +1,73 @@
+const getForDebug = false      // 配置true，则从此处获取；配置false，则从HWH5接口获取
+const userInfoDebug = {       // 本地调试身份
+  uid: 'xd_hw000013',
+  userNameZH: '胡力言'
+  }
+
 const userInfoSet = [{ 
     uid: 'xd_hw000001',
-    name: '张世琪'
+    userNameZH: '张世琪'
   }, { 
     uid: 'xd_hw000002',
-    name: '刘涛'
+    userNameZH: '刘涛'
   }, { 
     uid: 'xd_hw000003',
-    name: '关伟祺'
+    userNameZH: '关伟祺'
   }, { 
     uid: 'xd_hw000004',
-    name: '郑秀玲'
+    userNameZH: '郑秀玲'
   }, { 
     uid: 'xd_hw000005',
-    name: '毛冠芳'
+    userNameZH: '毛冠芳'
   }, { 
     uid: 'xd_hw000006',
-    name: '林巧茹'
+    userNameZH: '林巧茹'
   }, { 
     uid: 'xd_hw000007',
-    name: '冷丽瑶'
+    userNameZH: '冷丽瑶'
   }, { 
     uid: 'xd_hw000008',
-    name: '钱嘉悦'
+    userNameZH: '钱嘉悦'
   }, { 
     uid: 'xd_hw000009',
-    name: '高月华'
+    userNameZH: '高月华'
   }, { 
     uid: 'xd_hw000010',
-    name: '宋世韵'
+    userNameZH: '宋世韵'
   }, { 
     uid: 'xd_hw000011',
-    name: '周斯年'
+    userNameZH: '周斯年'
   }, { 
     uid: 'xd_hw000012',
-    name: '叶陶然'
+    userNameZH: '叶陶然'
   }, { 
     uid: 'xd_hw000013',
-    name: '胡力言'
+    userNameZH: '胡力言'
   }, { 
     uid: 'xd_hw000014',
-    name: '崔天晴'
+    userNameZH: '崔天晴'
   }, { 
     uid: 'xd_hw000015',
-    name: '贾新月'
+    userNameZH: '贾新月'
   }, { 
     uid: 'xd_hw000016',
-    name: '江慕'
+    userNameZH: '江慕'
   }, { 
     uid: 'xd_hw000017',
-    name: '顾佩'
+    userNameZH: '顾佩'
   }, { 
     uid: 'xd_hw000018',
-    name: '常丹'
+    userNameZH: '常丹'
   }, { 
     uid: 'xd_hw000019',
-    name: '孔月'
+    userNameZH: '孔月'
   }, { 
     uid: 'xd_hw000020',
-    name: '肖文轩'
+    userNameZH: '肖文轩'
   }
   ]
 
 module.exports = {
-  userInfo: { 
-    uid: 'xd_hw000007',
-    name: '冷丽瑶'
-  }
+  getForDebug: getForDebug,       
+  userInfoDebug: userInfoDebug
 };

@@ -79,18 +79,25 @@ export default class Teams extends React.Component {
       self.setState({
         'filter': filter
       });
-      console.log(self.state.filter)
     });
+    let screenHeight = document.body.offsetHeight   
+    let tabbar = document.getElementsByClassName('tabbar')[0]
+    // 为window绑定resize事件
+    window.onresize = function () {      
+    let nowHeight = document.body.offsetHeight   
+    if (nowHeight < screenHeight) {         
+    tabbar.className = 'tabbar hiddenTabbar'   
+    } else if(nowHeight >= screenHeight) {        
+    tabbar.className = 'tabbar displayTabbar'    
+    }    
+    }
   }
 
   searchResult(e) {
     var origin = this.state.originData;
     var filterData = [];
-    // e.preventdefault();
-    console.log(origin);
-    console.log(typeof e);
     let filter = this.state.filter
-    filter.keyword = e
+    filter.keyword = e.toLowerCase()
     this.setState({
       filter: filter
     });
@@ -117,12 +124,11 @@ export default class Teams extends React.Component {
   getFilter(team) {
     const category = this.state.filter.category
     const keyword = this.state.filter.keyword
-
     if(category !== 'all' && category !== team.category) {
       return false
     }
 
-    if(keyword !== '' && team.title.indexOf(keyword) === -1){
+    if(keyword !== '' && team.title.toLowerCase().indexOf(keyword) === -1){
       return false
     }
 
@@ -137,8 +143,6 @@ export default class Teams extends React.Component {
         filtedList.push(team)
       }
     })
-    console.log('即将显示筛选出的数据')
-    console.log(filtedList)
     return filtedList
   }
 
@@ -151,7 +155,12 @@ export default class Teams extends React.Component {
       <div>
         <div className="contentContainer">
           <div>
-            <SearchBar onSubmit={()=>this.searchSubmit()} onChange={this.searchResult.bind(this)} placeholder="请输入关键字" />
+            <SearchBar 
+              className="searchValue" 
+              onSubmit={()=>this.searchSubmit()} 
+              onChange={this.searchResult.bind(this)} 
+              placeholder="请输入关键字" 
+            />
           </div>
           <div className="navbar">
             <Tab type="navbar">
@@ -162,7 +171,10 @@ export default class Teams extends React.Component {
             </Tab>
           </div>
           <div className="listArea">
-            <List listData={this.getFiltedList()} page="teams" />
+            {
+              (this.getFiltedList().length === 0 && this.state.filter.keyword!=='') ? <div>抱歉，没有搜索相关的结果</div> : <List listData={this.getFiltedList()} page="teams" />
+            }
+            
           </div>
         </div>
         <div className="tabbar"><TabBar /></div>
