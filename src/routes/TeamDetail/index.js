@@ -35,7 +35,7 @@ export default class TeamDetail extends React.Component {
       warningNotComplete: false
     };
 
-    // this.apply = this.apply.bindActionCreators(this)
+    this.changeValue = this.changeValue.bind(this);
   }
 
   async componentWillMount() {
@@ -133,6 +133,20 @@ export default class TeamDetail extends React.Component {
       team: { ...team }
     })
   }
+
+  changeValue(e) {
+    var item = e.target.name;
+    switch (item) {
+      case 'contactWaySelecter':
+        this.setState({
+          contactWay: e.target.value
+        });
+        break;
+      default:
+        break;
+    }
+  }
+
 
   apply() {
     const contactWayObj = document.getElementById("contactSelecter")
@@ -312,7 +326,7 @@ export default class TeamDetail extends React.Component {
     if (team && team._id) {
       let applyingList = team.applyingList
       return (
-        <Page>
+        <div>
           {/* <div>
             <h3>调试信息</h3>
             <p>战队Creater: { this.state.team.createrUid }</p>
@@ -337,7 +351,7 @@ export default class TeamDetail extends React.Component {
                   }
                 </div>
                 <div className="listContent">{this.state.team.description}</div>
-                <div className="listContent"><span>已加入/上限人数 ： {this.state.team.memberCount}/{this.state.team.memberMaxNumber}</span></div>
+                <div className="listContent numCount"><span>已加入/上限人数 ： {this.state.team.memberCount}/{this.state.team.memberMaxNumber}</span></div>
               </div>
 
           {
@@ -384,7 +398,7 @@ export default class TeamDetail extends React.Component {
                       </div>
                     </div>
                     <div className='weui-cell weui-cell_swiped' key={ index }>
-                      <div className='weui-cell__bd' style={{ 'width': '80%' }} >
+                      <div className='msgInfo weui-cell__bd' style={{ 'width': '80%' }} >
                         <div className='weui-cell'>
                           <div className='msgInfo weui-cell__bd'>
                             { applicant.application.info  }
@@ -416,14 +430,14 @@ export default class TeamDetail extends React.Component {
                 <div className="weui-cells">
                   <div className="weui-cell weui-cell_select weui-cell_select-before">
                     <div className="weui-cell__hd">
-                      <select className="weui-select" id="contactSelecter">
+                      <select className="weui-select" id="contactSelecter" onChange={ this.changeValue } name='contactWaySelecter'>
                         <option value="qq">QQ</option>
                         <option value="wechat">微信</option>
                         <option value="phone">电话</option>
                       </select>
                     </div>
                     <div className="weui-cell__bd">
-                      <input type="text" className="weui-input typeContact" value={this.state.title} onChange={this.changeValue} name="title" id="contactText" placeholder="请输入联系方式" required />
+                      <input type={ (this.state.contactWay === 'wechat') ? 'text' : 'number' } className="weui-input typeContact" value={this.state.title} onChange={this.changeValue} name="title" id="contactText" placeholder="请输入联系方式" required />
                     </div>
                   </div>
                   <div className="weui-cell">
@@ -495,7 +509,7 @@ export default class TeamDetail extends React.Component {
             
           }
           
-        </Page>
+        </div>
       );
     } else {
       return (

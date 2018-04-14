@@ -15,6 +15,9 @@ import TabBar from '../../components/TabBar';
 import Swipper from '../../components/Swipper';
 import { Link } from 'react-router-dom';
 
+// 懒加载
+import {getTeamsOfPage} from '../../utils/team';
+
 @connect(
   state => ({ ...state.home }),
   dispatch => bindActionCreators({ ...home, ...global }, dispatch)
@@ -27,7 +30,8 @@ export default class Home extends React.Component {
     this.state = {
       dataList: [],
       hotList: [],
-      userUid: ''
+      userUid: '',
+      page: 2
     };
   }
 
@@ -40,10 +44,25 @@ export default class Home extends React.Component {
         userName: userInfo.userNameZH
       })
     }  
-    
+    // let teams= await getTeamsOfPage(1,8);
+    // console.log(teams);
+    // let dataList = []
+    // teams.map((team, index) => {
+    //   dataList.push({
+    //     id: team._id,
+    //     memberCount: team.memberCount,
+    //     memberMaxNumber: team.memberMaxNumber,
+    //     title: team.title,
+    //     description: team.description
+    //   })
+    // });
+    // this.setState({
+    //   dataList
+    // });
     const url = `${urls.graphql}/welink/v1/teams?status=true`
     window.HWH5.fetchInternet(url, { method: 'get', headers: { 'Content-Type' : 'application/json' }, timeout: 6000 }).then((res) => {
       res.json().then((reply) => {
+        console.log(reply);
         if (!reply.code) {
           let dataList = []
           reply.data.teams.map((team, index) => {
@@ -96,7 +115,17 @@ export default class Home extends React.Component {
                 id: item.team._id,
                 pathName: '/team/'+item.team._id,
                 title: item.team.title,
-                slogan: '来不及解释了，快上车吧！',
+                slogan: (function () {
+                  if(i==0){
+                    return '众人拾柴火焰高，来来来再加把火'
+                  }
+                  if(i==1){
+                    return '别犹豫了，再不疯狂就老了'
+                  }
+                  if(i==2){
+                    return '来不及解释了，快上车！'
+                  }
+                })(),
                 description: item.team.description
               };
             }
@@ -115,6 +144,40 @@ export default class Home extends React.Component {
   componentDidMount() {
     window.HWH5.navTitle({ title: '校缘' });
   }
+
+  // lazyLoad(){
+  //   var htmlHeight=document.body.scrollHeight || document.documentElement.scrollHeight;
+  //   var clientHeight=document.body.clientHeight || document.documentElement.clientHeight;
+  //   var scrollTop=document.body.scrollTop || document.documentElement.scrollTop;
+  //   console.log(htmlHeight,clientHeight,scrollTop);
+  //   if((scrollTop+clientHeight)===htmlHeight && scrollTop !==0) {
+  //     console.log('22');
+  //     let dataList = [];
+  //     let page=this.state.page;
+  //     let teams = getTeamsOfPage(page,8);
+  //     console.log(teams);
+  //     var self=this;
+  //     teams.then(function(value){
+  //       value.map((team, index) => {
+  //         dataList.push({
+  //           id: team._id,
+  //           memberCount: team.memberCount,
+  //           memberMaxNumber: team.memberMaxNumber,
+  //           title: team.title,
+  //           description: team.description
+  //         })
+  //       });
+  //       self.setState({
+  //         dataList:self.state.dataList.concat(dataList),
+  //         page:self.state.page+1
+  //       });
+  //       console.log(self.state.dataList);
+  //     }),function(error){
+  //       console.log(error);
+  //     }
+      
+  //   }
+  // }
 
   more(key) {
     this.props.setInvoivceIndex(key);
