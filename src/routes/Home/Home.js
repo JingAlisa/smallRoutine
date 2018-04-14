@@ -44,45 +44,45 @@ export default class Home extends React.Component {
         userName: userInfo.userNameZH
       })
     }  
-    let teams= await getTeamsOfPage(1,8);
-    console.log(teams);
-    let dataList = []
-    teams.map((team, index) => {
-      dataList.push({
-        id: team._id,
-        memberCount: team.memberCount,
-        memberMaxNumber: team.memberMaxNumber,
-        title: team.title,
-        description: team.description
-      })
-    });
-    this.setState({
-      dataList
-    });
-    // const url = `${urls.graphql}/welink/v1/teams?status=true`
-    // window.HWH5.fetchInternet(url, { method: 'get', headers: { 'Content-Type' : 'application/json' }, timeout: 6000 }).then((res) => {
-    //   res.json().then((reply) => {
-    //     console.log(reply);
-    //     if (!reply.code) {
-    //       let dataList = []
-    //       reply.data.teams.map((team, index) => {
-    //         dataList.push({
-    //           id: team._id,
-    //           memberCount: team.memberCount,
-    //           memberMaxNumber: team.memberMaxNumber,
-    //           title: team.title,
-    //           description: team.description
-    //         })
-    //       })
-    //       this.setState({
-    //         dataList
-    //       })
-    //     }
-    //   });
-    // }).catch((error) => {
-    //   console.error('输出错误')
-    //   console.error(error)
+    // let teams= await getTeamsOfPage(1,8);
+    // console.log(teams);
+    // let dataList = []
+    // teams.map((team, index) => {
+    //   dataList.push({
+    //     id: team._id,
+    //     memberCount: team.memberCount,
+    //     memberMaxNumber: team.memberMaxNumber,
+    //     title: team.title,
+    //     description: team.description
+    //   })
     // });
+    // this.setState({
+    //   dataList
+    // });
+    const url = `${urls.graphql}/welink/v1/teams?status=true`
+    window.HWH5.fetchInternet(url, { method: 'get', headers: { 'Content-Type' : 'application/json' }, timeout: 6000 }).then((res) => {
+      res.json().then((reply) => {
+        console.log(reply);
+        if (!reply.code) {
+          let dataList = []
+          reply.data.teams.map((team, index) => {
+            dataList.push({
+              id: team._id,
+              memberCount: team.memberCount,
+              memberMaxNumber: team.memberMaxNumber,
+              title: team.title,
+              description: team.description
+            })
+          })
+          this.setState({
+            dataList
+          })
+        }
+      });
+    }).catch((error) => {
+      console.error('输出错误')
+      console.error(error)
+    });
     const urlHot = `${urls.graphql}/welink/v1/teams?attr=hot&status=true`
     window.HWH5.fetchInternet(urlHot, { method: 'get', headers: { 'Content-Type' : 'application/json' }, timeout: 6000 }).then((res) => {
       res.json().then((reply) => {
@@ -143,44 +143,44 @@ export default class Home extends React.Component {
 
   componentDidMount() {
     window.HWH5.navTitle({ title: '校缘' });  
-    window.addEventListener('scroll', function(){
-      console.log(document.documentElement.scrollTop,document.body.scrollTop)
-    }, true);
+    // window.addEventListener('scroll', function(){
+    //   console.log(document.documentElement.scrollTop,document.body.scrollTop,window.pageYOffset)
+    // }, true);
   }
 
-  lazyLoad(){
-    var htmlHeight=document.body.scrollHeight || document.documentElement.scrollHeight;
-    var clientHeight=document.body.clientHeight || document.documentElement.clientHeight;
-    var scrollTop=document.body.scrollTop || document.documentElement.scrollTop;
-    // console.log(htmlHeight,clientHeight,scrollTop);
-    if((scrollTop+clientHeight)===htmlHeight && scrollTop !==0) {
-      console.log('22');
-      let dataList = [];
-      let page=this.state.page;
-      let teams = getTeamsOfPage(page,8);
-      console.log(teams);
-      var self=this;
-      teams.then(function(value){
-        value.map((team, index) => {
-          dataList.push({
-            id: team._id,
-            memberCount: team.memberCount,
-            memberMaxNumber: team.memberMaxNumber,
-            title: team.title,
-            description: team.description
-          })
-        });
-        self.setState({
-          dataList:self.state.dataList.concat(dataList),
-          page:self.state.page+1
-        });
-        console.log(self.state.dataList);
-      }),function(error){
-        console.log(error);
-      }
+  // lazyLoad(){
+  //   var htmlHeight=document.body.scrollHeight || document.documentElement.scrollHeight;
+  //   var clientHeight=document.body.clientHeight || document.documentElement.clientHeight;
+  //   var scrollTop=document.body.scrollTop || document.documentElement.scrollTop;
+  //   // console.log(htmlHeight,clientHeight,scrollTop);
+  //   if((scrollTop+clientHeight)===htmlHeight && scrollTop !==0) {
+  //     console.log('22');
+  //     let dataList = [];
+  //     let page=this.state.page;
+  //     let teams = getTeamsOfPage(page,8);
+  //     console.log(teams);
+  //     var self=this;
+  //     teams.then(function(value){
+  //       value.map((team, index) => {
+  //         dataList.push({
+  //           id: team._id,
+  //           memberCount: team.memberCount,
+  //           memberMaxNumber: team.memberMaxNumber,
+  //           title: team.title,
+  //           description: team.description
+  //         })
+  //       });
+  //       self.setState({
+  //         dataList:self.state.dataList.concat(dataList),
+  //         page:self.state.page+1
+  //       });
+  //       console.log(self.state.dataList);
+  //     }),function(error){
+  //       console.log(error);
+  //     }
       
-    }
-  }
+  //   }
+  // }
 
   more(key) {
     this.props.setInvoivceIndex(key);
