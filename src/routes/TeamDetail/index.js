@@ -97,9 +97,19 @@ export default class TeamDetail extends React.Component {
     window.HWH5.navTitle({ title: '战队详情介绍' });
   }
 
+  addDate(date,days){ 
+    var d=new Date(date); 
+    d.setDate(d.getDate()+days); 
+    var m=d.getMonth()+1; 
+    return d.getFullYear()+'/'+m+'/'+d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes(); 
+  } 
+
   // 根据传入的从服务端获取的原始team数据，经过处理，更新state中的team数据
   refreshTeam(team) {
     let applicants = [], applying = [], joined = [], rejected = [], currUser = []
+    // let createTime = team.createTime
+    // team.deadlineDate = team.createTime + team.preserveMaxDays
+    team.deadlineDate = this.addDate(team.createTime, team.preserveMaxDays)
     if (team.createrUid === this.state.userUid) {
       team.role = {
         class: 'creater'
@@ -210,7 +220,7 @@ export default class TeamDetail extends React.Component {
       } else if(applicant.judgment.accept) {
         return '通过'
       } else {
-        return '未通过'
+        return '已拒'
       }
     }
   }
@@ -324,6 +334,7 @@ export default class TeamDetail extends React.Component {
   render() { 
     const team = this.state.team
     if (team && team._id) {
+      console.log(team)
       let applyingList = team.applyingList
       return (
         <div>
@@ -351,77 +362,97 @@ export default class TeamDetail extends React.Component {
                   }
                 </div>
                 <div className="listContent">{this.state.team.description}</div>
-                <div className="listContent numCount"><span>已加入/上限人数 ： {this.state.team.memberCount}/{this.state.team.memberMaxNumber}</span></div>
+                <div className="listContent numCount">
+                  <span>人数: {this.state.team.memberCount}/{this.state.team.memberMaxNumber}人</span>
+                  <span>截至: { this.state.team.deadlineDate }</span>
+                </div>
               </div>
 
+          
+          </MediaBox>
+          </PanelBody>
+          </Panel>
+          
           {
             (team.role && (team.role.class === 'creater' || team.role.result === '已加入')) ?
             (
-              <div className='weui-cells'>
-                <div className='weui-cell'>
-                  <div className='weui-cell__bd'>
-                    <p>队长
-                      {
-                        (('qq' in team.contact[0]) ? 'QQ' : ('wechat' in team.contact[0] ? '微信' : '电话')) + '：' + (('qq' in team.contact[0]) ? team.contact[0].qq : ('wechat' in team.contact[0] ? team.contact[0]['wechat'] : team.contact[0]['phone']))
-                      }
-                    </p>
-                  </div>
+              <div>
+                <div className="weui-cells__title">队长联系方式</div>
+                <div className='weui-cells'>
+                {
+                  team.contact.map((item, index) => (
+                    <div className='weui-cell'>
+                      <div className='weui-cell__bd'>
+                        <p>
+                          {
+                            ((item.qq) ? 'QQ' : (item.wechat ? '微信' : '电话'))
+                          }
+                        </p>
+                      </div>
+                      <div className='weui-cell__ft'>
+                        { (item.qq) ? item.qq : (item.wechat ? item.wechat : item.phone) }
+                      </div>
+                    </div>
+                  ))
+                }
                 </div>
               </div>
             ) : ''
           }
-          </MediaBox>
-          </PanelBody>
-          </Panel>
-
           
 
           {
             (team.role) ? (
               // 作为 战队创建者或已申请者 看到的信息
-              <div className='weui-cells'>
-              {
-                applyingList.map((applicant, index) => (
-                  <div key={ index } className="eachMessage">
-                    <div className='weui-cell'>
-                      <div className='weui-cell__bd'>
-                        <p>{ applicant.name || applicant.uid }</p>
+              <div>
+                {
+                  applyingList.length>0 ? <div className="weui-cells__title">申请者信息</div> : <div className="emptyApplicat">还木有人加入战队，请耐心等待</div>
+                }
+                
+                <div className='weui-cells'>
+                {
+                  applyingList.map((applicant, index) => (
+                    <div key={ index } className="eachMessage">
+                      <div className='weui-cell'>
+                        <div className='weui-cell__bd'>
+                          <p>{ applicant.name || applicant.uid }</p>
+                        </div>
+                        {/* 加入成功或为当前用户时，显示联系方式 */}
+                        {/* <div className='weui-cell__ft'>{ '申请加入' }</div> */}
+                        <div className='weui-cell__ft'>
+                          { 
+                            ((applicant.judgment && applicant.judgment.accept === true) || (applicant.uid === this.state.userUid)) 
+                            ? (applicant.application.contact.way === 'qq' ? 'QQ' : (applicant.application.contact.way === 'wechat' ? '微信' : '电话') ) + ': ' + applicant.application.contact.text 
+                            : '申请加入' 
+                          }
+                        </div>
                       </div>
-                      {/* 加入成功或为当前用户时，显示联系方式 */}
-                      {/* <div className='weui-cell__ft'>{ '申请加入' }</div> */}
-                      <div className='weui-cell__ft'>
-                        { 
-                          ((applicant.judgment && applicant.judgment.accept === true) || (applicant.uid === this.state.userUid)) 
-                          ? (applicant.application.contact.way === 'qq' ? 'QQ' : (applicant.application.contact.way === 'wechat' ? '微信' : '电话') ) + ': ' + applicant.application.contact.text 
-                          : '申请加入' 
-                        }
-                      </div>
-                    </div>
-                    <div className='weui-cell weui-cell_swiped' key={ index }>
-                      <div className='msgInfo weui-cell__bd' style={{ 'width': '80%' }} >
-                        <div className='weui-cell'>
-                          <div className='msgInfo weui-cell__bd'>
-                            { applicant.application.info  }
+                      <div className='weui-cell weui-cell_swiped' key={ index }>
+                        <div className='msgInfo weui-cell__bd' style={{ 'width': '80%' }} >
+                          <div className='weui-cell'>
+                            <div className='msgInfo weui-cell__bd'>
+                              { applicant.application.info  }
+                            </div>
                           </div>
                         </div>
-                      </div>
-                      <div className="weui-cell__ft resultBtn" style={{ 'width': '20%' }}>
-                        <div className="weui-cell__ft" >
-                          <a className={ applicant.btnClass } href="javascript:void(0)" onClick={ () => this.clickBtn(applicant) }>
-                            { applicant.btnText }
-                          </a>
+                        <div className="weui-cell__ft resultBtn" style={{ 'width': '20%' }}>
+                          <div className="weui-cell__ft" >
+                            <a className={ applicant.btnClass } href="javascript:void(0)" onClick={ () => this.clickBtn(applicant) }>
+                              { applicant.btnText }
+                            </a>
+                          </div>
                         </div>
+                        
                       </div>
-                      
+                      <JudgeDialog 
+                        applicant={ applicant } 
+                        JudgeAgree = { () => this.judgeAgree(applicant) }
+                        JudgeReject = { () => this.judgeReject(applicant) }
+                      />
                     </div>
-                    <JudgeDialog 
-                      applicant={ applicant } 
-                      JudgeAgree = { () => this.judgeAgree(applicant) }
-                      JudgeReject = { () => this.judgeReject(applicant) }
-                    />
-                  </div>
-                ))
-              }
+                  ))
+                }
+                </div>
               </div>
             ) : (
 

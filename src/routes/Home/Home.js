@@ -143,16 +143,14 @@ export default class Home extends React.Component {
 
   componentDidMount() {
     window.HWH5.navTitle({ title: '校缘' });  
-    // window.addEventListener('scroll', function(){
-    //   console.log(document.documentElement.scrollTop,document.body.scrollTop,window.pageYOffset)
-    // }, true);
+    // window.addEventListener('scroll', this.lazyLoad.bind(this), true);
   }
 
   // lazyLoad(){
   //   var htmlHeight=document.body.scrollHeight || document.documentElement.scrollHeight;
   //   var clientHeight=document.body.clientHeight || document.documentElement.clientHeight;
-  //   var scrollTop=document.body.scrollTop || document.documentElement.scrollTop;
-  //   // console.log(htmlHeight,clientHeight,scrollTop);
+  //   var scrollTop=document.body.scrollTop || document.documentElement.scrollTop || window.pageYOffset;
+  //   console.log(htmlHeight,clientHeight,scrollTop);
   //   if((scrollTop+clientHeight)===htmlHeight && scrollTop !==0) {
   //     console.log('22');
   //     let dataList = [];
@@ -188,6 +186,9 @@ export default class Home extends React.Component {
     openNewView('/editor');
   }
 
+  // scrollTop=()=>{
+  //   window.scrollTo(100,100);
+  // }
   render() {
     return (
       <div>
@@ -215,6 +216,7 @@ export default class Home extends React.Component {
 
           {/* <List className="list" listData={list} /> */}
         </div>
+        {/* <div className="scrollTop" onClick={this.scrollTop}>顶部</div> */}
         <div className="tabbar"><TabBar /></div>
       </div>
     );
