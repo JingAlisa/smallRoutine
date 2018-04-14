@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 
 import { urls } from '../../../config/web.config';
 import { getUserInfo } from '../../utils/getUserInfo';
-import Back from '../../public/img/icon/back.png';
 import './index.less';
 import createHistory from 'history/createHashHistory';
 const history = createHistory();
