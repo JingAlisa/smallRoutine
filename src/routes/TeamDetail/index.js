@@ -220,7 +220,7 @@ export default class TeamDetail extends React.Component {
       } else if(applicant.judgment.accept) {
         return '通过'
       } else {
-        return '未通过'
+        return '已拒'
       }
     }
   }
@@ -405,7 +405,10 @@ export default class TeamDetail extends React.Component {
             (team.role) ? (
               // 作为 战队创建者或已申请者 看到的信息
               <div>
-                <div className="weui-cells__title">申请者信息</div>
+                {
+                  applyingList.length>0 ? <div className="weui-cells__title">申请者信息</div> : <div className="emptyApplicat">还木有人加入战队，请耐心等待</div>
+                }
+                
                 <div className='weui-cells'>
                 {
                   applyingList.map((applicant, index) => (

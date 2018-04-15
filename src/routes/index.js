@@ -18,7 +18,8 @@ const routes = [
   { path: '/message/:uid', component: asyncComponent(() => import(/* webpackChunkName: 'welinkUI' */ './Message')), exact: true  },
   { path: '/mine', component: asyncComponent(() => import(/* webpackChunkName: 'welinkUI' */ './Mine')), exact: true },
   { path: '/mine/public', component: asyncComponent(() => import(/* webpackChunkName: 'welinkUI' */ './MinePublic')), exact: true  },
-  { path: '/mine/apply', component: asyncComponent(() => import(/* webpackChunkName: 'welinkUI' */ './MineApply')), exact: true  }
+  { path: '/mine/apply', component: asyncComponent(() => import(/* webpackChunkName: 'welinkUI' */ './MineApply')), exact: true  },
+  { path: '/teams/lazyload', component: asyncComponent(() => import(/* webpackChunkName: 'welinkUI' */ './LazyLoadingPage')), exact: true  }
 ];
 
 routes[0].component = matchUrlComponent(routes);

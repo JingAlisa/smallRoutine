@@ -5,7 +5,7 @@ import { urls } from '../../../config/web.config';
 import { getUserInfo } from '../../utils/getUserInfo';
 
 import EmptyWatermark from '../../public/img/empty.png';
-
+import openNewView from '../../utils/openNewView';
 import './index.less';
 import List from '../../components/List';
 export default class MineApply extends React.Component {
@@ -13,7 +13,8 @@ export default class MineApply extends React.Component {
     super();
     this.state = {
       list: [],
-      userUid: ''
+      userUid: '',
+      firstLoad: true
     }
   }
 
@@ -32,6 +33,7 @@ export default class MineApply extends React.Component {
 
     window.HWH5.fetchInternet(url, { method: 'get', headers: { 'Content-Type' : 'application/json' }, timeout: 6000 }).then((res) => {
       res.json().then((reply) => {
+        console.log(reply.code);
         if (!reply.code) {
           let teams = reply.data.teams
           let list = []
@@ -49,7 +51,8 @@ export default class MineApply extends React.Component {
             list.push(item)
           })
           this.setState({
-            list: list
+            list: list,
+            firstLoad: false
           })
         }
       });
@@ -62,75 +65,29 @@ export default class MineApply extends React.Component {
   }
 
   render() {
-    const list = [
-      {
-        title: 'title',
-        id: '001',
-        application: true,
-        uid: 'num1',
-        memberCount: '2',
-        memberMaxNumber: '5'
-      },
-      {
-        title: 'title',
-        id: '003',
-        application: false,
-        uid: 'num1',
-        memberCount: '1',
-        memberMaxNumber: '5'
-      },
-      {
-        title: 'title',
-        id: '005',
-        application: true,
-        uid: 'num1',
-        memberCount: '2',
-        memberMaxNumber: '5'
-      },
-      {
-        title: 'title',
-        id: '008',
-        application: true,
-        uid: 'num1',
-        memberCount: '2',
-        memberMaxNumber: '5'
-      },
-      {
-        title: 'title',
-        id: '002',
-        application: false,
-        uid: 'num1',
-        memberCount: '2',
-        memberMaxNumber: '5'
-      },
-      {
-        title: 'title',
-        id: '0013',
-        application: true,
-        uid: 'num1',
-        memberCount: '2',
-        memberMaxNumber: '5'
-      },
-      {
-        title: 'title',
-        id: '0011',
-        application: true,
-        uid: 'num1',
-        memberCount: '2',
-        memberMaxNumber: '5'
-      }
-    ];
-
-    if(this.state.list.length !== 0) {
+    if(this.state.list.length === 0 && this.state.firstLoad === false) {
       return (
-        <div>
-          <List className="list" listData={ this.state.list } page="apply" />
+        <div className='EmptyWatermarkBox'>
+          <img className='EmptyWatermark' src={ EmptyWatermark } />
+          <div id="dialogs">
+            <div className="js_dialog">
+              <div className="weui-mask"></div>
+              <div className="weui-dialog">
+                <div className="weui-dialog__hd"><strong className="h5ui-dialog__title">空空如也</strong></div>
+                <div className="weui-dialog__bd">你还没有申请加入任何战队，要不要去首页逛逛？</div>
+                <div className="weui-dialog__ft">
+                  <a href="javascript:;" onClick={()=>{document.getElementById("dialogs").style.display='none'}} className="weui-dialog__btn weui-dialog__btn_primary">No</a>
+                  <a href="javascript:;" onClick={()=>{openNewView('/')}} className="weui-dialog__btn weui-dialog__btn_primary">好嘞</a>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       );
     } else {
       return (
-        <div className='EmptyWatermarkBox'>
-          <img className='EmptyWatermark' src={ EmptyWatermark } />
+        <div>
+          <List className="list" listData={ this.state.list } page="apply" />
         </div>
       );
     }
