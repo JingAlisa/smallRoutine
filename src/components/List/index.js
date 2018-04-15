@@ -15,10 +15,7 @@ export default function List(props) {
     hotList 
   } = props;
 
-  this.scrollTop=()=>{
-    document.getElementById('backTop').scrollIntoView();
-    // document.getElementsByClassName('scrollTop')[0].style.display="none";
-  }
+  
 
     // window.addEventListener('scroll', function(){
     //   // var scrollTop=document.body.scrollTop || document.documentElement.scrollTop || window.pageYOffset;
@@ -28,9 +25,14 @@ export default function List(props) {
     // }, true);
 
   if (listData.length !== 0) {
+    // scrollToTop=()=>{
+      
+    //   // document.getElementsByClassName('scrollTop')[0].style.display="none";
+    // }
     return (
       <div className="app">
       <div id="backTop" />
+      <div className="scrollTop" onClick={()=>{ document.getElementById('backTop').scrollIntoView(); }}><img src={TopImg} /></div>
         {
           page === 'home' ? (
             <div>
@@ -54,7 +56,6 @@ export default function List(props) {
             </Swipper>
             </div>) : <span />
         }
-        <div className="scrollTop" onClick={this.scrollTop}><img src={TopImg} /></div>
         {
           listData.map((item, index)=>(
             <Item 
