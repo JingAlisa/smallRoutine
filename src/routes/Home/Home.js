@@ -15,6 +15,7 @@ import TabBar from '../../components/TabBar';
 import Swipper from '../../components/Swipper';
 import { Link } from 'react-router-dom';
 
+import TopImg from '../../public/img/icon/top.png';
 // 懒加载
 import {getTeamsOfPage} from '../../utils/team';
 
@@ -143,7 +144,12 @@ export default class Home extends React.Component {
 
   componentDidMount() {
     window.HWH5.navTitle({ title: '校缘' });  
-    // window.addEventListener('scroll', this.lazyLoad.bind(this), true);
+    window.addEventListener('scroll', function(){
+      var scrollTop=document.body.scrollTop || document.documentElement.scrollTop || window.pageYOffset;
+      if(scrollTop !== 0){
+        document.getElementsByClassName('scrollTop')[0].style.display="block";
+      }
+    }, true);
   }
 
   // lazyLoad(){
@@ -186,12 +192,14 @@ export default class Home extends React.Component {
     openNewView('/editor');
   }
 
-  // scrollTop=()=>{
-  //   window.scrollTo(100,100);
-  // }
+  scrollTop=()=>{
+    document.getElementById('backTop').scrollIntoView();
+    document.getElementsByClassName('scrollTop')[0].style.display="none";
+  }
   render() {
     return (
       <div>
+        <div id="backTop" />
         <div className="contentContainer">
           <Swipper 
             number={5} 
@@ -216,7 +224,7 @@ export default class Home extends React.Component {
 
           {/* <List className="list" listData={list} /> */}
         </div>
-        {/* <div className="scrollTop" onClick={this.scrollTop}>顶部</div> */}
+        <div className="scrollTop" onClick={this.scrollTop}><img  src={TopImg} /></div>
         <div className="tabbar"><TabBar /></div>
       </div>
     );
