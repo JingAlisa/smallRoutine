@@ -32,7 +32,6 @@ export default function List(props) {
     return (
       <div className="app">
       <div id="backTop" />
-      <div className="scrollTop" onClick={()=>{ document.getElementById('backTop').scrollIntoView(); }}><img src={TopImg} /></div>
         {
           page === 'home' ? (
             <div>
@@ -54,6 +53,7 @@ export default function List(props) {
                 ))
               }
             </Swipper>
+            <div className="scrollTop" onClick={()=>{ document.getElementById('backTop').scrollIntoView(); }}><img src={TopImg} /></div>
             </div>) : <span />
         }
         {
