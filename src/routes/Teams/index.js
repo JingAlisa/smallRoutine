@@ -4,7 +4,7 @@ import './index.less';
 import { Link } from 'react-router-dom';
 
 import { urls } from '../../../config/web.config';
-
+import TopImg from '../../public/img/icon/top.png';
 import TabBar from '../../components/TabBar';
 import List from '../../components/List';
 import { Tab, NavBarItem, SearchBar } from '../../../node_modules/@huawei/react-weui';
@@ -91,6 +91,14 @@ export default class Teams extends React.Component {
     tabbar.className = 'tabbar displayTabbar'    
     }    
     }
+
+    // 滑动滚动条，回到顶部出现
+    // window.addEventListener('scroll', function(){
+    //   // var scrollTop=document.body.scrollTop || document.documentElement.scrollTop || window.pageYOffset;
+    //   // console.log(scrollTop);
+    //   // if(scrollTop !== 0){
+    //   document.getElementsByClassName('scrollTop')[0].style.display="block";
+    // }, true);
   }
 
   searchResult(e) {
@@ -150,10 +158,16 @@ export default class Teams extends React.Component {
   	return
   }
 
+  scrollTop=()=>{
+    document.getElementById('backTop').scrollIntoView();
+    // document.getElementsByClassName('scrollTop')[0].style.display="none";
+  }
+
   render() {
     return (
       <div>
         <div className="contentContainer">
+          <div id="backTop" />
           <div>
             <SearchBar 
               className="searchValue" 
@@ -176,6 +190,7 @@ export default class Teams extends React.Component {
             }
             
           </div>
+          <div className="scrollTop" onClick={this.scrollTop}><img src={TopImg} /></div>
         </div>
         <div className="tabbar"><TabBar /></div>
       </div>

@@ -17,6 +17,7 @@ import List from '../../components/List';
 import { getTeamsOfPage } from '../../utils/team';
 
 export default class TeamsLazyLoader extends React.Component {
+  
   render() {
     return (
       <InfiniteLoader
@@ -31,7 +32,7 @@ export default class TeamsLazyLoader extends React.Component {
           }
         }}
       >
-        <List className="list" listData={this.props.teams} page="home" />
+        <List className="list" listData={this.props.teams} page="home" hotList={this.props.hotList}  />
       </InfiniteLoader>
     )
   }
