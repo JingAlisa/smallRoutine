@@ -41,7 +41,7 @@ export default class ItemDetail extends React.Component {
       btnText = '查看'
       btnClass = 'weui-swiped-btn '+ (msg.createrKnown === true ? 'weui-swiped-btn_default' : 'weui-swiped-btn_warn')
     } else {
-      btnText = msg.accept ? '通过': '未通过'
+      btnText = msg.accept ? '通过': '被拒'
       btnClass = 'weui-swiped-btn ' + (msg.applicantKnown === true ? 'weui-swiped-btn_default' : 'weui-swiped-btn_warn')
     }
 

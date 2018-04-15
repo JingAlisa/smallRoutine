@@ -212,7 +212,7 @@ export default class TeamDetail extends React.Component {
       } else if(applicant.judgment.accept) {
         return '通过'
       } else {
-        return '已拒'
+        return '拒绝'
       }
     } else {
       if(!applicant.judgment) {
@@ -220,7 +220,7 @@ export default class TeamDetail extends React.Component {
       } else if(applicant.judgment.accept) {
         return '通过'
       } else {
-        return '已拒'
+        return '被拒'
       }
     }
   }

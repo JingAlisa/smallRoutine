@@ -13,8 +13,9 @@ import openNewView from '../../utils/openNewView';
 import List from '../../components/List';
 import TabBar from '../../components/TabBar';
 import Swipper from '../../components/Swipper';
+import TeamsLazyLoader from '../../components/TeamsLazyLoader';
 import { Link } from 'react-router-dom';
-
+import TopImg from '../../public/img/icon/top.png';
 // 懒加载
 import {getTeamsOfPage} from '../../utils/team';
 
@@ -28,10 +29,10 @@ export default class Home extends React.Component {
     // super(props);
     super();
     this.state = {
-      dataList: [],
       hotList: [],
       userUid: '',
-      page: 2
+      teams: [],
+      pageIndex: 1
     };
   }
 
@@ -43,46 +44,8 @@ export default class Home extends React.Component {
         userUid: userInfo.uid,
         userName: userInfo.userNameZH
       })
-    }  
-    // let teams= await getTeamsOfPage(1,8);
-    // console.log(teams);
-    // let dataList = []
-    // teams.map((team, index) => {
-    //   dataList.push({
-    //     id: team._id,
-    //     memberCount: team.memberCount,
-    //     memberMaxNumber: team.memberMaxNumber,
-    //     title: team.title,
-    //     description: team.description
-    //   })
-    // });
-    // this.setState({
-    //   dataList
-    // });
-    const url = `${urls.graphql}/welink/v1/teams?status=true`
-    window.HWH5.fetchInternet(url, { method: 'get', headers: { 'Content-Type' : 'application/json' }, timeout: 6000 }).then((res) => {
-      res.json().then((reply) => {
-        console.log(reply);
-        if (!reply.code) {
-          let dataList = []
-          reply.data.teams.map((team, index) => {
-            dataList.push({
-              id: team._id,
-              memberCount: team.memberCount,
-              memberMaxNumber: team.memberMaxNumber,
-              title: team.title,
-              description: team.description
-            })
-          })
-          this.setState({
-            dataList
-          })
-        }
-      });
-    }).catch((error) => {
-      console.error('输出错误')
-      console.error(error)
-    });
+    }
+
     const urlHot = `${urls.graphql}/welink/v1/teams?attr=hot&status=true`
     window.HWH5.fetchInternet(urlHot, { method: 'get', headers: { 'Content-Type' : 'application/json' }, timeout: 6000 }).then((res) => {
       res.json().then((reply) => {
@@ -139,61 +102,60 @@ export default class Home extends React.Component {
       console.error('输出错误')
       console.error(error)
     });
+
+    const teams= await getTeamsOfPage(1, 10);
+    if(teams.length === 0) return 0;
+    let dataList = []
+    teams.map((team, index) => {
+      dataList.push({
+        id: team._id,
+        memberCount: team.memberCount,
+        memberMaxNumber: team.memberMaxNumber,
+        title: team.title,
+        description: team.description
+      })
+    });
+    this.setState({
+      teams: this.state.teams.concat(dataList),
+      pageIndex: this.state.pageIndex + 1
+    });
   }
 
   componentDidMount() {
     window.HWH5.navTitle({ title: '校缘' });  
-    // window.addEventListener('scroll', this.lazyLoad.bind(this), true);
+    
   }
 
-  // lazyLoad(){
-  //   var htmlHeight=document.body.scrollHeight || document.documentElement.scrollHeight;
-  //   var clientHeight=document.body.clientHeight || document.documentElement.clientHeight;
-  //   var scrollTop=document.body.scrollTop || document.documentElement.scrollTop || window.pageYOffset;
-  //   console.log(htmlHeight,clientHeight,scrollTop);
-  //   if((scrollTop+clientHeight)===htmlHeight && scrollTop !==0) {
-  //     console.log('22');
-  //     let dataList = [];
-  //     let page=this.state.page;
-  //     let teams = getTeamsOfPage(page,8);
-  //     console.log(teams);
-  //     var self=this;
-  //     teams.then(function(value){
-  //       value.map((team, index) => {
-  //         dataList.push({
-  //           id: team._id,
-  //           memberCount: team.memberCount,
-  //           memberMaxNumber: team.memberMaxNumber,
-  //           title: team.title,
-  //           description: team.description
-  //         })
-  //       });
-  //       self.setState({
-  //         dataList:self.state.dataList.concat(dataList),
-  //         page:self.state.page+1
-  //       });
-  //       console.log(self.state.dataList);
-  //     }),function(error){
-  //       console.log(error);
-  //     }
-      
-  //   }
-  // }
-
-  more(key) {
-    this.props.setInvoivceIndex(key);
-    this.props.setPath(null);
-    openNewView('/editor');
+  async getNextPage() {
+    console.log('进入懒加载...')
+    const teams= await getTeamsOfPage(this.state.pageIndex, 10);
+    console.log(teams)
+    if (teams.length !== 0) {
+      let dataList = []
+      teams.map((team, index) => {
+        dataList.push({
+          id: team._id,
+          memberCount: team.memberCount,
+          memberMaxNumber: team.memberMaxNumber,
+          title: team.title,
+          description: team.description
+        })
+      });
+      this.setState({
+        teams: this.state.teams.concat(dataList),
+        pageIndex: this.state.pageIndex + 1
+      });
+      return 1; // 获取数据不为0，下次还可获取
+    } else {
+      return 0; // 获取数据为0，结束
+    }
   }
 
-  // scrollTop=()=>{
-  //   window.scrollTo(100,100);
-  // }
   render() {
     return (
       <div>
         <div className="contentContainer">
-          <Swipper 
+          {/* <Swipper 
             number={5} 
             boxStyle="content" 
             interval={4000} 
@@ -210,13 +172,17 @@ export default class Home extends React.Component {
                 </Link> 
               ))
             }
-          </Swipper>
+          </Swipper> */}
           
-          <List className="list" listData={this.state.dataList} page="home" />
+          <TeamsLazyLoader
+            className="lazyLoader"
+            teams={this.state.teams}
+            hotList={this.state.hotList}
+            onLoadMore={this.getNextPage.bind(this)}
+            style={{ 'margin-bottom': '80px'}}
+          />
 
-          {/* <List className="list" listData={list} /> */}
         </div>
-        {/* <div className="scrollTop" onClick={this.scrollTop}>顶部</div> */}
         <div className="tabbar"><TabBar /></div>
       </div>
     );

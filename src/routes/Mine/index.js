@@ -104,6 +104,14 @@ export default class Mine extends React.Component {
             <div className="weui-cell__ft"></div>
           </Link>
         </div>
+        {/* <div className='weui-cells'>
+          <Link className='weui-cell weui-cell_access' to={{ pathname: '/teams/lazyload' }}>
+            <div className="weui-cell__bd">
+              <p>懒加载战队列表</p>
+            </div>
+            <div className="weui-cell__ft"></div>
+          </Link>
+        </div> */}
         <div className="tabbar"><TabBar /></div>
       </div>
     );
