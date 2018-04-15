@@ -146,8 +146,11 @@ export default class Home extends React.Component {
     window.HWH5.navTitle({ title: '校缘' });  
     window.addEventListener('scroll', function(){
       var scrollTop=document.body.scrollTop || document.documentElement.scrollTop || window.pageYOffset;
+      console.log(scrollTop);
       if(scrollTop !== 0){
         document.getElementsByClassName('scrollTop')[0].style.display="block";
+      }else {
+        document.getElementsByClassName('scrollTop')[0].style.display="none";
       }
     }, true);
   }
@@ -224,7 +227,7 @@ export default class Home extends React.Component {
 
           {/* <List className="list" listData={list} /> */}
         </div>
-        <div className="scrollTop" onClick={this.scrollTop}><img  src={TopImg} /></div>
+        <div className="scrollTop" onClick={this.scrollTop}><img src={TopImg} /></div>
         <div className="tabbar"><TabBar /></div>
       </div>
     );
